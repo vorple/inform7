@@ -1,4 +1,4 @@
-Version 2/140430 of Vorple Hyperlinks (for Z-Machine only) by Juhana Leinonen begins here.
+Version 2/151121 of Vorple Hyperlinks (for Z-Machine only) by Juhana Leinonen begins here.
 
 "Hyperlinks that either open a web site or execute a parser command."
 
@@ -28,10 +28,8 @@ To place a/-- link to a/the/-- command (cmd - text) reading (txt - text), withou
 	if without showing the response:
 		let classes be "[classes] hideResponse";
 	place "a" element called classes reading txt;
-	execute JavaScript command "$('.[id]').attr('href','[escaped cmd]')";
-	if Vorple is not supported:
-		say txt.
-		
+	execute JavaScript command "$('.[id]').attr('href','[escaped cmd]')".
+
 To place a/-- link to a/the/-- command (cmd - text), without showing the command and/or without showing the response:
 	if without showing the command and without showing the response:
 		place a link to the command cmd reading cmd, without showing the command and without showing the response;
