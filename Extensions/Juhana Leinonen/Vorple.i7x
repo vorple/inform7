@@ -1,99 +1,205 @@
-Version 2/140430 of Vorple (for Z-Machine only) by Juhana Leinonen begins here.
+Version 3 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
-"Core functionality of Vorple, including JavaScript evaluation, HTML elements and turn type marking."
+"Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
 Use authorial modesty.
 
-Chapter 1 - JavaScript evaluation
 
-Section 1 - Eval stream (I6)
+Chapter 1 - Run-time errors
 
-Include (-
-
-! eval() stream
-! Currently only for Z-Machine
-! by Dannii
-
-Array streambuf buffer 200;
-
-Constant HDR_SPECREVISION  $32;
-
-[ Gestalt zid gid arg val;
-	! Check a gestalt value
-	#Ifdef TARGET_ZCODE;
-		@"EXT:30S" zid arg -> val;
-	#Ifnot; ! TARGET_GLULX
-		@gestalt gid arg val;
-	#Endif; ! TARGET_
+To throw Vorple run-time error (desc – text):
+	say "  *** Vorple run-time error: [desc] ***  ".
 	
-	return val;
-];
 
-[ Vp_IsZ12 val ;
-	#Ifdef TARGET_ZCODE;
-		! Check we're in a 1.2 version interpreter
-		val = HDR_SPECREVISION-->0;
-		if (val < $0102) rfalse;
-	#Endif; ! TARGET_ZCODE
-	rtrue;
-];
+Chapter 2 - Interpreter handshake
 
-[ Vp_IsJS val ;
-	! Checking for eval() stream support
-	if ( Vp_IsZ12() == false || Gestalt($30, 0, 0) == 0 ) rfalse;
-	rtrue;
-];
+The file of Vorple Handshake is called "VpHndshk".
 
-Global Vp_vorpleSupported; 
+Vorple support is truth state that varies. Vorple support is false.
 
--) after "Definitions.i6t".
+This is the detect interpreter's Vorple support rule:
+	if the file of Vorple Handshake exists:
+		write "Callooh!" to the file of Vorple Handshake;
+		mark the file of Vorple Handshake as ready to read;
+		if "[text of the file of Vorple Handshake]" is "Callay!":
+			now Vorple support is true.
 
-To open JavaScript channel: (- @output_stream 5 streambuf; -).
-To close JavaScript channel: (- @output_stream( -5 ); -).
+The detect interpreter's Vorple support rule is listed before the when play begins stage rule in the startup rulebook.
 
-To open HTML tag (name - text) called (classes - text):
-	execute JavaScript command "vorple.parser.openTag('[name]','[classes]')".
-	
-To open HTML tag (name - text):
-	open HTML tag name called "".
-	
-To close HTML tag:
-	execute JavaScript command "vorple.parser.closeTag()".
-	
-To execute JavaScript code/command (JavaScript code - text):
-	if Vorple is supported:
-		open JavaScript channel;
-		say JavaScript code;
-		close JavaScript channel.
-		
-To queue JavaScript code/command (javascript code - text):
-	if Vorple is supported:
-		execute JavaScript command "vorple.parser.queueExpression(function(){[javascript code]})".
-
-
-Section 2 - Vorple support detection
-
-To set Vorple support status:
-	(- Vp_vorpleSupported = ( Vp_IsJs() ); -);
-
-First startup rule (this is the set a flag for whether Vorple is supported rule):
-	[first tell the story file that we're Vorple-capable...]
-	set Vorple support status;
-	[...then tell the same to the interpreter.]
-	execute JavaScript command "vorple.parser.setVorpleStory()".
-
-To decide whether Vorple/JavaScript is supported/available: 
-	(- (Vp_vorpleSupported) -).
+To decide whether Vorple/JavaScript is supported/available:
+	if Vorple support is true, decide yes;
+	decide no.
 
 To decide whether Vorple/JavaScript is not supported/available:
-	if Vorple is supported, decide no;
+	if Vorple support is true, decide no;
 	decide yes.
 
 To decide whether Vorple/JavaScript is unsupported/unavailable:
 	decide on whether or not Vorple is not supported.
 
 
-Chapter 2 - Placing elements and displaying content
+Chapter 3 – JavaScript code execution
+
+Section 1 – Executing code
+
+The file of JavaScript Evaluation Input is called "VpJSEval".
+
+To execute JavaScript code/command (JavaScript code - text):
+	if Vorple is supported:
+		write JavaScript code to the file of JavaScript Evaluation Input;
+		mark the file of JavaScript Evaluation Input as ready to read.
+
+
+Section 2 – Return values
+
+The file of JavaScript Return Value is called "VpJSRtrn".
+
+To decide which text is the value returned by the JavaScript code/command:
+	if Vorple is not supported:
+		decide on "";
+	decide on substituted form of "[text of the file of JavaScript Return Value]".
+
+To decide which text is the type of (source - text):
+	if Vorple is not supported:
+		decide on "nothing";
+	let rval be source;
+	if rval is:
+		-- "": decide on "nothing";
+		-- "undefined": decide on "nothing";
+		-- "null": decide on "nothing";
+		-- "true": decide on "truth state";
+		-- "false": decide on "truth state";
+		-- "NaN": decide on "NaN";
+		-- "Infinity": decide on "infinity";
+		-- "-Infinity": decide on "infinity";
+	let initial character be character number 1 in rval;
+	let last character be character number (number of characters in rval) in rval;
+	if initial character is:
+		-- "'":
+			if the number of characters in rval is 1 or the last character is not "'":
+				decide on "unknown";
+			decide on "text";
+		-- "[bracket]":
+			decide on "list";
+		-- "{":
+			decide on "object";
+	if word number 1 in rval is "function":
+		decide on "function";
+	if rval matches the regular expression "^\-?\d+(\.\d+)?$":
+		decide on "number";
+	decide on "unknown".
+
+To decide which text is the text returned by the JavaScript code/command:
+	if Vorple is not supported:
+		decide on "";
+	let rval be the value returned by the JavaScript command;
+	if the type of the value returned by the JavaScript command is not "text":
+		decide on rval;
+	replace character number (number of characters in rval) in rval with "";
+	replace character number 1 in rval with "";
+	decide on rval.
+
+[The algorithm that converts text to numbers has been adapted from the extension Guncho Mockup by Guncho Cabal.]
+To decide which number is text (T - text) converted into a number:
+	let S be 1;
+	let L be the number of characters in T;
+	if L is 0, decide on 0;
+	let negated be false;
+	let previous-result be 0;
+	if character number 1 in T is "-":
+		let negated be true;
+		let S be 2;
+	let result be 0;
+	repeat with N running from S to L:
+		let C be character number N in T;
+		let D be 0;
+		if C is:			
+			-- "0": let D be 0;
+			-- "1": let D be 1;
+			-- "2": let D be 2;
+			-- "3": let D be 3;
+			-- "4": let D be 4;
+			-- "5": let D be 5;
+			-- "6": let D be 6;
+			-- "7": let D be 7;
+			-- "8": let D be 8;
+			-- "9": let D be 9;
+			-- ".": 
+				let first decimal be text character number N + 1 in T converted into a number;
+				if first decimal > 5:
+					increment result;
+				else if first decimal is 5:
+					if negated is false:
+						increment result;
+					otherwise unless T exactly matches the regular expression "\-\d+\.50*":
+						increment result;
+				break;
+		let result be (result * 10) + D;
+		if previous-result > result:
+			throw Vorple run-time error "Number [T] exceeds Glulx number range";
+			decide on 0;
+		now previous-result is result;
+	if negated is true:
+		decide on 0 - result;
+	decide on result.
+	
+To decide which number is the number returned by the JavaScript code/command:
+	if Vorple is not supported:
+		decide on 0;
+	let rval be the value returned by the JavaScript command;
+	if the type of the value returned by the JavaScript command is "text":
+		now rval is the text returned by the JavaScript command;
+	otherwise if the type of the value returned by the JavaScript command is not "number":
+		throw Vorple run-time error "Trying to convert return value of type [type of the value returned by the JavaScript command] into a number";
+		decide on 0;
+	decide on text rval converted into a number.
+
+To decide if the JavaScript code/command returned (x - truth state):
+	if Vorple is not supported:
+		decide on false;
+	if the type of the value returned by the JavaScript command is not "truth state":
+		throw Vorple run-time error "Trying to convert return value of type [type of the value returned by the JavaScript command] into a number";
+		decide on false;
+	if the value returned by the JavaScript command is "true" and x is true:
+		decide on true;
+	if the value returned by the JavaScript command is "false" and x is false:
+		decide on true;
+	decide on false.
+
+
+Section 3 - Escaping text for JavaScript
+
+To decide which text is escaped (string - text):
+	decide on escaped string using "" as line breaks.
+
+To decide which text is escaped (string - text) using (lb - text) as line breaks:
+	let safe-string be text;
+	repeat with X running from 1 to number of characters in string:
+		let char be character number X in string;
+		if char is "'" or char is "[apostrophe]" or char is "\":
+			now safe-string is "[safe-string]\";
+		if char is "[line break]":
+			now safe-string is "[safe-string][lb]";
+		otherwise:
+			now safe-string is "[safe-string][char]";
+	decide on safe-string.
+
+
+Chapter 4 – HTML tags
+
+Section 1 - Opening and closing
+
+To open HTML tag (name - text) called (classes - text):
+	execute JavaScript command "vorple.layout.openTag('[name]','[classes]')".
+
+To open HTML tag (name - text):
+	open HTML tag name called "".
+
+To close HTML tag:
+	execute JavaScript command "vorple.layout.closeTag()".
+
+
+Section 2 - Placing elements
 
 To place a/an/-- (element - text) element called (classes - text) reading (content - text):
 	open HTML tag element called classes;
@@ -126,17 +232,74 @@ To place a/-- block level/-- element called (classes - text):
 
 To place a/-- block level/-- element reading (content - text):
 	place block level element called "" reading content.
+	
+To place an/-- element called (classes - text) at the top level:
+	execute JavaScript command "vorple.layout.focus('main#haven')";
+	place block level element called classes.
+	
 
+Section 3 - Displaying content
 
-To display (content - text) in all the/-- (classes - text) elements:
+To display text (content - text) in all the/-- elements called (classes - text):
 	let print-safe content be escaped content using "\n" as line breaks;
 	execute JavaScript command "$('.[classes]').text('[print-safe content]')".
 
-To display (content - text) in the/-- element called/-- (classes - text):
-	display content in all "[classes]:last" elements.
+To display text (content - text) in the/-- element called (classes - text):
+	display text content in all elements called "[classes]:last".
 
 
-Chapter 3 - Unique identifiers
+Section 4 - Output focus
+	
+To set output focus to (target - text):
+	execute JavaScript command "vorple.layout.focus('.[target]')".
+
+To set output focus to the/-- main window:
+	execute JavaScript command "vorple.layout.focus('#window0')".
+
+
+Chapter 5 - Prompt
+
+[This is an internal helper variable that shouldn't be changed manually. To change the prompt, changing the usual "command prompt" variable should work fine.]
+The Vorple prompt is text that varies. The Vorple prompt is "".
+
+Last before reading a command (this is the convert default prompt to Vorple prompt rule):
+	if Vorple is supported:
+		let new prompt be the substituted form of the command prompt; [this prevents any say phrases with side effects inside the command prompt from triggering twice]
+		if the Vorple prompt is not the new prompt:
+			now the Vorple prompt is the new prompt;
+			execute JavaScript command "vorple.prompt.setPrefix('[escaped Vorple prompt]')".
+
+Last rule for clarifying the parser's choice (this is the change Vorple prompt when clarifying choice rule):
+	follow the convert default prompt to Vorple prompt rule;
+	make no decision.
+	
+Last after asking which do you mean (this is the change Vorple prompt when asking which do you mean rule):
+	follow the convert default prompt to Vorple prompt rule;
+	make no decision.
+
+First rule for printing a parser error when the latest parser error is the I beg your pardon error (this is the change Vorple prompt when input is empty rule):
+	follow the convert default prompt to Vorple prompt rule;
+	make no decision.
+	
+
+Include (-
+Replace PrintPrompt;
+-) before "Printing.i6t".
+
+Include (-
+[ PrintPrompt i;
+	RunTimeProblemShow();
+	ClearRTP();
+	style roman;
+	EnsureBreakBeforePrompt();
+	if( ~~(+ Vorple support +) )  TEXT_TY_Say( (Global_Vars-->1) );
+	ClearBoxedText();
+	ClearParagraphing(14);
+];
+-) after "Printing.i6t".
+
+
+Chapter 6 - Unique identifiers
 	
 To decide which text is unique identifier:
 	let id be "id";
@@ -145,144 +308,21 @@ To decide which text is unique identifier:
 		now id is "[id][rnd]";
 	decide on id.
 
-	
-Chapter 4 - Turn types
 
-To mark the/-- current action (type - text):
-	execute JavaScript command "vorple.parser.setTurnType('[type]')".
+Chapter 7 - Window title
 
-Before printing a parser error (this is the mark parser errors for Vorple rule):
-	mark the current action "error";
-	make no decision.
-
-Include (-
-[ Perform_Undo;
-#ifdef PREVENT_UNDO; IMMEDIATELY_UNDO_RM('A'); new_line; return; #endif;
-if (turns == 1) { IMMEDIATELY_UNDO_RM('B'); new_line; return; }
-if (undo_flag == 0) { IMMEDIATELY_UNDO_RM('C'); new_line; return; }
-if (undo_flag == 1) { IMMEDIATELY_UNDO_RM('D'); new_line; return; }
-if( Vp_IsJS() ) {
-	@output_stream 5 streambuf;
-	print "vorple.parser.setTurnType('undo')";
-	@output_stream( -5 );
-}
-if (VM_Undo() == 0) { IMMEDIATELY_UNDO_RM('A'); new_line; }
-];
--) instead of "Perform Undo" in "OutOfWorld.i6t".
-	
-To decide whether the/-- current action is out of world:
-	 (- meta -)
-	
-First specific action-processing rule (this is the mark out of world actions for Vorple rule):
-	if current action is out of world:
-		mark the current action "meta".
+First when play begins (this is the set window title to story title rule):
+	execute JavaScript command "document.title='[escaped story title]'".
 
 
-Chapter 5 - Escaping
+Chapter 8 - Credits
 
-To decide which text is escaped (string - text):
-	decide on escaped string using "" as line breaks.
-
-To decide which text is escaped (string - text) using (lb - text) as line breaks:
-	let safe-string be text;
-	repeat with X running from 1 to number of characters in string:
-		let char be character number X in string;
-		if char is "'" or char is "[apostrophe]" or char is "\":
-			now safe-string is "[safe-string]\";
-		if char is "[line break]":
-			now safe-string is "[safe-string][lb]";
-		otherwise:
-			now safe-string is "[safe-string][char]";
-	decide on safe-string.
-
-
-Chapter 6 - Interpreter communication
-
-Section 1 - Queueing parser commands
-
-To queue a/the/-- parser command (cmd - text), showing the command:
-	let hideCommand be "true";
-	if showing the command:
-		now hideCommand is "false";
-	execute JavaScript command "vorple.parser.sendCommand([cmd],{hideCommand:[hideCommand]})".
-
-To queue a/the/-- silent parser command (cmd - text):
-	execute JavaScript command "vorple.parser.sendSilentCommand([cmd])".
-
-To queue a/the/-- primary parser command (cmd - text), showing the command:
-	let hideCommand be "true";
-	if showing the command:
-		now hideCommand is "false";
-	execute JavaScript command "vorple.parser.sendPrimaryCommand([cmd],{hideCommand:[hideCommand]})".
-
-To queue a/the/-- silent primary parser command (cmd - text):
-	execute JavaScript command "vorple.parser.sendSilentPrimaryCommand([cmd])".
-
-
-Section 2 - Vorple startup rulebook
-
-[Code for basic mechanism provided by Graham Nelson]
-
-During Vorple startup is a rulebook.
-
-The Vorple startup stage rule is listed before the when play begins stage rule in the startup rulebook.
-
-This is the Vorple startup stage rule:
-	if Vorple is supported:
-		follow the during Vorple startup rules.
-
-To permit out-of-sequence commands:
-	(- EarlyInTurnSequence = true; -).
-
-Vorple pre-story communication finished is a truth state that varies. Vorple pre-story communication finished is false.
-
-Last during Vorple startup (this is the loop pre-start prompt rule):
-	permit out-of-sequence commands;
-	follow parse command rule;
-	follow generate action rule;
-	if Vorple pre-story communication finished is false:
-		follow the loop pre-start prompt rule.
-
-Starting the story is an action out of world.
-Understand "__start_story" as starting the story.
-
-Carry out starting the story (this is the end pre-story communication rule):
-	now Vorple pre-story communication finished is true.
-
-This is the undo marking intro as meta rule:
-	mark the current action "normal".
-
-The undo marking intro as meta rule is listed after the when play begins stage rule in the startup rulebook.
-
-
-Chapter 7 - Element positions
-
-[This value is used by other extensions.]
-An element position is a kind of value. Element positions are top left, top center, top right, left top, right top, left center, center left, screen center, right center, center right, left bottom, right bottom, bottom left, bottom center, bottom right, top banner, and bottom banner.
-
-
-Chapter 8 - Restart fix
-
-[Replaces the restart confirmation prompt with a browser's native prompt]
-Carry out restarting the game (this is the Vorple restart prompt rule):
-	if Vorple is supported:
-		let question be "Are you sure you want to restart?" (A);
-		execute JavaScript command "if(confirm('[escaped question]'))window.location.reload();";
-	otherwise:
-		follow the restart the game rule.
-
-The restart the game rule is not listed in the carry out restarting the game rulebook.
-
-			
-Chapter 9 - Credits
-
+[The Vorple version is shown by default, but there is no obligation to display it or otherwise credit Vorple (other than good manners.) The rule can be removed with "The display Vorple credits rule is not listed in any rulebook."]
 First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
-		say "Vorple version " (A);
-		place inline element called "vorple-version";
-		execute JavaScript command "$('.vorple-version').html(vorple.core.getVersion())";
-		say "[paragraph break]" (B).
-	
+		execute JavaScript command "vorple.version";
+		say "Vorple version [text returned by the JavaScript command][paragraph break]" (A).
+
 	
 Vorple ends here.
 
@@ -303,9 +343,7 @@ Every Vorple story must include at least one Vorple extension and the custom web
 
 All standard Vorple extensions already have the "Include Vorple" line, so it's not necessary to add it to the story project if at least one of the other extensions are used.
 
-At the moment Vorple supports Z-machine only.
-
-For more detailed instructions on how to get started, see the documentation at the vorple-if.com web site.
+For more detailed instructions on how to get started, see the documentation at the vorple-if.com website.
 
 
 Chapter: Compatibility with offline interpreters
@@ -346,7 +384,7 @@ The previous example generates this markup:
 	<div class="inventory"></div>
 	<span class="name"></span>
 	
-The element's name should be one word only and a valid CSS class name. It's safest to only use letters, numbers, underscores and dashes. The name "transient" is special: all elements called "transient" will fade out at the start of the next turn.
+The element's name should be one word only and a valid CSS class name. It's safest to only use letters, numbers, underscores and dashes.
 
 Contents can be added on creation:
 
@@ -369,31 +407,38 @@ In the above examples the element contents should be plain text only. Trying to 
 		say "I'm writing to tell you...";
 		close HTML tag.
 
+The phrase "clear the element called..." empties the contents of an element, and "remove the element called..." removes it completely.
 
-Chapter: Turn types
-
-The Vorple interpreter has multiple ways to display content, based on its type. Parser errors fade out the next turn, out of world actions are shown in a separate notification and so on.
-
-Sometimes we want to change that behavior. The turn type can be overridden manually:
-
-	mark the current turn "normal";
+When there are multiple elements with the same name, only the last element will be updated. This is to accommodate repeat actions and specifically UNDO which can easily generate duplicate content. To modify all elements, use the following phrases:
 	
-The turn types are "normal", "meta" (out of world actions), "error" and "dialog". The "dialog" turn type shows the turn contents in a dialog box with an "ok" button that has to be clicked for the story to resume.
-
+	display "Hello World!" in all elements called "greeting";
+	clear all elements called "greeting";
+	remove all elements called "greeting";
+ 
 
 Chapter: Evaluating JavaScript expressions
 
-The story file breaks out of the Z-Machine sandbox by having the web browser evaluate JavaScript expressions. An "execute JavaScript command" phrase is provided to do just this:
+The story file breaks out of the Glulx sandbox by having the web browser evaluate JavaScript expressions. An "execute JavaScript command" phrase is provided to do just this:
 
 	execute JavaScript command "alert('Hello World!')";
 
-At the moment there are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt.
+There are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt. (Although this might sound ominous, there's no danger unless you're doing some very complex things that involve evaluating JavaScript from unknown or untrusted sources. Using the Vorple extensions is safe.)
 
-JavaScript expressions can also be postponed to be evaluated only after the turn has completed and all the text has been displayed to the reader.
+Any return value the JavaScript code returns can be retrieved with "the value returned by the JavaScript command". If you know the type of the return value, you can use specific phrases to retrieve those types specifically:
+	
+	the text returned by the JavaScript command
+	the number returned by the JavaScript command
+	the truth state returned by the JavaScript command
+	
+The type of the return value can be retrieved with "the type of the value returned by the JavaScript command".
 
-	queue JavaScript command "alert('Hello World!')";
+The return value gets overwritten by the next JavaScript command's return value (or "undefined" if it doesn't return anything), so it's best to save the value immediately to a variable after executing the command. Otherwise another JavaScript call before using the value might cause a hard to detect bug. The other code call might not be obvious, for example changing the font style with the Vorple Screen Effects extension involves a JavaScript call.
 
-The expressions are evaluated in the same order they were added to the queue and the queue is emptied right after evaluation.
+	execute JavaScript command "[bracket]'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'[close bracket][bracket]new Date().getDay()[close bracket]";
+	let weekday be the text returned by the JavaScript command;
+	say "It's [weekday]!"
+
+See the technical documentation at http://github.com/vorple/vorple/wiki for more details.
 
 
 Chapter: Escaping strings
@@ -420,57 +465,10 @@ By default newlines are removed. If we want to preserve them, or turn them into 
 	To greet (name - text):
 		let safe name be escaped name using "\n" as line breaks;
 		execute JavaScript command "alert( 'Hello [safe name]!' )".
+		
+Remember to use "[bracket]" and "[close bracket]" for square brackets in JavaScript code.
 
-
-Chapter: Hidden parser commands
-
-Instructing the interpreter from the story file is easy with "execute JavaScript command" phrases, but passing information to the other direction (from interpreter to story file) is not as simple. The interpreter/story file model wasn't designed for it and the only tool we have in our use is to have the interpreter 'type' commands to the prompt hidden from the user.
-
-There are some limitations to this method. The most important one is that you have to wait for the prompt to become available (a turn to end) to be able to pass these hidden commands. Therefore you need to plan for the communication to happen in between turns. This is why the phrase is called "queue parser command", which is what it does: all command instructions are placed in the queue which is resolved at the end of a turn.
-
-	queue parser command "'__set_name '+username";
-
-(The above example assumes there's a global JavaScript variable "username" set at some point.)
-
-Notice that the parameter is a JavaScript expression, so plain commands must be enclosed in quotes.
-
-On Inform's side the counterpart is an action that handles the sent information.
-
-	Setting the username is an action out of world applying to one topic.
-	Understand "__set_name [text]" as setting the username.
-
-	Carry out setting the username:
-		...
-
-By convention hidden commands are prefixed with two underscores. The interpreter strips the underscores if the reader uses them in their commands so they can't trigger hidden commands deliberately or accidentally.
-
-The response is displayed as it would if the player gave the command normally, except that the command itself is not shown in the transcript. That can be changed with the "showing the command" modifier:
-
-	queue parser command "'x me'", showing the command;
-
-To suppress the response as well, use "queue silent parser command".
-
-	queue silent parser command "'__do_whatever'";
-
-There's also a "primary" queue that is handled before the "normal" queue. In other regards it acts exactly like described above.
-
-	queue primary parser command "'x me'";
-	queue silent primary parser command "'__do_whatever'";
-
-The purpose of the primary queue is to make sure commands that are related to the current action are handled immediately after this turn. If they're put into the normal queue there's no guarantee how many other commands there might already be in the queue.
-
-Sometimes we need to communicate with the interpreter before the story has properly started. Using the "when play begins" rulebook is too late -- the command would be executed only after the rulebook has run and printed the intro, the banner, and the starting room description. For this purpose we can use the "Vorple startup" rulebook:
-
-	Vorple startup:
-		queue silent parser command "'__local_time '+(new Date()).toString()".
-
-The Vorple startup rulebook is run only in the Vorple interpreter. Only Vorple-specific commands should go there, and only those that can't be placed in the When play begins rulebook.
-
-Passing commands to the story file can be a powerful tool, but it should be used only when absolutely necessary. One reason is performance: the story file has to process the command as a separate turn, even when it isn't displayed to the user. It's much faster to use for example I7's 'try' phrases to initiate actions. The other reason is that the method won't work in offline interpreters.
-
-Another drawback of this method is that the length of the command is limited. Any command that has more than 119 characters will be silently truncated.
-
-A more practical way of communication between the story file and the interpreter will be introduced in later versions of Vorple.
+	execute JavaScript command "var myArray = [bracket]1, 2, 3[close bracket]".
 
 		
 Example: ** Convenience Store - Displaying the inventory styled as a HTML list.

@@ -1,11 +1,121 @@
 Release 3.0
 ===========
 
+ - Moved to the new Glulx-only interpreter model
+
+
+Vorple
+------
+
+ - Removed the concept of queueing JavaScript code, because the new interpreter
+   doesn't have the same limitations queueing used to solve
+ - Removed the special rulebook that was designed to let the interpreter
+   pass control commands to the game before the "when play begins" rulebook,
+   because the new model doesn't need to communicate through line input anymore
+ - Similarly, because communication through line input isn't a central concept
+   of the system, triggering line input from I7 has been moved from the core
+   extension to a new Vorple Command Prompt Control extension
+ - Passing JavaScript to the interpreter doesn't use output streams in the new
+   system so JavaScript can't mess up line breaks in normal output anymore
+ - Restarting the game doesn't pop up a custom restart prompt because the
+   new interpreter can handle native restart correctly
+ - Added a phrase to clear all content of an element
+ - Removed the transient text description from the documentation, since the
+   interpreter doesn't provide it by default anymore
+ - Removed turn type marking from the core extension
+ - "display ".." in element" is now "display text "..." in element" and for
+   consistency with other phrases "display "..." in all "..." elements" is now
+   "display text "..." in all elements called "...""
+ - The word "called" in "display "..." in the element called "..."" is no longer
+   optional
+ - Added the phrase "set output focus to ..." which will cause further output to
+   continue in the named element
+
+
 Hyperlinks
 ----------
 
- - Fixed a bug that caused linked text to be displayed twice
-   in non-Vorple interpreters.
+ - Fixed a bug that caused linked text to be displayed twice in non-Vorple
+   interpreters
+ - Removed the option to suppress story output when making links that trigger
+   parser commands because it's not the recommended way to pass information
+   to I7 anymore
+ - Added an option to name the links for referring to them in the future
+ - Added links that execute JavaScript code
+ - For consistency, the default classes that are applied to the link elements
+   are now called "vorple-weblink", "vorple-commandlink" and "vorple-jslink"
+
+
+Multimedia
+----------
+
+ - Removed the YouTube video feature
+ - For consistency, the "display image" phrase now puts the image in an existing
+   element. Creating new images (the old behavior) is done with a "place image"
+   phrase, consistent with the core extension's element creation phrases.
+ - When displaying images, they must be accompanied by a description for screen
+   readers and non-Vorple interpreters
+ - When adding custom classes to the images, they're added after the default
+   class "vorple-image"
+
+
+Notifications
+-------------
+
+ - Notifications are split into two separate extensions: "pure" notifications
+   (short messages that disappear after a while) stay in this one, and more
+   complex dialogs are moved to the new Vorple Modals extension.
+ - Custom positioning is removed. Notifications are shown in the location that's
+   defined in CSS. Positioning is responsive, i.e. they're shown top right
+   except in mobile view where they're shown as a top bar.
+ - The phrase to show the notification is changed to be consistent with other
+   extensions ("display a notification reading...")
+ - Added an option to define how long the notification is displayed
+
+
+Screen Effects
+--------------
+
+ - The extension is now designed to work together with Basic Screen Effects by
+   Emily Short instead of as a complete replacement. As such Basic Screen
+   Effects is now automatically included with Vorple Screen Effects.
+ - The phrase that creates centered text no longer has an option to print the
+   text in fixed letter spacing. A note has been added in the documentation
+   instructing how to apply any styling to the centered text block.
+ - The extension now extends Standard Rules' "boxed quotation" feature so that
+   in the Vorple interpreter the boxed quotation is placed inside a blockquote
+   element
+ - Renamed the right-align phrase to right align
+ - Vorple style values are now allowed to consist of more than one word and they
+   may contain uppercase characters. When applying styles to an element, the
+   style value is converted to lowercase and spaces are replaced with dashes.
+ - Because the values can have more than one word, basic style values include
+   the word "font" to avoid namespace clashes, e.g. the "cursive" value is now
+   "cursive font"
+ - Similarly color styles are now called "<color> letters" and "<color>
+   background"
+ - Removed the transient font style because the interpreter doesn't provide the
+   feature anymore (fading out content at the start of next turn)
+ - Added more color styles. The basic set now covers the full 16-color EGA
+   palette, which is what the Haven interpreter provides out of the box.
+ - Added phrases to change elements' text and background colors to arbitrary
+   values, including setting the alpha channel (opacity)
+ - Removed the "end all styles" phrase which would also close all currently open
+   non-style elements
+ - Removed the "default letters" phrase which would have the same issues as
+   "end all styles" and as an analogue to the equivalent Z-machine phrase isn't
+   necessary anymore
+ - Glulx doesn't support text colors the same way that Z-machine did, so there
+   are no non-Vorple fallbacks for text and background colors anymore
+ - Related to the removal of the color fallbacks, removed the individual
+   "say <color> letters/background" phrases that existed for two reasons:
+   firstly, they replaced the equivalent Z-machine phrases from Basic Screen
+   Effects, and secondly they were more readable than the one-word color styles.
+   The Z-machine phrases aren't used anymore and color styles are now more
+   naturally named so they don't have any reason to exist anymore.
+ - Renamed the phrase to change the styles of the entire page to "apply (vorple
+   style) to the entire page" which can be used to apply any style to the
+   interpreter window
 
 
 

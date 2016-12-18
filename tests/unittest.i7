@@ -1,0 +1,530 @@
+"Vorple Unit Tests"
+
+Include Vorple by Juhana Leinonen.
+Include Vorple Command Prompt Control by Juhana Leinonen.
+Include Vorple Element Manipulation by Juhana Leinonen.
+Include Vorple Hyperlinks by Juhana Leinonen.
+Include Vorple Multimedia by Juhana Leinonen.
+
+There is a room.
+
+
+Volume 1 - Unit tests
+
+Book 1 – Vorple
+
+When play begins (this is the handshake test rule):
+	start tests for "Handshake";
+	whether or not Vorple is supported confirms "Vorple support";
+	execute JavaScript command "vorple.version";
+	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?" confirms "Version number ([text returned by the JavaScript command])";
+
+When play begins (this is the JavaScript evaluation test rule):
+	start tests for "JavaScript evaluation";
+	let unclean text be "Testy 'Tester' O'Testface";
+	execute JavaScript command "'[escaped unclean text]'";
+	expect the text returned by the JavaScript command to be "[unclean text]" which confirms "Escaping quotes";
+
+When play begins (this is the return values test rule):
+	let return value be "";
+	start tests for "Return values";
+	execute JavaScript command "'one two three'";
+	now return value is the value returned by the JavaScript command;
+	expect the text returned by the JavaScript command to be "one two three" which confirms "Text return value";
+	expect the type of the return value to be "text" which confirms "Text type";
+	execute JavaScript command "'one \'two\' three'";
+	expect the text returned by the JavaScript command to be "one 'two' three" which confirms "Text with quotes";
+	execute JavaScript command "''";
+	expect the text returned by the JavaScript command to be "" which confirms "Empty string";
+	execute JavaScript command "'one\ntwo\nthree'";
+	expect the text returned by the JavaScript command to be "one[line break]two[line break]three" which confirms "Text with line breaks";
+	execute JavaScript command "1+2";
+	now return value is the value returned by the JavaScript command;
+	expect the number returned by the JavaScript command to be 3 which confirms "Number return value";
+	expect the type of the return value to be "number" which confirms "Number type";
+	execute JavaScript command "'4'";
+	expect the number returned by the JavaScript command to be 4 which confirms "Number returned as text";
+	execute JavaScript command "'-4'";
+	expect the number returned by the JavaScript command to be -4 which confirms "Negative number returned as text";
+	execute JavaScript command "3.2";
+	expect the number returned by the JavaScript command to be 3 which confirms "Positive reals rounded down";
+	execute JavaScript command "3.6";
+	expect the number returned by the JavaScript command to be 4 which confirms "Positive reals rounded up";
+	execute JavaScript command "3.5";
+	expect the number returned by the JavaScript command to be 4 which confirms "Positive real halfpoint rounded up";
+	execute JavaScript command "3.501";
+	expect the number returned by the JavaScript command to be 4 which confirms "Positive real near halfpoint rounded up";
+	execute JavaScript command "-3.5";
+	expect the number returned by the JavaScript command to be -3 which confirms "Negative real halfpoint rounded towards zero";
+	execute JavaScript command "-3.51";
+	expect the number returned by the JavaScript command to be -4 which confirms "Negative real halfpoint rounded up";
+	execute JavaScript command "-3.5000";
+	expect the number returned by the JavaScript command to be -3 which confirms "Negative real halfpoint with trailing zeroes rounded towards zero";
+	execute JavaScript command "2147483647";
+	expect the number returned by the JavaScript command to be 2147483647 which confirms "Number at Glulx upper range";
+	execute JavaScript command "-2147483647";
+	expect the number returned by the JavaScript command to be -2147483647 which confirms "Number at Glulx lower range";
+	execute JavaScript command "2147483648";
+	now run-time error thrown is false;
+	expect the number returned by the JavaScript command to be 0 which confirms "Number exceeding Glulx upper range returns 0";
+	whether or not run-time error thrown is true confirms "Number exceeding Glulx upper range throws an error";
+	execute JavaScript command "-2147483648";
+	now run-time error thrown is false;
+	expect the number returned by the JavaScript command to be 0 which confirms "Number exceeding Glulx lower range returns 0";
+	whether or not run-time error thrown is true confirms "Number exceeding Glulx lower range throws an error";
+	execute JavaScript command "1e30";
+	expect the value returned by the JavaScript command to be "1000000000000000000000000000000" which confirms "Scientific notation is converted to plain integer";
+	execute JavaScript command "true";
+	expect the type of the value returned by the JavaScript command to be "truth state" which confirms "Truth state type";
+	whether or not the JavaScript command returned true confirms "Truth state value (true)";
+	execute JavaScript command "false";
+	whether or not the JavaScript command returned false confirms "Truth state value (false)";
+	execute JavaScript command "1";
+	now run-time error thrown is false;
+	expect whether or not the JavaScript command returned true to be false which confirms "Retrieving the truth state of non-boolean returns false";
+	whether or not run-time error thrown is true confirms "Retrieving the truth state of non-boolean throws an error";
+	execute JavaScript command "[bracket]1,2,3[close bracket]";
+	expect the type of the value returned by the JavaScript command to be "list" which confirms "List type";
+	execute JavaScript command "({a:1, b:2})";
+	expect the type of the value returned by the JavaScript command to be "object" which confirms "Object type";
+	execute JavaScript command "1/0";
+	now return value is the value returned by the JavaScript command;
+	expect the return value to be "Infinity" which confirms "Infinity value";
+	expect the type of the return value to be "infinity" which confirms "Infinity type";
+	execute JavaScript command "-1/0";
+	now return value is the value returned by the JavaScript command;
+	expect the return value to be "-Infinity" which confirms "Negative infinity value";
+	expect the type of the return value to be "infinity" which confirms "Negative infinity type";
+	execute JavaScript command "(function(){})";
+	expect the type of the value returned by the JavaScript command to be "function" which confirms "Function type";
+	execute JavaScript command "";
+	now return value is the value returned by the JavaScript command;
+	expect the return value to be "undefined" which confirms "Empty code value";
+	expect the type of the return value to be "nothing" which confirms "Empty code type";
+	execute JavaScript command "undefined";
+	now return value is the value returned by the JavaScript command;
+	expect the return value to be "undefined" which confirms "Undefined value";
+	expect the type of the return value to be "nothing" which confirms "Undefined type";
+	execute JavaScript command "null";
+	now return value is the value returned by the JavaScript command;
+	expect the return value to be "null" which confirms "Null value";
+	expect the type of the return value to be "nothing" which confirms "Null type";
+
+
+When play begins (this is the containers test rule):
+	start tests for "Containers";
+	open HTML tag "div" called "testdiv";
+	say "1";
+	open HTML tag "span" called "testspan";
+	say "2";
+	close HTML tag; [span]
+	say "3";
+	close HTML tag; [div]
+	execute JavaScript command "$('.testdiv').text()==='123' && $('.testdiv .testspan').length===1 && $('.testdiv .testspan').text()==='2'";
+	whether or not the JavaScript command returned true confirms "Div and span created";
+	[cleanup]
+	execute JavaScript command "$('.testdiv').remove()";
+
+[The prompt change rules are somewhat confusingly intertwined because of the
+asynchronous nature of command queues. They're made this way to keep the test
+output cleaner.]
+When play begins (this is the command prompt test rule):
+	now the command prompt is "==>";
+	queue parser command "unittest prompt change";
+	expect test result "New prompt set";
+	queue parser command "unittest html prompt change";
+	expect test result "HTML prompt change".
+
+Carry out unit testing "prompt change":
+	execute JavaScript command "haven.prompt.prefix.get()";
+	if the text returned by the JavaScript command is "==&gt;":
+		resolve test result "New prompt set";
+	now the command prompt is "<span>::</span>".
+
+Carry out unit testing "html prompt change":
+	execute JavaScript command "haven.prompt.prefix.get()";
+	if the text returned by the JavaScript command is "&lt;span&gt;::&lt;/span&gt;":
+		resolve test result "HTML prompt change";
+	[cleanup]
+	now the command prompt is ">".
+
+
+Book 2 – Command Prompt Control
+
+Carry out unit testing "command queue":
+	start tests for "Command prompt";
+	resolve test result "Queueing parser commands".
+
+Carry out unit testing "silent command queue":
+	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
+	if the text returned by the JavaScript command is "unittest null":
+		resolve test result "Queueing silent parser commands".
+
+Correct command queue order is a truth state that varies. Correct command queue order is false.
+
+Carry out unit testing "command queue order 1":
+	now correct command queue order is true.
+
+Carry out unit testing "command queue order 2":
+	if correct command queue order is true:
+		resolve test result "Parser command queue order".
+
+When play begins (this is the command queue test rule):
+	queue parser command "unittest command queue";
+	expect test result "Queueing parser commands";
+	queue parser command "unittest null";
+	queue parser command "unittest silent command queue", without showing the command;
+	expect test result "Queueing silent parser commands";
+	queue parser command "unittest command queue order 1";
+	queue parser command "unittest command queue order 2";
+	expect test result "Parser command queue order".
+
+When play begins (this is the command history test rule):
+	start tests for "Command history";
+	add the command "test" to the command history;
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
+	add the command "test 2" to the command history;
+	remove the last command from the command history;
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Removing history";
+	execute JavaScript command "haven.prompt.history.get().length";
+	let history size be the number returned by the JavaScript command;
+	change the last command in the command history to "changed";
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "changed" which confirms "Changing history";
+	execute JavaScript command "haven.prompt.history.get().length";
+	expect the number returned by the JavaScript command to be history size which confirms "Changing history doesn't change history size";
+	clear the command history;
+	execute JavaScript command "haven.prompt.history.get().length";
+	expect the number returned by the JavaScript command to be 0 which confirms "Clearing the entire history".
+
+When play begins (this is the command line manipulation test rule):
+	start tests for "Command line manipulation";
+	prefill the command line with "test";
+	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-field').val()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Prefilling command line".
+
+Carry out unit testing "queue when prompt available":
+	resolve test result "Command queue when prompt is available";
+	queue parser command "unittest finish".
+
+
+Book 3 - Element Manipulation
+
+Container counter is a number that varies.
+
+When play begins (this is the basic element manipulation test rule):
+	start tests for "Element manipulation";
+	open HTML tag "div" called "element-unittest-container";
+	place a "span" element called "unittest[container counter]" reading "one two three";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').length";
+	expect the number returned by the JavaScript command to be 1 which confirms "Custom element created";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "one two three" which confirms "Custom element has correct content";
+	increment container counter;
+	place a "span" element called "unittest[container counter]" reading "one[line break]two
+
+	three";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "one[line break]two[line break][line break]three" which confirms "Content with line breaks";
+	increment container counter;
+	place a "span" element called "unittest[container counter]" reading "<span>test</span>";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "<span>test</span>" which confirms "HTML content is encoded";
+	increment container counter;
+	place a "section" element called "unittest[container counter]";
+	execute JavaScript command "$('#output .element-unittest-container section.unittest[container counter]').length";
+	expect the number returned by the JavaScript command to be 1 which confirms "Empty custom element created";
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place a "p" element reading "four five six";
+	place a "div" element;
+	close HTML tag;
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > p').attr('class')";
+	expect the text returned by the JavaScript command to be "" which confirms "Element without class created";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
+	expect the text returned by the JavaScript command to be "" which confirms "Plain element created, class list empty";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').text()";
+	expect the text returned by the JavaScript command to be "" which confirms "Plain element created with no content";
+	increment container counter;
+	place an inline element called "unittest[container counter]" reading "seven eight nine";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	expect the text returned by the JavaScript command to be "inline" which confirms "Inline element created, is inline";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "seven eight nine" which confirms "Inline element created with correct content";
+	increment container counter;
+	place an inline element called "unittest[container counter]";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	expect the text returned by the JavaScript command to be "inline" which confirms "No-content inline element created, is inline";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "" which confirms "No-content inline element has no content";
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place an inline element reading "inline noclass";
+	close HTML tag;
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').css('display')";
+	expect the text returned by the JavaScript command to be "inline" which confirms "No-class inline element created, is inline";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').attr('class')";
+	expect the text returned by the JavaScript command to be "" which confirms "No-class inline element created, class list empty";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').text()";
+	expect the text returned by the JavaScript command to be "inline noclass" which confirms "No-class inline element created with correct content";
+	increment container counter;
+	place a block level element called "unittest[container counter]" reading "seven eight nine";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	expect the text returned by the JavaScript command to be "block" which confirms "Inline element created";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "seven eight nine" which confirms "Inline element created with correct content";
+	increment container counter;
+	place a block level element called "unittest[container counter]";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	expect the text returned by the JavaScript command to be "block" which confirms "No-content block element created";
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "" which confirms "No-content block element has no content";
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place a block level element reading "block noclass";
+	close HTML tag;
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').css('display')";
+	expect the text returned by the JavaScript command to be "block" which confirms "No-class block element created, is block level";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
+	expect the text returned by the JavaScript command to be "" which confirms "No-class block element created, class list empty";
+	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').text()";
+	expect the text returned by the JavaScript command to be "block noclass" which confirms "No-class block element created with correct content";
+	increment container counter;
+	place a "span" element called "unittest[container counter]";
+	place a "span" element called "unittest[container counter]";
+	display text "last" in the element called "unittest[container counter]";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:first').text()";
+	expect the text returned by the JavaScript command to be "" which confirms "Display content in one of multiple elements, first element empty";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
+	expect the text returned by the JavaScript command to be "last" which confirms "Display content in one of multiple elements, content in last element";
+	display text "all" in all the elements called "unittest[container counter]";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:first').text()";
+	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in first element";
+	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
+	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in last element";
+	close HTML tag; [element-unittest-container]
+	increment container counter;
+	set output focus to "element-unittest-container";
+	say "parent container focus";
+	place a block level element called "unittest[container counter]";
+	set output focus to "unittest[container counter]";
+	say "focus";
+	set output focus to the main window;
+	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	expect the text returned by the JavaScript command to be "focus" which confirms "Setting output focus".
+
+[
+
+To display (content - text) in all the/-- elements called (classes - text):
+	let print-safe content be escaped content using "\n" as line breaks;
+	execute JavaScript command "$('.[classes]').text('[print-safe content]')".
+
+To display (content - text) in the/-- element called/-- (classes - text):
+	display content in all "[classes]:last" elements.
+]
+
+Book 4 - Hyperlinks
+
+When play begins (this is the URL hyperlink test rule):
+	start tests for "Hyperlinks";
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place a link to the web site "http://vorple-if.com" called "hyperlink1" reading "link1";
+	place a link to the web site "http://vorple-if.com" called "hyperlink2" reading "link2", opening in the same window;
+	place a link to the web site "http://vorple-if.com" called "hyperlink3";
+	place a link to the web site "http://vorple-if.com" reading "link4";
+	place a link to the web site "http://vorple-if.com";
+	close HTML tag;
+	execute JavaScript command "$('.unittest[container counter] a').length";
+	expect the number returned by the JavaScript command to be 5 which confirms "URL hyperlinks created";
+	execute JavaScript command "$('.unittest[container counter] a[bracket]href=[']http://vorple-if.com['][close bracket]').length";
+	expect the number returned by the JavaScript command to be 5 which confirms "URLs correct";
+	execute JavaScript command "$('.unittest[container counter] a.hyperlink1').text()";
+	expect the text returned by the JavaScript command to be "link1" which confirms "URL link class and content correct";
+	execute JavaScript command "$('.unittest[container counter] a.hyperlink1').attr('target')";
+	expect the text returned by the JavaScript command to be "_blank" which confirms "Opens in new window by default";
+	execute JavaScript command "$('.unittest[container counter] a.hyperlink2').attr('target')||''";
+	expect the text returned by the JavaScript command to be "" which confirms "Option to open in the same window";
+	execute JavaScript command "$('.unittest[container counter] a.hyperlink3').text()";
+	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "Content is URL by default";
+	execute JavaScript command "$('.unittest[container counter] a').eq(3).text()";
+	expect the text returned by the JavaScript command to be "link4" which confirms "No class specified";
+	execute JavaScript command "$('.unittest[container counter] a').eq(4).text()";
+	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "No class or content";
+
+When play begins (this is the command hyperlink test rule):
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place a link to the command "unittest command link 1" called "commandlink1" reading "link1";
+	place a link to the command "unittest command link 2" called "commandlink2" reading "link2", without showing the command;
+	place a link to the command "unittest command link 3" called "commandlink3";
+	place a link to the command "unittest command link 4" reading "link4";
+	place a link to the command "unittest command link 5";
+	close HTML tag;
+	execute JavaScript command "$('.unittest[container counter] a').length";
+	expect the number returned by the JavaScript command to be 5 which confirms "Command hyperlinks created";
+	execute JavaScript command "$('.unittest[container counter] a[bracket]href^=[']unittest command link['][close bracket]').length";
+	expect the number returned by the JavaScript command to be 5 which confirms "Commands correct";
+	execute JavaScript command "$('.unittest[container counter] a.commandlink1').text()";
+	expect the text returned by the JavaScript command to be "link1" which confirms "Command link class and content correct";
+	execute JavaScript command "$('.unittest[container counter] a.commandlink3').text()";
+	expect the text returned by the JavaScript command to be "unittest command link 3" which confirms "Content is command by default";
+	execute JavaScript command "$('.unittest[container counter] a').eq(3).text()";
+	expect the text returned by the JavaScript command to be "link4" which confirms "No class specified";
+	execute JavaScript command "$('.unittest[container counter] a').eq(4).text()";
+	expect the text returned by the JavaScript command to be "unittest command link 5" which confirms "No class or content";
+	execute JavaScript command "$('.unittest[container counter] a.commandlink1').click()";
+	expect test result "Clicking on command link";
+	execute JavaScript command "$('.unittest[container counter] a.commandlink2').click()";
+	expect test result "Clicking on hidden command link";
+
+Carry out unit testing "command link 1":
+	resolve test result "Clicking on command link".
+
+Carry out unit testing "command link 2":
+	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
+	if the text returned by the JavaScript command is "unittest command link 1":
+		resolve test result "Clicking on hidden command link";
+
+
+When play begins (this is the JS hyperlink test rule):
+	increment container counter;
+	open HTML tag "div" called "unittest[container counter]";
+	place a link to execute the JavaScript command "vorple.prompt.queueCommand('unittest js link 1')" called "jslink1" reading "link1";
+	place a link to execute the JavaScript command "vorple.prompt.queueCommand('unittest js link 2')" reading "link2";
+	close HTML tag;
+	execute JavaScript command "$('.unittest[container counter] a').length";
+	expect the number returned by the JavaScript command to be 2 which confirms "JavaScript hyperlinks created";
+	execute JavaScript command "$('.unittest[container counter] a.jslink1').text()";
+	expect the text returned by the JavaScript command to be "link1" which confirms "JavaScript link class and content correct";
+	execute JavaScript command "$('.unittest[container counter] a.jslink1').click()";
+	expect test result "Clicking on JavaScript link";
+
+Carry out unit testing "js link 1":
+	resolve test result "Clicking on JavaScript link";
+	finish testing.
+
+
+Book 5 - Multimedia
+
+When play begins (this is the image test rule):
+	start tests for "Multimedia / images";
+	place the image "../inform7/tests/logo.png" called "logo" with description "Vorple's logo", centered;
+	execute JavaScript command "$('.logo > img').length";
+	expect the number returned by the JavaScript command to be 1 which confirms "Image created";
+	execute JavaScript command "$('.logo > img').attr('alt')";
+	expect the text returned by the JavaScript command to be "Vorple's logo" which confirms "Alt text included";
+
+
+[
+Book 6 - Status Line
+
+When play begins (this is the status line construction test rule):
+	start tests for "Status line";
+	construct a status line with 3 columns;
+	now the left hand Vorple status line is "left";
+	now the middle Vorple status line is "middle";
+	now the right hand Vorple status line is "right";
+	refresh the status line;
+	execute JavaScript command "$('#output > div:first .col-sm').length";
+	expect the number returned by the JavaScript command to be 3 which confirms "3-column status line created";
+	]
+
+
+Book 7 - Finish
+
+To finish testing:
+	execute JavaScript command "var listener = function() {
+		vorple.prompt.queueCommand('unittest queue when prompt available');
+		haven.prompt.get().removeEventListener('lineinputReady', listener);
+	}; haven.prompt.get().addEventListener('lineinputReady', listener)";
+	expect test result "Command queue when prompt is available".
+
+Carry out unit testing "finish":
+	execute JavaScript command "$('[bracket]class^=[']unittest['][close bracket]').remove()"; [cleanup]
+	print test results.
+
+
+Volume 2 - Testing framework
+
+Unit testing is an action applying to one topic.
+Understand "unittest [text]" as unit testing.
+
+Fail count is a number that varies. Fail count is 0.
+Pass count is a number that varies. Pass count is 0.
+Run-time error thrown is a truth state that varies. Run-time error thrown is false.
+
+[this overrides the error printing in the Vorple extension]
+To throw Vorple run-time error (desc – text):
+	now run-time error thrown is true.
+
+To start tests for (name - text):
+	say "[bold type][name][roman type][line break]";
+
+To name the test (name - text):
+	say "  [name]: ".
+
+To pass the test:
+	place an inline element called "textcolor-2" reading "PASSED[line break]";
+	increment pass count.
+
+To fail the test:
+	place an inline element called "textcolor-4" reading "FAILED[line break]";
+	increment fail count.
+
+To fail the test expecting (x - text) to be (y - text):
+	place an inline element called "textcolor-4" reading "FAILED";
+	if x is "":
+		now x is "(empty)";
+	if y is "":
+		now y is "(empty)";
+	say " - expected [x] to be [y][line break]";
+	increment fail count.
+
+To (x - truth state) confirms (msg - text):
+	name the test msg;
+	if x is true:
+		pass the test;
+	otherwise:
+		fail the test.
+
+To expect (x - text) to be (y - text) which confirms (msg - text):
+ 	name the test msg;
+ 	if x is y:
+ 		pass the test;
+ 	otherwise:
+ 		fail the test expecting x to be y.
+
+To expect (x - number) to be (y - number) which confirms (msg - text):
+	expect "[x]" to be "[y]" which confirms msg.
+
+To expect (x - truth state) to be (y - truth state) which confirms (msg - text):
+	expect "[x]" to be "[y]" which confirms msg.
+
+Test result expectations is a list of text that varies.
+
+To expect test result (msg - text):
+	add msg to test result expectations.
+
+To resolve test result (msg - text):
+	remove msg from test result expectations;
+	say "  [msg]: ";
+	pass the test.
+
+
+To print test results:
+	if test result expectations is not empty:
+		place a block level element called "textcolor-4" reading "Some expected test results were never resolved:[line break]";
+		repeat with X running through test result expectations:
+			say "  [X]: ";
+			fail the test;
+	say line break;
+	if fail count is 0:
+		place a block level element called "textcolor-2" reading "All [pass count] tests passed.";
+	otherwise:
+		place a block level element called "textcolor-4" reading "[pass count + fail count] tests run. [pass count] passed, [fail count] failed."
+
+To quit:
+	(- quit; -)

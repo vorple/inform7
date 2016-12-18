@@ -1,6 +1,6 @@
-Version 2/140430 of Vorple Multimedia (for Z-Machine only) by Juhana Leinonen begins here.
+Version 3 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 
-"Displaying images, playing sounds and music, and showing videos from YouTube."
+"Displaying images and playing sounds and music."
 
 Include Vorple by Juhana Leinonen.
 Use authorial modesty.
@@ -8,26 +8,38 @@ Use authorial modesty.
 
 Chapter 1 - Images
 
-To display image (file - text) in a/an/-- element called (classes - text):
-	let id be unique identifier;
-	place a block level element called "[id] [classes] vorple-image";
-	execute JavaScript command "$('.[id]').html(vorple.media.image('[file]'))".
+To place an/the/-- image (file - text) called (classes - text) with description (desc - text):
+	if Vorple is supported:
+		let id be unique identifier;
+		place a block level element called "[id] vorple-image [classes]";
+		execute JavaScript command "$('<img>', {src: '[escaped file]', alt: '[escaped desc]'}).appendTo('.[id]')";
+	otherwise:
+		say desc.
 
-To display image (file - text), centered, aligned left, aligned right, floating left or floating right:
+To place an/the/-- image (file - text) called (classes - text) with description (desc - text), centered, aligned left, aligned right, floating left or floating right:
 	let the alignment class be "";
-	if centered, let the alignment class be "centered";
-	if aligned left, let the alignment class be "left-aligned";
-	if aligned right, let the alignment class be "right-aligned";
-	if floating left, let the alignment class be "left-floating";
-	if floating right, let the alignment class be "right-floating";
-	display image file in an element called alignment class.
+	if centered, now the alignment class is "centered";
+	if aligned left, now the alignment class is "left-aligned";
+	if aligned right, now the alignment class is "right-aligned";
+	if floating left, now the alignment class is "left-floating";
+	if floating right, now the alignment class is "right-floating";
+	place the image file called "[alignment class] [classes]" with description desc.
 
-To preload image (file - text):
-	execute JavaScript command "vorple.media.preloadImage('[file]');".
+To place an/the/-- image (file - text) with description (desc - text), centered, aligned left, aligned right, floating left or floating right:
+	let the alignment class be "";
+	if centered, now the alignment class is "centered";
+	if aligned left, now the alignment class is "left-aligned";
+	if aligned right, now the alignment class is "right-aligned";
+	if floating left, now the alignment class is "left-floating";
+	if floating right, now the alignment class is "right-floating";
+	place the image file called alignment class with description desc.
+
+To preload an/the/-- image (file - text):
+	execute JavaScript command "new Image().src='[escaped file]';".
 	
 To preload images (image-list - list of text):
 	repeat with X running through image-list:
-		preload image "[X]".
+		preload image X.
 
 
 Chapter 2 - Audio
@@ -53,13 +65,6 @@ To stop sounds:
 To stop all audio:
 	execute JavaScript command "vorple.media.stopAll()".
 
-
-Chapter 3 - Video
-
-To play a/the/-- YouTube video (youtube-id - text):
-	let container-id be unique identifier;
-	place a block level element called "[container-id] youtube";
-	execute JavaScript command "$('.[container-id]').html(vorple.media.youtube('[youtube-id]',{width:600}))".
 	
 Vorple Multimedia ends here.
 
@@ -130,15 +135,6 @@ Once playing the sounds can be stopped with the following phrases:
 (Naturally stopping just the sound effects won't affect music, and vice versa.)
 
 
-Chapter: YouTube videos
-
-We can play YouTube videos with:
-
-	play YouTube video "9d4Fu90ubmA";
-
-The seemingly random string of numbers and letters is the id of the video we want to show. The id can be seen in the browser's address bar when viewing the video in YouTube, for example "http://www.youtube.com/watch?v=9d4Fu90ubmA".
-	
-
 Example: * Serinette - Basic example of playing music and sound effects.
 
 The serinette (a type of music box) plays music when it opens and a sound effect when it's wound. We'll also show its picture when it's examined.
@@ -206,32 +202,6 @@ The example media files can be downloaded from http://vorple-if.com/vorple/doc/i
 	
 	Test me with "x serinette / wind serinette / open serinette".
 
-
-Example: * The Trampoline - Rewarding the player with a YouTube video.
-
-This example adds an option for the player to watch a video on YouTube after they've won. Vorple plays the video automatically, and other interpreters show the URL of the video.
-
-    *: "The Trampoline"
-
-	Include Vorple Multimedia by Juhana Leinonen.
-	Release along with the "Vorple" interpreter.
-
-	Table of Final Question Options (continued)
-	final question wording	only if victorious	topic	final response rule	final response activity
-	"WATCH your prize video"	true	"watch"	watch the video rule	--
-
-	This is the watch the video rule:
-		if Vorple is supported:
-			play YouTube video "GifZWBxBDn8";
-		otherwise:
-			say "See your prize video at https://www.youtube.com/watch?v=GifZWBxBDn8."
-
-	There is a room called On the trampoline. "You're on a huge trampoline. You know what to do!"
-
-	Instead of jumping:
-		end the story finally saying "Whee!"
-
-	Test me with "jump / watch".
 
 
 Example: ** Port Royal Reggae - Applying background music to different regions.

@@ -1,2 +1,5 @@
-.idea
-node_modules
+Documentation
+Telemetry
+tests/tmp
+tests/gameinfo.dbg
+tests/unittest.ulx
