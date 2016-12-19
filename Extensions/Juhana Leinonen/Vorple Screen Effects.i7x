@@ -220,35 +220,36 @@ To set the/-- background color/colour of all the/-- elements called (classes - t
 
 Section 7 - Headers
 
-To place a level (level - number) header called (classes - text) reading (txt - text):
+To place a/-- level (level - number) header called (classes - text) reading (txt - text):
 	place a "h[level]" element called classes reading txt.
 	
-To place a level (level - number) header reading (txt - text):
+To place a/-- level (level - number) header reading (txt - text):
 	place a "h[level]" element called "" reading txt.
 
 
 Section 8 - Lists
 
-To display an ordered list (source - list of text) called (classes - text):
+To display an/-- ordered list (source - list of text) called (classes - text):
 	open HTML tag "ol" called classes;
 	repeat with X running through source:
 		place a "li" element reading X;
 	close HTML tag.
 	
-To display an ordered list (source - list of text):
+To display an/-- ordered list (source - list of text):
 	display an ordered list source called "".
 
-To display an unordered list (source - list of text) called (classes - text):
+To display an/-- unordered list (source - list of text) called (classes - text):
 	open HTML tag "ul" called classes;
 	repeat with X running through source:
 		place a "li" element reading X;
 	close HTML tag.
 
-To display an unordered list (source - list of text):
+To display an/-- unordered list (source - list of text):
 	display an unordered list source called "".
 
 
 Vorple Screen Effects ends here.
+
 
 ---- DOCUMENTATION ----
 
@@ -279,13 +280,15 @@ The following phrases are available but behave slightly differently in Vorple:
 
 Vorple doesn't have a status line by default so any phrases related to changing or displaying the status line do not do anything (except in offline interpreters). The phrase "clear only the main screen" does the same as "clear the screen". To include a status line in Vorple, see the Vorple Status Line extension.
 
-And finally, these phrases not found in Basic Screen Effects have been added:
+These phrases not found in Basic Screen Effects have been added:
 
 	right-align (text);
 	turn the foreground (color);
 	(color) background;
 	
 Vorple is Glulx-only, but an equivalent mechanism to Basic Screen Effect's Z-machine specific text and background color changing is included, as well as a phrase to choose any arbitrary color for text or background.
+
+And finally, there are some helper phrases that let create header and list elements.
 
 
 Chapter: A note about Glulx Text Effects
@@ -381,10 +384,8 @@ The entire page's colors can be changed with these phrases:
 	
 	apply (Vorple style) style to the entire page;
 	remove (Vorple style) from the entire page;
-	
 
-	
-	
+
 
 
 Chapter: Centering and aligning text
@@ -402,6 +403,23 @@ We can also display text aligned right:
 	right align "Over here!";
 
 This will only work in Vorple. In other interpreters the text will be shown left-aligned.
+
+
+Chapter: Headers and lists
+
+The extension provides helper phrases for creating headers and lists ("helpers" because they're just shortcuts to phrases in the core Vorple extension.)
+
+Headers come in six different sizes, from level 1 to 6 where 1 is the largest and 6 is the smallest. In the default Vorple theme level 1 header is about 4 times larger than the normal text size.
+
+	place a level 3 header called "myheader" reading "Meanwhile...";
+	place a level 3 header reading "":
+
+(The "called" part is again for naming the element.)
+
+Lists come in two different variations: ordered and unordered. Items in an ordered list are numbered, and items in an unordered list have bullet points. These phrases turn an Inform list of text into HTML lists.
+
+	display an ordered list { "One", "Two", "Three" } called "mylist";
+	display an unordered list { "One", "Two", "Three" };
 
 
 Example: * Letters from a Madman - Example of all different styles available in the extension.
