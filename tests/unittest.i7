@@ -5,11 +5,14 @@ Include Vorple Command Prompt Control by Juhana Leinonen.
 Include Vorple Element Manipulation by Juhana Leinonen.
 Include Vorple Hyperlinks by Juhana Leinonen.
 Include Vorple Multimedia by Juhana Leinonen.
+Include Vorple Screen Effects by Juhana Leinonen.
 
 There is a room.
 
 
 Volume 1 - Unit tests
+
+Container counter is a number that varies.
 
 Book 1 – Vorple
 
@@ -123,7 +126,7 @@ When play begins (this is the containers test rule):
 	execute JavaScript command "$('.testdiv').text()==='123' && $('.testdiv .testspan').length===1 && $('.testdiv .testspan').text()==='2'";
 	whether or not the JavaScript command returned true confirms "Div and span created";
 	[cleanup]
-	execute JavaScript command "$('.testdiv').remove()";
+	execute JavaScript command "$('.testdiv').remove()".
 
 [The prompt change rules are somewhat confusingly intertwined because of the
 asynchronous nature of command queues. They're made this way to keep the test
@@ -147,72 +150,6 @@ Carry out unit testing "html prompt change":
 		resolve test result "HTML prompt change";
 	[cleanup]
 	now the command prompt is ">".
-
-
-Book 2 – Command Prompt Control
-
-Carry out unit testing "command queue":
-	start tests for "Command prompt";
-	resolve test result "Queueing parser commands".
-
-Carry out unit testing "silent command queue":
-	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
-	if the text returned by the JavaScript command is "unittest null":
-		resolve test result "Queueing silent parser commands".
-
-Correct command queue order is a truth state that varies. Correct command queue order is false.
-
-Carry out unit testing "command queue order 1":
-	now correct command queue order is true.
-
-Carry out unit testing "command queue order 2":
-	if correct command queue order is true:
-		resolve test result "Parser command queue order".
-
-When play begins (this is the command queue test rule):
-	queue parser command "unittest command queue";
-	expect test result "Queueing parser commands";
-	queue parser command "unittest null";
-	queue parser command "unittest silent command queue", without showing the command;
-	expect test result "Queueing silent parser commands";
-	queue parser command "unittest command queue order 1";
-	queue parser command "unittest command queue order 2";
-	expect test result "Parser command queue order".
-
-When play begins (this is the command history test rule):
-	start tests for "Command history";
-	add the command "test" to the command history;
-	execute JavaScript command "haven.prompt.history.get().pop()";
-	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
-	add the command "test 2" to the command history;
-	remove the last command from the command history;
-	execute JavaScript command "haven.prompt.history.get().pop()";
-	expect the text returned by the JavaScript command to be "test" which confirms "Removing history";
-	execute JavaScript command "haven.prompt.history.get().length";
-	let history size be the number returned by the JavaScript command;
-	change the last command in the command history to "changed";
-	execute JavaScript command "haven.prompt.history.get().pop()";
-	expect the text returned by the JavaScript command to be "changed" which confirms "Changing history";
-	execute JavaScript command "haven.prompt.history.get().length";
-	expect the number returned by the JavaScript command to be history size which confirms "Changing history doesn't change history size";
-	clear the command history;
-	execute JavaScript command "haven.prompt.history.get().length";
-	expect the number returned by the JavaScript command to be 0 which confirms "Clearing the entire history".
-
-When play begins (this is the command line manipulation test rule):
-	start tests for "Command line manipulation";
-	prefill the command line with "test";
-	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-field').val()";
-	expect the text returned by the JavaScript command to be "test" which confirms "Prefilling command line".
-
-Carry out unit testing "queue when prompt available":
-	resolve test result "Command queue when prompt is available";
-	queue parser command "unittest finish".
-
-
-Book 3 - Element Manipulation
-
-Container counter is a number that varies.
 
 When play begins (this is the basic element manipulation test rule):
 	start tests for "Element manipulation";
@@ -305,15 +242,84 @@ When play begins (this is the basic element manipulation test rule):
 	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
 	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in last element";
 	close HTML tag; [element-unittest-container]
-	increment container counter;
 	set output focus to "element-unittest-container";
-	say "parent container focus";
+	increment container counter;
+	place an element called "unittest[container counter]" reading "parent container focus";
+	increment container counter;
 	place a block level element called "unittest[container counter]";
 	set output focus to "unittest[container counter]";
 	say "focus";
 	set output focus to the main window;
 	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
-	expect the text returned by the JavaScript command to be "focus" which confirms "Setting output focus".
+	expect the text returned by the JavaScript command to be "focus" which confirms "Setting output focus";
+	whether or not element called "unittest[container counter]" exists confirms "Existence of an existing element";
+	whether or not element called "unittest[container counter + 1]" doesn't exist confirms "Existence of a non-existing element";
+	place an element called "unittest[container counter]";
+	expect the number of elements called "unittest[container counter]" to be 2 which confirms "Element count";
+
+
+Book 2 – Command Prompt Control
+
+Carry out unit testing "command queue":
+	start tests for "Command prompt";
+	resolve test result "Queueing parser commands".
+
+Carry out unit testing "silent command queue":
+	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
+	if the text returned by the JavaScript command is "unittest null":
+		resolve test result "Queueing silent parser commands".
+
+Correct command queue order is a truth state that varies. Correct command queue order is false.
+
+Carry out unit testing "command queue order 1":
+	now correct command queue order is true.
+
+Carry out unit testing "command queue order 2":
+	if correct command queue order is true:
+		resolve test result "Parser command queue order".
+
+When play begins (this is the command queue test rule):
+	queue parser command "unittest command queue";
+	expect test result "Queueing parser commands";
+	queue parser command "unittest null";
+	queue parser command "unittest silent command queue", without showing the command;
+	expect test result "Queueing silent parser commands";
+	queue parser command "unittest command queue order 1";
+	queue parser command "unittest command queue order 2";
+	expect test result "Parser command queue order".
+
+When play begins (this is the command history test rule):
+	start tests for "Command history";
+	add the command "test" to the command history;
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
+	add the command "test 2" to the command history;
+	remove the last command from the command history;
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Removing history";
+	execute JavaScript command "haven.prompt.history.get().length";
+	let history size be the number returned by the JavaScript command;
+	change the last command in the command history to "changed";
+	execute JavaScript command "haven.prompt.history.get().pop()";
+	expect the text returned by the JavaScript command to be "changed" which confirms "Changing history";
+	execute JavaScript command "haven.prompt.history.get().length";
+	expect the number returned by the JavaScript command to be history size which confirms "Changing history doesn't change history size";
+	clear the command history;
+	execute JavaScript command "haven.prompt.history.get().length";
+	expect the number returned by the JavaScript command to be 0 which confirms "Clearing the entire history".
+
+When play begins (this is the command line manipulation test rule):
+	start tests for "Command line manipulation";
+	prefill the command line with "test";
+	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-field').val()";
+	expect the text returned by the JavaScript command to be "test" which confirms "Prefilling command line".
+
+Carry out unit testing "queue when prompt available":
+	resolve test result "Command queue when prompt is available";
+	queue parser command "unittest finish".
+
+
+Book 3 - Element Manipulation
 
 [
 
@@ -416,6 +422,18 @@ When play begins (this is the image test rule):
 	expect the number returned by the JavaScript command to be 1 which confirms "Image created";
 	execute JavaScript command "$('.logo > img').attr('alt')";
 	expect the text returned by the JavaScript command to be "Vorple's logo" which confirms "Alt text included";
+
+
+Book 6 - Screen Effects
+
+When play begins (this is the color test rule):
+	repeat with X running through Vorple styles:
+		say "[X style][X][end style][line break]";
+	repeat with X running from 1 to 6:
+		place a "h[X]" element reading "Level [X] header";
+	display an ordered list { "one", "two", "three" };
+	display an unordered list { "four", "five", "six" };
+	say "A [green letters style]frog[end style] jumps into the [white letters style][blue background style]pond[end style][end style].";
 
 
 [

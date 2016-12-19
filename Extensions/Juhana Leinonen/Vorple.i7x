@@ -257,6 +257,23 @@ To set output focus to the/-- main window:
 	execute JavaScript command "vorple.layout.focus('#window0')".
 
 
+Section 5 - Counting and testing for existence
+
+To decide which number is the number of elements called (classes - text):
+	execute JavaScript command "$('.'+'[classes]'.split(' ').join('.')).length";
+	decide on the number returned by the JavaScript command.
+
+To decide if an/the/-- element called (classes - text) exists:
+	if the number of elements called classes is greater than 0:
+		decide yes;
+	decide no.
+
+To decide if an/the/-- element called (classes - text) doesn't exist:
+	if the element called classes exists:
+		decide no;
+	decide yes.
+
+
 Chapter 5 - Prompt
 
 [This is an internal helper variable that shouldn't be changed manually. To change the prompt, changing the usual "command prompt" variable should work fine.]
@@ -321,7 +338,8 @@ Chapter 8 - Credits
 First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
 		execute JavaScript command "vorple.version";
-		say "Vorple version [text returned by the JavaScript command][paragraph break]" (A).
+		let version number be the text returned by the JavaScript command;
+		say "Vorple version [version number][paragraph break]" (A).
 
 	
 Vorple ends here.
@@ -414,7 +432,11 @@ When there are multiple elements with the same name, only the last element will 
 	display "Hello World!" in all elements called "greeting";
 	clear all elements called "greeting";
 	remove all elements called "greeting";
- 
+
+We can also test whether an element exists or not, or count the number of elements:
+	
+	
+
 
 Chapter: Evaluating JavaScript expressions
 

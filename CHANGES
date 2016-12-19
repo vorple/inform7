@@ -19,17 +19,16 @@ Vorple
    system so JavaScript can't mess up line breaks in normal output anymore
  - Restarting the game doesn't pop up a custom restart prompt because the
    new interpreter can handle native restart correctly
- - Added a phrase to clear all content of an element
  - Removed the transient text description from the documentation, since the
    interpreter doesn't provide it by default anymore
  - Removed turn type marking from the core extension
- - "display ".." in element" is now "display text "..." in element" and for
-   consistency with other phrases "display "..." in all "..." elements" is now
-   "display text "..." in all elements called "...""
- - The word "called" in "display "..." in the element called "..."" is no longer
-   optional
+ - "display (text) in element (text)" is now "display text (text) in element
+   called (text)" and for consistency with other phrases "display (text) in all
+   (text) elements" is now "display text (text) in all elements called (text)"
  - Added the phrase "set output focus to ..." which will cause further output to
    continue in the named element
+ - Added phrases to find the number of elements and testing for the existence of
+   elements
 
 
 Hyperlinks
@@ -64,7 +63,7 @@ Notifications
 
  - Notifications are split into two separate extensions: "pure" notifications
    (short messages that disappear after a while) stay in this one, and more
-   complex dialogs are moved to the new Vorple Modals extension.
+   complex dialogs are moved to the new Vorple Modal Windows extension.
  - Custom positioning is removed. Notifications are shown in the location that's
    defined in CSS. Positioning is responsive, i.e. they're shown top right
    except in mobile view where they're shown as a top bar.
@@ -116,6 +115,7 @@ Screen Effects
  - Renamed the phrase to change the styles of the entire page to "apply (vorple
    style) to the entire page" which can be used to apply any style to the
    interpreter window
+ - Added helper phrases for making header and list elements
 
 
 

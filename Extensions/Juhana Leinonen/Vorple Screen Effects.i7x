@@ -106,9 +106,9 @@ To display the boxed quotation (Q - text) in Glulx
 	
 To display the boxed quotation (Q - text):
 	if Vorple is supported:
-		place a "blockquote" element reading quote;
+		place a "blockquote" element reading Q;
 	otherwise:
-		display the boxed quotation Q in Glulx.
+		display the boxed quotation "[Q]" in Glulx.
 		
 
 Section 4 - Showing the current quotation (in place of Section - Showing the current quotation in Basic Screen Effects by Emily Short)
@@ -143,7 +143,7 @@ xx-large font
 are Vorple styles.
 
 To say (style - Vorple style) style:
-	execute JavaScript command "vorple.layout.openTag('[style]'.split(' ').join('-').toLowerCase())".
+	execute JavaScript command "vorple.layout.openTag('span', '[style]'.split(' ').join('-').toLowerCase())".
 	
 To say end style:
 	close HTML tag.
@@ -195,14 +195,57 @@ To apply (style - Vorple style) style to the/-- entire/whole/-- page:
 To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
 	do nothing.
 	
-To set the/-- color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the color of the element called classes to red r green g blue b with 100 percent opacity.
+To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
+	set the text color of the element called classes to red r green g blue b with 100 percent opacity.
 
-To set the/-- color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
-	set the color of the element called "[classes]:last" to red r green g blue b with alpha percent opacity.
+To set the/-- text color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
+	set the text color of the element called "[classes]:last" to red r green g blue b with alpha percent opacity.
 	
-To set the/-- color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the color of all the elements called classes to red r green g blue b with 100 percent opacity.
+To set the/-- text color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
+	set the text color of all the elements called classes to red r green g blue b with 100 percent opacity.
+
+
+To set the/-- background color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
+	do nothing.
+	
+To set the/-- background color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
+	set the background color of the element called classes to red r green g blue b with 100 percent opacity.
+
+To set the/-- background color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
+	set the background color of the element called "[classes]:last" to red r green g blue b with alpha percent opacity.
+	
+To set the/-- background color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
+	set the background color of all the elements called classes to red r green g blue b with 100 percent opacity.
+
+
+Section 7 - Headers
+
+To place a level (level - number) header called (classes - text) reading (txt - text):
+	place a "h[level]" element called classes reading txt.
+	
+To place a level (level - number) header reading (txt - text):
+	place a "h[level]" element called "" reading txt.
+
+
+Section 8 - Lists
+
+To display an ordered list (source - list of text) called (classes - text):
+	open HTML tag "ol" called classes;
+	repeat with X running through source:
+		place a "li" element reading X;
+	close HTML tag.
+	
+To display an ordered list (source - list of text):
+	display an ordered list source called "".
+
+To display an unordered list (source - list of text) called (classes - text):
+	open HTML tag "ul" called classes;
+	repeat with X running through source:
+		place a "li" element reading X;
+	close HTML tag.
+
+To display an unordered list (source - list of text):
+	display an unordered list source called "".
 
 
 Vorple Screen Effects ends here.
@@ -242,7 +285,7 @@ And finally, these phrases not found in Basic Screen Effects have been added:
 	turn the foreground (color);
 	(color) background;
 	
-Vorple is Glulx-only, but an equivalent mechanism to Basic Screen Effect's Z-machine specific text and background color changing is included, as well as a phrase to choose any arbitrary color for text or backgroud.
+Vorple is Glulx-only, but an equivalent mechanism to Basic Screen Effect's Z-machine specific text and background color changing is included, as well as a phrase to choose any arbitrary color for text or background.
 
 
 Chapter: A note about Glulx Text Effects
