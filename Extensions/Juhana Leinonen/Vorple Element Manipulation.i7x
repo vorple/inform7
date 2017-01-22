@@ -4,7 +4,7 @@ Version 3 of Vorple Element Manipulation (for Glulx only) by Juhana Leinonen beg
 
 Use authorial modesty.
 
-Include Vorple by Juhana Leinonen.
+Include version 3 of Vorple by Juhana Leinonen.
 
 
 To clear the/-- element called/-- (classes - text):
@@ -24,6 +24,12 @@ To move the/-- element called/-- (classes - text) under (target - text):
 
 To move all the/-- elements called/-- (classes - text) under (target - text):
 	execute JavaScript command "$('.[classes]').appendTo('.[target]')".
+
+To move the/-- element called/-- (classes - text) at the start of (target - text):
+	execute JavaScript command "$('.[classes]').first().prependTo('.[target]')".
+
+To move all the/-- elements called/-- (classes - text) at the start of (target - text):
+	execute JavaScript command "$('.[classes]').prependTo('.[target]')".
 
 
 Vorple Element Manipulation ends here.

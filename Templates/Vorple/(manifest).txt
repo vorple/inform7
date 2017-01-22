@@ -24,7 +24,7 @@ http://vorple-if.com
 ! are legal; note lower case.
 
 [INTERPRETERVM]
-z
+g
 []
 
 ! [INTERPRETERHEAD] provides code to go into the <head> ... </head> of the
@@ -44,51 +44,76 @@ z
 ! to be) "story.zblorb.js".
 
 [INTERPRETERHEAD]
-    <script type="text/javascript" src="interpreter/vorple.parchment.min.js"></script>
-	<script type="text/javascript">
-	    // The loading message can be changed by setting a global variable
-	    // vorpleLoaderMessage in a custom JavaScript file
-    	$( function() {
-    		$( '#vorpleLoader' ).html(
-    		    typeof vorpleLoaderMessage === 'string' ? vorpleLoaderMessage : 'Loading...'
-            );
-    	});
-	</script>
-    
-	<link rel="stylesheet" href="interpreter/vorple.css">
-	
-	<script type="text/javascript">
-		parchment.options.lib_path = 'interpreter/';
-		parchment.options.default_story = [ "[STORYFILE]", "interpreter/[ENCODEDSTORYFILE]" ];
-		parchment.options.lock_story = 1;
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
-		vorple.media.defaults.swfPath = 'interpreter/';
-		vorple.media.defaults.audioPath = '.';
-		vorple.media.defaults.imagePath = '.';
-		vorple.media.defaults.musicPath = '.';
-		vorple.media.defaults.videoPath = '.';
-
-		$( function() {
-			$( '.coverimage, .links, .interpretercredit' ).detach();
-			$( '#vorpleContainer' ).unwrap();
-
-            vorple.core.init( parchment );
-            parchment.init();
-		});
-	</script>
+	<link rel="stylesheet" href="interpreter/vorple.min.css">
 []
 
 ! [INTERPRETERBODY] provides the part of the page where the window
 ! or gadget actually appears.
 
 [INTERPRETERBODY]
-<div id="vorpleContainer">
-    <div id="vorple"><div id="vorpleLoader"></div></div>
-    <div id="vorpleInput"></div>
-    <div id="parchment"></div>
-    <div class="clearAll"></div>
-</div>
+    <main id="haven">
+        <div id="output">
+            <div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
+        </div>
+
+        <form id="lineinput">
+            <label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
+        </form>
+
+        <div id="loader">
+            <h2 id="loader-message">Loading scripts</h2>
+            <div id="spinner">V</div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="interpreter/jquery.min.js"></script>
+    <script type="text/javascript" src="interpreter/toastr.min.js"></script>
+    <script type="text/javascript" src="interpreter/haven.min.js"></script>
+    <script type="text/javascript" src="interpreter/vorple.min.js"></script>
+
+    <script>
+    	if( location.protocol === "file:" ) {
+    		$( 'body' )
+    			.empty()
+    			.html( "<div>You are currently viewing the page from the filesystem. " +
+    				"Unfortunately Vorple requires that the page is viewed through " +
+    				"the HTTP protocol, that is, you'll need to either upload it " +
+    				"to the Internet or install a local server.</div>" )
+    			.find( 'div' )
+    			.css({
+                    margin: "2em",
+                    padding: "1em",
+                    color: "#fff",
+                    backgroundColor: "rgb(137, 50, 58)",
+                    border: "3px solid gray"
+    			});
+
+    		throw new Error( "Vorple can't be run from the filesystem" );
+    	}
+
+		$( function() {
+			$( '#haven' ).prependTo( 'body' );
+			$( '.container, .interpretercredit' ).remove();
+		});
+
+		Module.locateFile = function( name ) {
+			return "interpreter/" + name;
+		};
+
+        vorple.options = {
+            // URL to the game file
+            story: "[STORYFILE]"
+        };
+
+        vorple.debug.off();
+
+        vorple.init();
+    </script>
+
+    <script src="interpreter/git.js" defer></script>
 []
 
 ! The following footnote is added to the small print about how to play IF
@@ -119,7 +144,30 @@ processBase64Zcode('
 ! Non-comment lines are the names of files which are copied across when the
 ! release is made. Anything not listed here won't be copied.
 
-vorple.parchment.min.js
-vorple.css
-zvm.min.js
-soundmanager2.swf
+vorple.min.js
+haven.min.js
+jquery.min.js
+toastr.min.js
+vorple.min.css
+git.js
+git.js.mem
+Roboto-Bold.eot
+Roboto-Bold.ttf
+Roboto-Bold.woff
+Roboto-Bold.woff2
+Roboto-Light.eot
+Roboto-Light.ttf
+Roboto-Light.woff
+Roboto-Light.woff2
+Roboto-Medium.eot
+Roboto-Medium.ttf
+Roboto-Medium.woff
+Roboto-Medium.woff2
+Roboto-Regular.eot
+Roboto-Regular.ttf
+Roboto-Regular.woff
+Roboto-Regular.woff2
+Roboto-Thin.eot
+Roboto-Thin.ttf
+Roboto-Thin.woff
+Roboto-Thin.woff2

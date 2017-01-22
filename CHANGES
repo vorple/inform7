@@ -2,6 +2,8 @@ Release 3.0
 ===========
 
  - Moved to the new Glulx-only interpreter model
+ - Added the Command Prompt Control, Element Manipulation and Status Line
+   extensions
 
 
 Vorple
@@ -29,6 +31,10 @@ Vorple
    continue in the named element
  - Added phrases to find the number of elements and testing for the existence of
    elements
+ - Tweaked the Sum of Human Knowledge example's Wikipedia script to return
+   meaningful results more often
+ - Removed an extra line break in the banner after Vorple credits when there's
+   more text added after it
 
 
 Hyperlinks
@@ -64,6 +70,11 @@ Notifications
  - Notifications are split into two separate extensions: "pure" notifications
    (short messages that disappear after a while) stay in this one, and more
    complex dialogs are moved to the new Vorple Modal Windows extension.
+ - Changed the notification JavaScript library to Toastr
+   (http://codeseven.github.io/toastr/)
+ - Four different notification types (info, success, warning, and error),
+   provided by Toastr, are now supported
+ - Notifications can now have titles
  - Custom positioning is removed. Notifications are shown in the location that's
    defined in CSS. Positioning is responsive, i.e. they're shown top right
    except in mobile view where they're shown as a top bar.

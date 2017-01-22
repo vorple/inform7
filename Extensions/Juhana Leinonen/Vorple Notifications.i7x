@@ -9,12 +9,44 @@ Use authorial modesty.
 
 Chapter 1 - Notifications
 
-To display a/-- notification reading (msg - text) for (sec - number) second/seconds:
-	execute JavaScript command "Materialize.toast('[escaped msg]', [sec]000)";
+Notification type is a kind of value. Notification types are info notification, success notification, warning notification and error notification.
+
+Default notification duration is a number that varies. Default notification duration is 7.
+
+To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text) for (sec - number) second/seconds:
+	let method be text;
+	if type is:
+		-- info notification:
+			now method is "info";
+		-- success notification:
+			now method is "success";
+		-- warning notification:
+			now method is "warning";
+		-- error notification:
+			now method is "error";
+	execute JavaScript command "toastr.[method]('[escaped msg]',[if header is not empty]'[escaped header]',[end if]{timeOut: [sec]000, escapeHtml: true})";
 	add msg to the displayed notifications.
 
+To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text):
+	display a type with title header reading msg for default notification duration seconds.
+
+To display a/an/-- (type - notification type) reading (msg - text) for (sec - number) second/seconds:
+	display a type with title "" reading msg for sec seconds.
+
+To display a/an/-- (type - notification type) reading (msg - text):
+	display a type with title "" reading msg for default notification duration seconds.
+
+To display a/-- notification with the/a/-- title (header - text) reading (msg - text) for (sec - number) second/seconds:
+	display an info notification with title header reading msg for sec seconds.
+
+To display a/-- notification with the/a/-- title (header - text) reading (msg - text):
+	display an info notification with title header reading msg for default notification duration seconds.
+
+To display a/-- notification reading (msg - text) for (sec - number) second/seconds:
+	display an info notification with title "" reading msg for sec seconds.
+
 To display a/-- notification reading (msg - text):
-	display a notification reading msg for 7 seconds.
+	display an info notification with title "" reading msg for default notification duration seconds.
 
 
 Chapter 2 - Fallback
@@ -37,16 +69,27 @@ Vorple Notifications ends here.
 
 Chapter: Notifications
 
-Notifications are messages that show briefly on the screen and then fade away. A notification can be displayed simply with:
+Notifications are messages that show briefly in the top right corner of the page and then fade away. A notification can be displayed with:
 
 	display a notification reading "Hello World!";
 	
-The notification is shown for seven seconds before it disappears. The duration can be changed:
+Notifications can have a title that's shown in bold type above the notification text:
+	
+	display a notification with title "Welcome" reading "Have fun!";
+	
+The notification is shown for seven seconds before it disappears. The duration can be changed per notification:
 
-	display a notification reading "Hello World!" for 10 seconds;
+	display a notification reading "Time passes..." for 10 seconds;
+	
+or globally by changing the "default notification duration" number variable:
+	
+	now the default notification duration is 10.
 
-Notifications are shown in the top right corner of the page, except in mobile views (600 pixels and narrower) the notifications are shown on the top of the page in a bar that spans the entire page width.
+There are four different notification types that have different background colors and icons: info, success, warning and error. The default notification type is info.
 
+	display a warning notification reading "Tread carefully!";
+	display a success notification with title "Achievement unlocked" reading "You found the secret passage";
+	
 
 Chapter: Fallback
 

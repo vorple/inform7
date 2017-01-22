@@ -426,15 +426,6 @@ When play begins (this is the image test rule):
 
 Book 6 - Screen Effects
 
-When play begins (this is the color test rule):
-	repeat with X running through Vorple styles:
-		say "[X style][X][end style][line break]";
-	repeat with X running from 1 to 6:
-		place a "h[X]" element reading "Level [X] header";
-	display an ordered list { "one", "two", "three" };
-	display an unordered list { "four", "five", "six" };
-	say "A [green letters style]frog[end style] jumps into the [white letters style][blue background style]pond[end style][end style].";
-
 
 [
 Book 6 - Status Line

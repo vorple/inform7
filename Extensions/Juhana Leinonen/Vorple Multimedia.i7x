@@ -2,7 +2,7 @@ Version 3 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 
 "Displaying images and playing sounds and music."
 
-Include Vorple by Juhana Leinonen.
+Include version 3 of Vorple by Juhana Leinonen.
 Use authorial modesty.
 
 
@@ -45,25 +45,25 @@ To preload images (image-list - list of text):
 Chapter 2 - Audio
 
 To play sound file/-- (file - text), looping:
-	if looping:
-		execute JavaScript command "vorple.media.playSound('[escaped file]',{loop:true})";
-	otherwise:
-		execute JavaScript command "vorple.media.playSound('[escaped file]',{loop:false})".
+	let loop-attr be false;
+	if looping:	
+		now loop-attr is true;
+	execute JavaScript command "$('<audio class=\'vorple-audio vorple-sound\' src=\'[escaped file]\' autoplay[if loop-attr is true] loop[end if]>').appendTo('body')";
 
 To play music file/-- (file - text), looping:
-	if looping:
-		execute JavaScript command "vorple.media.playMusic('[escaped file]',{loop:true})";
-	otherwise:
-		execute JavaScript command "vorple.media.playMusic('[escaped file]',{loop:false})".
-
-To stop music:
-	execute JavaScript command "vorple.media.stopMusic()".
+	let loop-attr be false;
+	if looping:	
+		now loop-attr is true;
+	execute JavaScript command "$('.vorple-music').remove();$('<audio class=\'vorple-audio vorple-music\' src=\'[escaped file]\' autoplay[if loop-attr is true] loop[end if]>').appendTo('body')";
+	
+To stop the/-- music:
+	execute JavaScript command "$('.vorple-music').remove()".
 
 To stop sounds:
-	execute JavaScript command "vorple.media.stopSounds()".
+	execute JavaScript command "$('.vorple-sound').remove()".
 
 To stop all audio:
-	execute JavaScript command "vorple.media.stopAll()".
+	execute JavaScript command "$('.vorple-audio').remove()".
 
 	
 Vorple Multimedia ends here.

@@ -250,7 +250,7 @@ To display text (content - text) in the/-- element called (classes - text):
 
 Section 4 - Output focus
 	
-To set output focus to (target - text):
+To set output focus to the/an/-- element called (target - text):
 	execute JavaScript command "vorple.layout.focus('.[target]')".
 
 To set output focus to the/-- main window:
@@ -339,7 +339,7 @@ First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
 		execute JavaScript command "vorple.version";
 		let version number be the text returned by the JavaScript command;
-		say "Vorple version [version number][paragraph break]" (A).
+		say "Vorple version [version number][line break]" (A).
 
 	
 Vorple ends here.
@@ -413,7 +413,7 @@ Contents can be added on creation:
 	
 	say "You shall be known as ";
 	place an inline element called "name";
-	display "Anonymous Adventurer" in the element called "name";
+	display text "Anonymous Adventurer" in the element called "name";
 	
 This technique can be used to modify the story output later (see example "Scrambled Eggs").
 
@@ -558,10 +558,7 @@ The hint system works by wrapping scrambled hints in named elements. Their conte
 	
 	Requesting hints is an action out of world.
 	Understand "hint" and "hints" as requesting hints.
-	 
-	Carry out requesting hints (this is the un-meta hint requesting rule):
-		mark the current action "normal".
-		
+
 	Carry out requesting hints (this is the scramble hints rule):
 		let the alphabet be { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
 		let row number be 1;
@@ -602,30 +599,7 @@ The hint system works by wrapping scrambled hints in named elements. Their conte
 
 Example: *** Spy Games - Setting the story time to match the real-world time.
 
-The story file doesn't have access to the system time, but we can use Vorple to send the time from the web browser to the story file.
-
-The (new Date).getHours() and (new Date).getMinutes() methods we use to pull the real-world time are not Vorple-specific, but built-in to browsers as part of the standard JavaScript implementation.
-
-Once set, the story time will soon drop out of sync and will advance one minute per turn by default. Maintaining the synchronization would mean sending the current time every turn to the story file.
-
-	*: "Spy Games"
-
-	Include Vorple by Juhana Leinonen.
-	Release along with the "Vorple" interpreter.
-
-	Secret base is a room.
-	
-	During Vorple startup (this is the synchronize watches rule):
-		queue silent parser command "'__set_time '+(new Date).getHours()+':'+(new Date).getMinutes()".
-
-	Setting the time to is an action out of world applying to time.
-	Understand "__set_time [time]" as setting the time.
-	
-	Carry out setting the time to:
-		now the time of day is the time understood.
-	
-	When play begins:
-		say "It is [time of day] and you're about to infiltrate the villain's lair."
+[to be rewritten]
 
 
 Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service.

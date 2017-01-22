@@ -4,7 +4,7 @@ Version 3 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen b
 
 Use authorial modesty.
 
-Include Vorple by Juhana Leinonen.
+Include version 3 of Vorple by Juhana Leinonen.
 
 Chapter 1 - Queueing parser commands
 
@@ -35,6 +35,12 @@ Chapter 3 - Prefilling the command line
 
 To prefill the/-- command line with (cmd - text):
 	execute JavaScript command "vorple.prompt.setValue('[escaped cmd]')".
+	
+
+Chapter 4 - Changing the previous command
+
+To change the/-- text of the player's previous command to (cmd - text):
+	execute JavaScript command "$('.lineinput.last .prompt-input').text('[escaped cmd]')".
 
 
 Vorple Command Prompt Control ends here.
@@ -100,7 +106,7 @@ We can insert some text into the command line the player will see next:
 
 	prefill the command line with "look";
 
-At the end of the turn when it's the player's turn to type a command, the word "look" is already entered into the command line. The player can then either continue to 
+At the end of the turn when it's the player's turn to type a command, the word "look" is already entered into the command line. The player can then either continue to type the rest of the command or delete the prefilled text and issue some other command.
 
 
 Example: ** - 
@@ -109,12 +115,9 @@ Example: ** -
 		
 	Include Vorple Command Prompt Control by Juhana Leinonen.
 	
-	To say prefill parser command so far:
-		prefill the command line with "[parser command so far] ".
-	
-	The parser clarification internal rule response (D) is "Whom do you want [if the noun is not the player][the noun] [end if]to [parser command so far]?[prefill parser command so far]"
-	
-	The parser clarification internal rule response (E) is "What do you want [if the noun is not the player][the noun] [end if]to [parser command so far]?[prefill parser command so far]"
+	After issuing the response text of a response (called R):
+		if R is parser clarification internal rule response (D) or R is parser clarification internal rule response (E):
+			prefill the command line with "[parser command so far] ".
 			
 	There is a room.
 	
@@ -142,7 +145,7 @@ This example gives the effect the full treatment: the player's command is interc
 	After reading a command when the list of forced commands is not empty:
 		let the new command be entry 1 in the list of forced commands;
 		change the text of the player's command to the new command;
-		execute JavaScript command "$('.lineinput.last .prompt-input').text('[escaped new command]')";
+		change the text of the player's previous command to the new command;
 		change the last command in the command history to the new command;
 		remove entry 1 from the list of forced commands.
 	
