@@ -242,12 +242,12 @@ When play begins (this is the basic element manipulation test rule):
 	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
 	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in last element";
 	close HTML tag; [element-unittest-container]
-	set output focus to "element-unittest-container";
+	set output focus to the element called "element-unittest-container";
 	increment container counter;
 	place an element called "unittest[container counter]" reading "parent container focus";
 	increment container counter;
 	place a block level element called "unittest[container counter]";
-	set output focus to "unittest[container counter]";
+	set output focus to the element called "unittest[container counter]";
 	say "focus";
 	set output focus to the main window;
 	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
@@ -335,29 +335,28 @@ Book 4 - Hyperlinks
 
 When play begins (this is the URL hyperlink test rule):
 	start tests for "Hyperlinks";
-	increment container counter;
-	open HTML tag "div" called "unittest[container counter]";
+	open HTML tag "div" called "hyperlink-unittest";
 	place a link to the web site "http://vorple-if.com" called "hyperlink1" reading "link1";
 	place a link to the web site "http://vorple-if.com" called "hyperlink2" reading "link2", opening in the same window;
 	place a link to the web site "http://vorple-if.com" called "hyperlink3";
 	place a link to the web site "http://vorple-if.com" reading "link4";
 	place a link to the web site "http://vorple-if.com";
 	close HTML tag;
-	execute JavaScript command "$('.unittest[container counter] a').length";
+	execute JavaScript command "$('.hyperlink-unittest a').length";
 	expect the number returned by the JavaScript command to be 5 which confirms "URL hyperlinks created";
-	execute JavaScript command "$('.unittest[container counter] a[bracket]href=[']http://vorple-if.com['][close bracket]').length";
+	execute JavaScript command "$('.hyperlink-unittest a[bracket]href=[']http://vorple-if.com['][close bracket]').length";
 	expect the number returned by the JavaScript command to be 5 which confirms "URLs correct";
-	execute JavaScript command "$('.unittest[container counter] a.hyperlink1').text()";
+	execute JavaScript command "$('.hyperlink-unittest a.hyperlink1').text()";
 	expect the text returned by the JavaScript command to be "link1" which confirms "URL link class and content correct";
-	execute JavaScript command "$('.unittest[container counter] a.hyperlink1').attr('target')";
+	execute JavaScript command "$('.hyperlink-unittest a.hyperlink1').attr('target')";
 	expect the text returned by the JavaScript command to be "_blank" which confirms "Opens in new window by default";
-	execute JavaScript command "$('.unittest[container counter] a.hyperlink2').attr('target')||''";
+	execute JavaScript command "$('.hyperlink-unittest a.hyperlink2').attr('target')||''";
 	expect the text returned by the JavaScript command to be "" which confirms "Option to open in the same window";
-	execute JavaScript command "$('.unittest[container counter] a.hyperlink3').text()";
+	execute JavaScript command "$('.hyperlink-unittest a.hyperlink3').text()";
 	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "Content is URL by default";
-	execute JavaScript command "$('.unittest[container counter] a').eq(3).text()";
+	execute JavaScript command "$('.hyperlink-unittest a').eq(3).text()";
 	expect the text returned by the JavaScript command to be "link4" which confirms "No class specified";
-	execute JavaScript command "$('.unittest[container counter] a').eq(4).text()";
+	execute JavaScript command "$('.hyperlink-unittest a').eq(4).text()";
 	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "No class or content";
 
 When play begins (this is the command hyperlink test rule):
@@ -394,7 +393,6 @@ Carry out unit testing "command link 2":
 	if the text returned by the JavaScript command is "unittest command link 1":
 		resolve test result "Clicking on hidden command link";
 
-
 When play begins (this is the JS hyperlink test rule):
 	increment container counter;
 	open HTML tag "div" called "unittest[container counter]";
@@ -411,6 +409,28 @@ When play begins (this is the JS hyperlink test rule):
 Carry out unit testing "js link 1":
 	resolve test result "Clicking on JavaScript link";
 	finish testing.
+
+To decide which number is the amount of active links:
+	execute JavaScript command "$('a.vorple-link').length";
+	decide on the number returned by the JavaScript command.
+
+When play begins (this is the disable hyperlinks test rule):
+	let initially active links be the amount of active links;
+	execute JavaScript command "$('a.vorple-link.hyperlink1').html()";
+	let initial text content be the text returned by the JavaScript command;
+	disable the link called "hyperlink1";
+	expect the amount of active links to be initially active links - 1 which confirms "Disabling one link";
+	execute JavaScript command "$('a.vorple-link.hyperlink1').length";
+	expect the number returned by the JavaScript command to be 0 which confirms "Correct link disabled";
+	execute JavaScript command "$('span.vorple-disabled-link.hyperlink1').html()";
+	expect the text returned by the JavaScript command to be the initial text content which confirms "Link turned into span with correct content";
+	now initially active links is the amount of active links;
+	execute JavaScript command "$('.hyperlink-unittest a.vorple-link').length";
+	let grouped links be the number returned by the JavaScript command;
+	disable all links inside element called "hyperlink-unittest";
+	expect the amount of active links to be initially active links - grouped links which confirms "Disabling links in a container";
+	disable all links;
+	expect the amount of active links to be 0 which confirms "Disabling all links";
 
 
 Book 5 - Multimedia
@@ -452,7 +472,9 @@ To finish testing:
 	expect test result "Command queue when prompt is available".
 
 Carry out unit testing "finish":
+[
 	execute JavaScript command "$('[bracket]class^=[']unittest['][close bracket]').remove()"; [cleanup]
+	]
 	print test results.
 
 

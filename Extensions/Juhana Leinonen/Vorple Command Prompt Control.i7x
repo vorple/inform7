@@ -43,6 +43,14 @@ To change the/-- text of the player's previous command to (cmd - text):
 	execute JavaScript command "$('.lineinput.last .prompt-input').text('[escaped cmd]')".
 
 
+Chapter 5 - Hiding the prompt
+
+To hide the prompt:
+	execute JavaScript command "vorple.prompt.hide()".
+
+To unhide the prompt:
+	execute JavaScript command "vorple.prompt.unhide()".
+	
 Vorple Command Prompt Control ends here.
 
 

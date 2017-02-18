@@ -6,9 +6,14 @@ Include Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 
+
+Chapter 1 - Placing links
+
+Section 1 - Web sites
+
 To place a/-- link to a/the/-- web site (url - text) called (classes - text) reading (txt - text), opening in the same window:
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-weblink [classes]" reading txt;
+	place "a" element called "link-[id] vorple-link vorple-weblink [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','[escaped url]')";
 	if not opening in the same window:
 		execute JavaScript command "$('a.link-[id]').attr('target','_blank')".
@@ -31,12 +36,15 @@ To place a/-- link to a/the/-- web site (url - text), opening in the same window
 	otherwise:
 		place a link to the web site url reading url.
 
+
+Section 2 - Commands
+
 To place a/-- link to a/the/-- command (cmd - text) called (classes - text) reading (txt - text), without showing the command:
 	let silent be false;
 	if without showing the command:
 		now silent is true;
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-commandlink [classes]" reading txt;
+	place "a" element called "link-[id] vorple-link vorple-commandlink [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','[escaped cmd]').on('click', function(e) {e.preventDefault(); vorple.prompt.queueCommand('[escaped cmd]'[if silent is true], true[end if])})".
 
 To place a/-- link to a/the/-- command (cmd - text) called (classes - text), without showing the command:
@@ -57,15 +65,29 @@ To place a/-- link to a/the/-- command (cmd - text), without showing the command
 	otherwise:
 		place a link to the command cmd called "" reading cmd.
 
+
+Section 3 - JavaScript commands
+
 To place a/-- link to execute a/the/-- JavaScript command (cmd - text) called (classes - text) reading (txt - text):
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-jslink [classes]" reading txt;
+	place "a" element called "link-[id] vorple-link vorple-jslink [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','#').on('click', function(e) {e.preventDefault();[cmd]})".
 	
 To place a/-- link to execute a/the/-- JavaScript command (cmd - text) reading (txt - text):
 	place a link to execute the JavaScript command cmd called "" reading txt.
 
 
+Chapter 2 - Disabling links
+
+To disable a/the/-- link/links called (classes - text):
+	execute JavaScript command "$('a.vorple-link.[classes]').replaceWith(function() { return $('<span>').addClass('vorple-disabled-link [classes]').html($(this).html())}).length".
+
+To disable all the/-- links inside element called (elem - text):
+	execute JavaScript command "$('.[elem] a.vorple-link').replaceWith(function() { return $('<span>').addClass('vorple-disabled-link').html($(this).html())}).length".
+
+To disable all links:
+	execute JavaScript command "$('a.vorple-link').replaceWith(function() { return $('<span>').addClass('vorple-disabled-link').html($(this).html())}).length".
+	
 Vorple Hyperlinks ends here.
 
 
