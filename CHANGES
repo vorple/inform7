@@ -47,6 +47,7 @@ Hyperlinks
    to I7 anymore
  - Added an option to name the links for referring to them in the future
  - Added links that execute JavaScript code
+ - Added phrases to disable links
  - For consistency, the default classes that are applied to the link elements
    are now called "vorple-weblink", "vorple-commandlink" and "vorple-jslink"
 
@@ -101,11 +102,11 @@ Screen Effects
    style value is converted to lowercase and spaces are replaced with dashes.
  - Because the values can have more than one word, basic style values include
    the word "font" to avoid namespace clashes, e.g. the "cursive" value is now
-   "cursive font"
+   "cursive font" and so on
  - Similarly color styles are now called "<color> letters" and "<color>
    background"
- - Removed the transient font style because the interpreter doesn't provide the
-   feature anymore (fading out content at the start of next turn)
+ - Removed the transient font style (fading out content at the start of next
+   turn) because the interpreter doesn't provide the feature anymore
  - Added more color styles. The basic set now covers the full 16-color EGA
    palette, which is what the Haven interpreter provides out of the box.
  - Added phrases to change elements' text and background colors to arbitrary

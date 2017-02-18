@@ -13,7 +13,7 @@ Section 1 - Web sites
 
 To place a/-- link to a/the/-- web site (url - text) called (classes - text) reading (txt - text), opening in the same window:
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-link vorple-weblink [classes]" reading txt;
+	place "a" element called "vorple-link vorple-weblink link-[id] [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','[escaped url]')";
 	if not opening in the same window:
 		execute JavaScript command "$('a.link-[id]').attr('target','_blank')".
@@ -44,7 +44,7 @@ To place a/-- link to a/the/-- command (cmd - text) called (classes - text) read
 	if without showing the command:
 		now silent is true;
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-link vorple-commandlink [classes]" reading txt;
+	place "a" element called "lvorple-link vorple-commandlink ink-[id] [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','[escaped cmd]').on('click', function(e) {e.preventDefault(); vorple.prompt.queueCommand('[escaped cmd]'[if silent is true], true[end if])})".
 
 To place a/-- link to a/the/-- command (cmd - text) called (classes - text), without showing the command:
@@ -70,7 +70,7 @@ Section 3 - JavaScript commands
 
 To place a/-- link to execute a/the/-- JavaScript command (cmd - text) called (classes - text) reading (txt - text):
 	let id be unique identifier;
-	place "a" element called "link-[id] vorple-link vorple-jslink [classes]" reading txt;
+	place "a" element called "vorple-link vorple-jslink link-[id] [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','#').on('click', function(e) {e.preventDefault();[cmd]})".
 	
 To place a/-- link to execute a/the/-- JavaScript command (cmd - text) reading (txt - text):

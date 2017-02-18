@@ -189,13 +189,13 @@ Chapter 4 – HTML tags
 
 Section 1 - Opening and closing
 
-To open HTML tag (name - text) called (classes - text):
+To open a/-- HTML tag (name - text) called (classes - text):
 	execute JavaScript command "vorple.layout.openTag('[name]','[classes]')".
 
-To open HTML tag (name - text):
+To open a/-- HTML tag (name - text):
 	open HTML tag name called "".
 
-To close HTML tag:
+To close the/a/-- HTML tag:
 	execute JavaScript command "vorple.layout.closeTag()".
 
 
