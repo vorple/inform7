@@ -104,6 +104,9 @@ g
 		};
 
         vorple.options = {
+        	autosave: false,
+        	engineColors: false,
+
             // URL to the game file
             story: "[STORYFILE]"
         };

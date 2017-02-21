@@ -44,7 +44,7 @@ To place a/-- link to a/the/-- command (cmd - text) called (classes - text) read
 	if without showing the command:
 		now silent is true;
 	let id be unique identifier;
-	place "a" element called "lvorple-link vorple-commandlink ink-[id] [classes]" reading txt;
+	place "a" element called "vorple-link vorple-commandlink link-[id] [classes]" reading txt;
 	execute JavaScript command "$('a.link-[id]').attr('href','[escaped cmd]').on('click', function(e) {e.preventDefault(); vorple.prompt.queueCommand('[escaped cmd]'[if silent is true], true[end if])})".
 
 To place a/-- link to a/the/-- command (cmd - text) called (classes - text), without showing the command:

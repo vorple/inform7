@@ -14,5 +14,8 @@
   "bugs": {
     "url": "https://github.com/vorple/inform7/issues"
   },
-  "homepage": "https://github.com/vorple/inform7"
+  "homepage": "https://github.com/vorple/inform7",
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  }
 }
