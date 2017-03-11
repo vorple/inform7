@@ -4,6 +4,7 @@ Include Vorple by Juhana Leinonen.
 Include Vorple Command Prompt Control by Juhana Leinonen.
 Include Vorple Element Manipulation by Juhana Leinonen.
 Include Vorple Hyperlinks by Juhana Leinonen.
+Include Vorple Modal Windows by Juhana Leinonen.
 Include Vorple Multimedia by Juhana Leinonen.
 Include Vorple Screen Effects by Juhana Leinonen.
 
@@ -113,6 +114,15 @@ When play begins (this is the return values test rule):
 	expect the return value to be "null" which confirms "Null value";
 	expect the type of the return value to be "nothing" which confirms "Null type";
 
+Vorple interface setup rule:
+	execute JavaScript command "$('<div>').attr('id', 'interface-setup').appendTo('body')".
+
+When play begins (this is the user interface setup test rule):
+	start tests for "Interface setup";
+	execute JavaScript command "$('#interface-setup').length";
+	expect the number returned by the JavaScript command to be 1 which confirms "Rules fired";
+	[cleanup]
+	execute JavaScript command "$('#interface-staging').remove()".
 
 When play begins (this is the containers test rule):
 	start tests for "Containers";
@@ -363,14 +373,14 @@ When play begins (this is the command hyperlink test rule):
 	increment container counter;
 	open HTML tag "div" called "unittest[container counter]";
 	place a link to the command "unittest command link 1" called "commandlink1" reading "link1";
-	place a link to the command "unittest command link 2" called "commandlink2" reading "link2", without showing the command;
+	place a link to the command "unittest command link 2" called "commandlink2" reading "silent", without showing the command;
 	place a link to the command "unittest command link 3" called "commandlink3";
 	place a link to the command "unittest command link 4" reading "link4";
 	place a link to the command "unittest command link 5";
 	close HTML tag;
 	execute JavaScript command "$('.unittest[container counter] a').length";
 	expect the number returned by the JavaScript command to be 5 which confirms "Command hyperlinks created";
-	execute JavaScript command "$('.unittest[container counter] a[bracket]href^=[']unittest command link['][close bracket]').length";
+	execute JavaScript command "$('.unittest[container counter] a[bracket]data-command^=[']unittest command link['][close bracket]').length";
 	expect the number returned by the JavaScript command to be 5 which confirms "Commands correct";
 	execute JavaScript command "$('.unittest[container counter] a.commandlink1').text()";
 	expect the text returned by the JavaScript command to be "link1" which confirms "Command link class and content correct";
@@ -433,7 +443,23 @@ When play begins (this is the disable hyperlinks test rule):
 	expect the amount of active links to be 0 which confirms "Disabling all links";
 
 
-Book 5 - Multimedia
+Book 5 - Modal Windows
+
+When play begins (this is the modal windows test rule):
+	start tests for "Modal windows";
+	show a modal window reading "Test";
+	execute JavaScript command "$('.vex-dialog-message').text()";
+	expect the text returned by the JavaScript command to be "Test" which confirms "Modal created";
+	show a modal window;
+	set output focus to the modal window;
+	say "Test2";
+	set output focus to the main window;
+	execute JavaScript command "$('.vex-dialog-message:last').text()";
+	expect the text returned by the JavaScript command to be "Test2" which confirms "Manual modal created";
+	close the modal window.
+
+
+Book 6 - Multimedia
 
 When play begins (this is the image test rule):
 	start tests for "Multimedia / images";
@@ -444,11 +470,11 @@ When play begins (this is the image test rule):
 	expect the text returned by the JavaScript command to be "Vorple's logo" which confirms "Alt text included";
 
 
-Book 6 - Screen Effects
+Book 7 - Screen Effects
 
 
 [
-Book 6 - Status Line
+Book 8 - Status Line
 
 When play begins (this is the status line construction test rule):
 	start tests for "Status line";
@@ -462,7 +488,7 @@ When play begins (this is the status line construction test rule):
 	]
 
 
-Book 7 - Finish
+Book 9 - Finish
 
 To finish testing:
 	execute JavaScript command "var listener = function() {
@@ -472,9 +498,7 @@ To finish testing:
 	expect test result "Command queue when prompt is available".
 
 Carry out unit testing "finish":
-[
 	execute JavaScript command "$('[bracket]class^=[']unittest['][close bracket]').remove()"; [cleanup]
-	]
 	print test results.
 
 

@@ -17,6 +17,9 @@ Vorple
  - Similarly, because communication through line input isn't a central concept
    of the system, triggering line input from I7 has been moved from the core
    extension to a new Vorple Command Prompt Control extension
+ - Added a Vorple interface setup rulebook that also runs before the "when play
+   begins" rulebook but is guaranteed to run only once per web page load and is
+   meant for initializing the user interface, e.g. event handlers
  - Passing JavaScript to the interpreter doesn't use output streams in the new
    system so JavaScript can't mess up line breaks in normal output anymore
  - Restarting the game doesn't pop up a custom restart prompt because the

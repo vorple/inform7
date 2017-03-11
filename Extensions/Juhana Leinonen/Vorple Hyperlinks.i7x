@@ -1,13 +1,13 @@
 Version 3 of Vorple Hyperlinks (for Glulx only) by Juhana Leinonen begins here.
 
-"Hyperlinks that either open a web site or execute a parser command."
+"Hyperlinks that either open a web site, execute a parser command or evaluate JavaScript code."
 
 Include Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 
 
-Chapter 1 - Placing links
+Chapter 1 - Placing links 
 
 Section 1 - Web sites
 
@@ -45,7 +45,7 @@ To place a/-- link to a/the/-- command (cmd - text) called (classes - text) read
 		now silent is true;
 	let id be unique identifier;
 	place "a" element called "vorple-link vorple-commandlink link-[id] [classes]" reading txt;
-	execute JavaScript command "$('a.link-[id]').attr('href','[escaped cmd]').on('click', function(e) {e.preventDefault(); vorple.prompt.queueCommand('[escaped cmd]'[if silent is true], true[end if])})".
+	execute JavaScript command "$('a.link-[id]').attr('href', '#').attr('data-command', '[escaped cmd]').attr('data-silent', '[silent]')".
 
 To place a/-- link to a/the/-- command (cmd - text) called (classes - text), without showing the command:
 	if without showing the command:
@@ -65,6 +65,9 @@ To place a/-- link to a/the/-- command (cmd - text), without showing the command
 	otherwise:
 		place a link to the command cmd called "" reading cmd.
 
+Vorple interface setup rule (this is the web link event handler rule):
+	execute JavaScript command "$(document).on('click', 'a.vorple-link.vorple-commandlink', function(e) { e.preventDefault(); vorple.prompt.queueCommand($(this).data('command'), $(this).data('silent'))})".
+	
 
 Section 3 - JavaScript commands
 
@@ -101,7 +104,7 @@ In non-Vorple interpreters the links are just plain text that can't be clicked.
 
 Chapter: Links to web sites
 
-Hyperlinks open web pages in new browser windows. The URLs should include the "http://" or "https://" prefix.
+Hyperlinks open web pages in new browser windows. The addresses should include the "http://" or "https://" prefix, unless the link is pointing to another file on the same server.
 
 	place a link to web site "http://vorple-if.com" reading "Vorple web page";
 
@@ -114,7 +117,7 @@ Clicking on the links open the target web page on a new browser window. The link
 
 	place a link to web site "http://vorple-if.com" reading "Vorple web page", opening in the same window;
 
-If the story is run in a normal interpreter, the link description text is displayed but not the web site address (and of course clicking on the text won't do anything).
+If the story is run in a standard interpreter, the link description text is displayed but not the web site address (and clicking on the text won't do anything).
 
 
 Chapter: Links to commands
@@ -138,7 +141,13 @@ In a non-Vorple interpreter only the link text is displayed.
 
 Chapter: Links that execute JavaScript code
 
-The click event object is available as a variable called "e" in the
+Links that execute JavaScript code can be created with the following command:
+
+	place a link to execute the JavaScript command "alert('Hello!')" called "greeting" reading "Hello?";
+	
+The "called" part is optional.
+	
+The click event object is available in the execution scope as a variable called "e". The object is the jQuery's event object in response to the click.
 
 
 Example: * Click to Learn More - Hyperlinks to external web pages, email links and action links, with a fallback if Vorple is not available.

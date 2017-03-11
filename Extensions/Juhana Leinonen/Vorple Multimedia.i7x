@@ -3,12 +3,13 @@ Version 3 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 "Displaying images and playing sounds and music."
 
 Include version 3 of Vorple by Juhana Leinonen.
+
 Use authorial modesty.
 
 
 Chapter 1 - Images
 
-To place an/the/-- image (file - text) called (classes - text) with description (desc - text):
+To place an/the/-- image (file - text) called (classes - text) with the/-- description (desc - text):
 	if Vorple is supported:
 		let id be unique identifier;
 		place a block level element called "[id] vorple-image [classes]";
@@ -16,7 +17,7 @@ To place an/the/-- image (file - text) called (classes - text) with description 
 	otherwise:
 		say desc.
 
-To place an/the/-- image (file - text) called (classes - text) with description (desc - text), centered, aligned left, aligned right, floating left or floating right:
+To place an/the/-- image (file - text) called (classes - text) with the/-- description (desc - text), centered, aligned left, aligned right, floating left or floating right:
 	let the alignment class be "";
 	if centered, now the alignment class is "centered";
 	if aligned left, now the alignment class is "left-aligned";
@@ -25,7 +26,7 @@ To place an/the/-- image (file - text) called (classes - text) with description 
 	if floating right, now the alignment class is "right-floating";
 	place the image file called "[alignment class] [classes]" with description desc.
 
-To place an/the/-- image (file - text) with description (desc - text), centered, aligned left, aligned right, floating left or floating right:
+To place an/the/-- image (file - text) with the/-- description (desc - text), centered, aligned left, aligned right, floating left or floating right:
 	let the alignment class be "";
 	if centered, now the alignment class is "centered";
 	if aligned left, now the alignment class is "left-aligned";
@@ -87,17 +88,36 @@ Note that we shouldn't use the "Figure of ..." or "Sound of ..." directives desc
 
 Chapter: Images
 
-Images can be displayed using the "display image" command:
+Images can be displayed with the "place an image" phrase:
 
-	display image "pic.jpg";
+	place an image "pic.jpg" with the description "Example image";
+
+The description is shown in standard interpreters instead of the picture and read aloud by screen readers, so it should be a compact but accurate description of what the image depicts. Especially if seeing the image is relevant to the story or to solving a puzzle, the description should give the same information to those who can't see the image.
 
 By default the image is displayed left-aligned. The position can be changed by giving it as a parameter:
 
-	display image "pic.jpg", centered;
+	place an image "pic.jpg" with the description "Example image", centered;
 
-The possible values are centered, aligned left, aligned right, floating left or floating right. Floating means that the image is set to the left or to the right and the text is wrapped around them.
+The possible values are centered, aligned left, aligned right, floating left or floating right. Floating means that the image is set to the left or to the right and the text is wrapped around it, in contrast to left or right aligned where the remaining space is left blank.
 
 Images should be in jpg, png or gif format.
+
+Tip: When releasing the project, the file "Cover.jpg" or "Cover.png" is automatically included in the same place where other project files are. Therefore we can always show the cover image with:
+	
+	place an image "Cover.jpg" with the description "Cover image";
+
+
+Section: Images from the Internet
+
+The "display image" phrase accepts direct web addresses of images as well:
+	
+	display image "http://example.com/image.jpg";
+	
+Some important caveats:
+	
+- Things on the Internet tend to disappear over time: they get removed, moved, or the web site just stops to exists. If you don't have control over the image source, it's better to just download the image and include it with other story resources - within the limits of copyright permissions, of course.
+
+- Don't include an image as a link if you don't have a permission to do so! It's called 'hotlinking' and is generally frowned upon as it causes sometimes expensive traffic to the original web site. Furthermore the owner of the hotlinked web site might change the image to something else, which might be more than awkward to the author. This obviously doesn't include image sharing web sites that are explicitly meant for this kind of use.
 
 
 Section: Preloading images
@@ -108,7 +128,7 @@ Images can be preloaded either individually or as a list:
 		preload image "pic.jpg";
 		preload images { "pic1.jpg", "pic2.png" }.
 
-Preloading images makes them appear immediately when they are needed. Otherwise the images are loaded only when they are first displayed which may take some time with slower connections, resulting in a noticeable delay between when they should be shown and when they have loaded and actually appear.
+Preloading images makes them appear immediately when they are later included on the page. Otherwise the images are loaded only when they are first displayed which may take some time with slower connections, resulting in a noticeable delay between when they should be shown and when they have loaded and actually appear.
 
 Images must be preloaded inside a rule, most commonly in a When play begins rule. We can save bandwidth by preloading in later stages when the story is closer to the point when it should display the image, but note that starting to preload at the same time when the image is displayed is too late and preloading images that are shown right when the story begins is not useful.
 
@@ -150,16 +170,13 @@ The example media files can be downloaded from http://vorple-if.com/vorple/doc/i
 	Release along with the file "musicbox.mp3".
 	Release along with the file "serinette.jpg".
 
-	To start playing the tune:
-		play music file "musicbox.mp3".
-
 	Drawing room is a room. "The drawing room is tastefully decorated."
 	
 	The serinette is an openable closed container in the drawing room. "A beautiful music box sits on a table." The description is "There's a winding key behind the box."
 	Understand "music" and "box" as the serinette.
 
 	Before examining the serinette:
-		display image "serinette.jpg", centered.
+		place an image "serinette.jpg" with the description "A music box", centered.
 
 	When play begins:
 		preload image "serinette.jpg".
@@ -177,6 +194,9 @@ The example media files can be downloaded from http://vorple-if.com/vorple/doc/i
 		say "[The noun] is already wound." instead.
 	
 	Carry out winding:
+		if the serinette is open:
+			say "(first closing the serinette)[command clarification break]";
+			silently try closing the serinette;
 		now the serinette is wound;
 		play sound file "winding.mp3";
 		if the serinette is open:
@@ -197,8 +217,12 @@ The example media files can be downloaded from http://vorple-if.com/vorple/doc/i
 	After opening the serinette when the serinette is unwound:
 		say "Nothing happens. Looks like it must be wound first."
 		
-	Carry out closing the serinette when the serinette is wound:
-		stop music.
+	Carry out closing the serinette:
+		stop the music.
+		
+	To start playing the tune:
+		play music file "musicbox.mp3";
+		now the serinette is unwound.
 	
 	Test me with "x serinette / wind serinette / open serinette".
 

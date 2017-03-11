@@ -83,7 +83,7 @@ The notification is shown for seven seconds before it disappears. The duration c
 	
 or globally by changing the "default notification duration" number variable:
 	
-	now the default notification duration is 10.
+	now the default notification duration is 10;
 
 There are four different notification types that have different background colors and icons: info, success, warning and error. The default notification type is info.
 
@@ -157,7 +157,7 @@ We'll create a rule that will show the score change as a Vorple notification, or
 	This is the enhanced notify score changes rule:
 		if Vorple is supported:
 			if the last notified score is not the score:
-				show a notification reading "[score notification message]";
+				display a notification reading "[score notification message]";
 				now the last notified score is the score;
 		otherwise:
 			follow the notify score changes rule.

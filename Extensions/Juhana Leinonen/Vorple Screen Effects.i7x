@@ -311,7 +311,7 @@ The following styles are provided with the extension:
 	
 The "cursive" style displays text in a font resembling cursive writing, "fantasy" uses a decorative font resembling handwriting and "monospace" is a fixed width font (corresponding to Inform's [fixed letter spacing]). The actual font used depends on the web browser, operating system, user preferences and any custom CSS directives. 
 
-"Emphasis" and "strong" are usually (but not guaranteed to be) italic and bold text respectively.
+"Emphasized" and "strong" are usually (but not guaranteed to be) italic and bold text respectively.
 
 The "nowrap" style does not allow line breaks inside the style. It's mostly used when displaying numbers that use space as a separator. For example, we don't want the text "The suitcase contains a statue worth 100 000 dollars" to be split between "100" and "000":
 
@@ -386,8 +386,6 @@ The entire page's colors can be changed with these phrases:
 	remove (Vorple style) from the entire page;
 
 
-
-
 Chapter: Centering and aligning text
 
 Offline interpreters can't center variable width text, but for Vorple it's not a problem. 
@@ -430,28 +428,25 @@ The letter in this example story has all the styles defined in the extension, pl
 
 	Include Vorple Screen Effects by Juhana Leinonen.
 	Release along with the "Vorple" interpreter.
-
+	
 	The Front lawn is a room. The mailbox is an openable, closed, fixed in place container in the Front lawn. A letter is in the mailbox.
-
-	The description of the letter is "[cursive style][xx-large style]Dear [red letters]recipient[default letters],[end style][end style]
-
-	[strikethrough style]Why[end style] I [emphasis style]know[end style].
-	[strong style]I have not forgotten.[end style]
-	[monospace style]He is not [underline style]the one[end style].[end style]
-	There are [nowrap style]10 000 000 000[end style] beetles in my head.
-
+	
+	The description of the letter is "[cursive font style][xx-large font style]Dear [red letters style]recipient[end style],[end style][end style]
+	
+	[strikethrough font style]Why[end style] I [emphasized font style]know[end style].
+	[strong font style]I have not forgotten.[end style]
+	[monospace font style]He is not [underlined font style]the one[end style].[end style]
+	There are [nowrap font style]10 000 000 000[end style] beetles in my head.
+	
 	[end is nigh]
-
-	[fantasy style][x-large style]We are [yellow background]alone[default letters][end style][end style]
-
-	He comes. [small style]He comes.[end style] [x-small style]He comes.[end style] [xx-small style]He comes.[end style]
-	[transient style]
-
-	This is a [x-large style]secret.[end style][end style]".
-
+	
+	[fantasy font style][x-large font style]We are [yellow background style]alone[end style][end style][end style]
+	
+	He comes. [small font style]He comes.[end style] [x-small font style]He comes.[end style] [xx-small font style]He comes.[end style]"
+	
 	To say end is nigh:
-		right-align "The end is nigh."
-
+		right align "The end is nigh."
+	
 	Test me with "open mailbox / read letter".
 
 
@@ -465,13 +460,11 @@ The CSS file can be downloaded from http://vorple-if.com/vorple/doc/inform7/exam
 
 	*: "Monty Hall"
 	
-	Let's Make a Deal is a room.
-	
 	Include Vorple Screen Effects by Juhana Leinonen.
-
 	Release along with the "Vorple" interpreter.
 	Release along with style sheet "montyhall.css".
 
+	Let's Make a Deal is a room.	
 
 	Chapter 1 - Game rules
 
@@ -498,9 +491,9 @@ The CSS file can be downloaded from http://vorple-if.com/vorple/doc/inform7/exam
 	Instead of opening a gamedoor when every gamedoor is closed:
 		let host-chosen door be a random wrong gamedoor which is not the noun;
 		let optional door be the remaining gamedoor which is not the host-chosen door or the noun;
-		say "'But wait!' the host says. 'You still have a chance to change your mind. Let's open [host-chosen door] which reveals a goat.
-		
-	You can still open [noun], or you can switch and open [optional door] instead. Which will you choose?";
+		say "'But wait!' the host says. 'You still have a chance to change your mind.' He opens [host-chosen door] which reveals a goat.
+	
+'You can still open [noun], or you can switch and open [optional door] instead. Which one will you choose?'";
 		now the host-chosen door is open.
 		
 	Instead of opening a closed gamedoor:
@@ -510,15 +503,15 @@ The CSS file can be downloaded from http://vorple-if.com/vorple/doc/inform7/exam
 
 	Chapter 2 - Room header style
 
-	room-header is a Vorple style.
+	Room header is a Vorple style.
 
 	Rule for printing the name of a room (called the place) while looking:
-		say "[room-header style][printed name of place][end style]".
+		say "[room header style][printed name of place][end style]".
 
 
 	Chapter 3 - Epitaph style
 
-	prize is a Vorple style.
+	Prize is a Vorple style.
 	
 	Before printing the player's obituary:
 		say prize style;

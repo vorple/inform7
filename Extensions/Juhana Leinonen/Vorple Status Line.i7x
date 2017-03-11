@@ -19,14 +19,11 @@ The mobile Vorple status line is "[left hand status line]".
 [don't change this number directly – internal use only]
 The Vorple status line size is a number that varies.
 
-To construct a/-- status line with (column count - number) column/columns:
+To construct the/a/-- status line with (column count - number) column/columns:
 	if column count > 3 or column count < 0:
 		throw Vorple run-time error "Vorple Status Line: status line must have exactly 1, 2 or 3 columns, [column count] requested";
 		rule fails;
 	now Vorple status line size is column count;
-	create the status line containers.	
-
-To create the status line containers:
 	remove element called "status-line-container";
 	place an element called "status-line-container row" at the top level;
 	execute JavaScript command "$('.status-line-container').prependTo('main#haven')";
@@ -47,10 +44,7 @@ To refresh Vorple status line:
 	display text right hand Vorple status line in the element called "status-line-right";
 	display text mobile Vorple status line in the element called "status-line-mobile".
 
-Last every turn (this is the refresh Vorple status line at the end of turn rule):
-	refresh Vorple status line.
-	
-Last when play begins (this is the refresh Vorple status line at the start of the play rule):
+Before reading a command (this is the refresh Vorple status line at the start of the play rule):
 	refresh Vorple status line.
 
 Vorple Status Line ends here.

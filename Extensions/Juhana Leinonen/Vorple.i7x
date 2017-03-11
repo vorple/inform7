@@ -1,4 +1,4 @@
-Version 3 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/170309 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -274,7 +274,21 @@ To decide if an/the/-- element called (classes - text) doesn't exist:
 	decide yes.
 
 
-Chapter 5 - Prompt
+Chapter 5 - User Interface Setup
+
+The Vorple interface setup rules is a rulebook.
+
+This is the Vorple interface setup stage rule:
+	if Vorple is supported:
+		execute JavaScript command "window._vorpleSetupRulebookHasRun||false";
+		if the JavaScript command returned false:
+			follow the Vorple interface setup rules;
+			execute JavaScript command "window._vorpleSetupRulebookHasRun=true".
+
+The Vorple interface setup stage rule is listed before the when play begins stage rule in the startup rulebook.
+
+
+Chapter 6 - Prompt
 
 [This is an internal helper variable that shouldn't be changed manually. To change the prompt, changing the usual "command prompt" variable should work fine.]
 The Vorple prompt is text that varies. The Vorple prompt is "".
@@ -316,7 +330,7 @@ Include (-
 -) after "Printing.i6t".
 
 
-Chapter 6 - Unique identifiers
+Chapter 7 - Unique identifiers
 	
 To decide which text is unique identifier:
 	let id be "id";
@@ -326,15 +340,24 @@ To decide which text is unique identifier:
 	decide on id.
 
 
-Chapter 7 - Window title
+Chapter 8 - UI blocking
+
+To block the user interface:
+	execute JavaScript command "vorple.layout.block()".
+
+To unblock the user interface:
+	execute JavaScript command "vorple.layout.unblock()".
+
+
+Chapter 9 - Window title
 
 First when play begins (this is the set window title to story title rule):
 	execute JavaScript command "document.title='[escaped story title]'".
 
 
-Chapter 8 - Credits
+Chapter 10 - Credits
 
-[The Vorple version is shown by default, but there is no obligation to display it or otherwise credit Vorple (other than good manners.) The rule can be removed with "The display Vorple credits rule is not listed in any rulebook."]
+[The Vorple version is shown in the banner by default, but there is no obligation to display it or otherwise credit Vorple (other than good manners.) The rule can be removed with "The display Vorple credits rule is not listed in any rulebook."]
 First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
 		execute JavaScript command "vorple.version";
@@ -347,21 +370,27 @@ Vorple ends here.
 
 ---- DOCUMENTATION ----
 
-The Vorple core extension defines some of the basic structure that's needed for Vorple to communicate with the story file.
+The Vorple core extension defines the basic structure that's needed for the story file to communicate with the web browser, as well as other low-level rules and phrases that other extensions use to add more features to Vorple.
 
-Authors who are not familiar with JavaScript or who wish to just use the basic Vorple features can read only the first two chapters (Vorple setup and compatibility with offline interpreters). The rest of this documentation handles more advanced usage. For more practical usage of Vorple, see other Vorple extensions that implement features like multimedia support and hyperlinks.
+Authors who are not familiar with JavaScript or who wish to just use the basic Vorple features can read only the first three chapters (Vorple setup, compatibility with offline interpreters and the brief note about the command prompt). The rest of this documentation handles more advanced usage. For more practical usage of Vorple, see other Vorple extensions that implement specific features like multimedia support and hyperlinks.
 
 
 Chapter: Vorple setup
 
-Every Vorple story must include at least one Vorple extension and the custom web interpreter. The Vorple web interpreter template is included with the standard installation of Inform 7.
+Every Vorple story must include at least one Vorple extension and the custom web interpreter.
 
 	*: Include Vorple by Juhana Leinonen.
 	Release along with the "Vorple" interpreter.
 
 All standard Vorple extensions already have the "Include Vorple" line, so it's not necessary to add it to the story project if at least one of the other extensions are used.
 
-For more detailed instructions on how to get started, see the documentation at the vorple-if.com website.
+In contrast to previous versions that were only for Z-Machine, version 3 of Vorple is for Glulx only. The project's story file format must be set to Glulx in Inform's Settings pane.
+	
+At the time of release of the current, third version of Vorple, the latest Inform release 6M62 includes the older version 2 of Vorple which is not compatible with the new extensions. The latest Vorple interpreter template is in the same package as these extensions. If you downloaded the extensions separately, you can find the interpreter template from vorple-if.com's download page.
+
+Also note that old Vorple extensions are not compatible with the current version of Vorple. If you get en error message about an extension being for Z-Machine only, the project is trying to include an old extension.
+
+For more detailed instructions on how to get started see the documentation at the vorple-if.com website.
 
 
 Chapter: Compatibility with offline interpreters
@@ -384,6 +413,15 @@ All Vorple features do nothing by default if they're not supported by the interp
 
 	Instead of going north:
 		play sound file "marching_band.mp3".
+		
+Many Vorple features can be replicated at least to some extent on standard Glulx interpreters, but in general Vorple extensions don't try to use those Glulx features as a default fallback, but opt to printing plain text where applicable or doing nothing at all. Authors can use their choice of Glulx extensions and the above mentioned "if Vorple is supported" checks to make fallbacks that are most suitable for their story.
+
+
+Chapter: The command prompt
+
+To gain more control over the command prompt, Vorple replaces the built-in prompt with its own. The process should be completely automated: changing the "command prompt" variable should change the Vorple prompt as well, apart from some fringe cases where the source text or an extension does something exotic with the Glulx prompt. The prompt, or the player's command, will also not be printed in the actual story output so Glulx extensions that capture output text will not be able to read it.
+
+The extension Vorple Command Prompt Control offers features to manipulate the command prompt and the interpreter's line input in general.
 
 
 Chapter: Embedding HTML elements
@@ -395,7 +433,7 @@ We can embed simple HTML elements into story text with some helper phrases.
 	place a block level element called "inventory";
 	place an inline element called "name";
 
-The previous example generates this markup:
+The previous example generates elements equivalent to this HTML markup:
 
 	<article></article>
 	<h1 class="title"></h1>
@@ -425,36 +463,52 @@ In the above examples the element contents should be plain text only. Trying to 
 		say "I'm writing to tell you...";
 		close HTML tag.
 
-The phrase "clear the element called..." empties the contents of an element, and "remove the element called..." removes it completely.
-
-When there are multiple elements with the same name, only the last element will be updated. This is to accommodate repeat actions and specifically UNDO which can easily generate duplicate content. To modify all elements, use the following phrases:
+When there are multiple elements with the same name, only the last element will be updated. This is to accommodate repeat actions and specifically UNDO which can easily generate duplicate content. To modify all elements, use the following phrase:
 	
 	display "Hello World!" in all elements called "greeting";
-	clear all elements called "greeting";
-	remove all elements called "greeting";
 
 We can also test whether an element exists or not, or count the number of elements:
 	
+	let n be the number of elements called "greeting";
+	if an element called "greeting" exists: ...
+	if an element called "greeting" doesn't exist: ...
 	
+The extension Vorple Element Manipulation contains more tools for working with the HTML document.
+	
+Finally, the Vorple interpreter uses a concept called "output focus" to decide where it should print the story text. Any HTML element can have the output focus, and any text coming from the story will be appended to the end of that element. For example we can have a separate element where the player's inventory is printed:
+	
+	Before taking inventory:
+		set output focus to the element called "inventory".
+		
+	After taking inventory:
+		set output focus to the main window;
+		continue the action.
+		
+"Set output focus to the main window" returns the focus back to the default location.
 
 
-Chapter: Evaluating JavaScript expressions
+Chapter: Executing JavaScript code
 
-The story file breaks out of the Glulx sandbox by having the web browser evaluate JavaScript expressions. An "execute JavaScript command" phrase is provided to do just this:
+Vorple breaks out of the Glulx sandbox by letting the story file send JavaScript code for the web browser to evaluate. An "execute JavaScript command" phrase is provided to do just this:
 
 	execute JavaScript command "alert('Hello World!')";
 
-There are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt. (Although this might sound ominous, there's no danger unless you're doing some very complex things that involve evaluating JavaScript from unknown or untrusted sources. Using the Vorple extensions is safe.)
+There are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt. (Although this might sound ominous, there's no danger unless you're doing some very complex things that involve evaluating JavaScript from unknown or untrusted sources, and the web browser has its own safeguards. Using any of the official Vorple extensions is safe.)
 
-Any return value the JavaScript code returns can be retrieved with "the value returned by the JavaScript command". If you know the type of the return value, you can use specific phrases to retrieve those types specifically:
+Any return value the JavaScript code returns can be retrieved with "the value returned by the JavaScript command". If we know the type of the return value, we can use specific phrases to retrieve values of those types:
 	
 	the text returned by the JavaScript command
 	the number returned by the JavaScript command
 	the truth state returned by the JavaScript command
 	
-The type of the return value can be retrieved with "the type of the value returned by the JavaScript command".
+There's also a shorthand phrase for testing for boolean return values:
+	
+	if the JavaScript command returned true:
+		say "Yup."
+	
+The type of the return value can be retrieved with "the type of the value returned by the JavaScript command". The list of all possible return value types is in the technical documentation (link below).
 
-The return value gets overwritten by the next JavaScript command's return value (or "undefined" if it doesn't return anything), so it's best to save the value immediately to a variable after executing the command. Otherwise another JavaScript call before using the value might cause a hard to detect bug. The other code call might not be obvious, for example changing the font style with the Vorple Screen Effects extension involves a JavaScript call.
+The return value gets overwritten by the next JavaScript command's return value (or "undefined" if it doesn't return anything), so it's best to save the value immediately to a variable after executing the command. Otherwise another JavaScript between executing the command and reading the value might cause a hard to detect bug. The other code call might not be obvious, for example changing the font style with the Vorple Screen Effects extension involves a JavaScript call.
 
 	execute JavaScript command "[bracket]'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'[close bracket][bracket]new Date().getDay()[close bracket]";
 	let weekday be the text returned by the JavaScript command;
@@ -475,14 +529,14 @@ When evaluating JavaScript expressions, quotation marks must often be exactly ri
 
 This leads to a JavaScript error because all single quotes (except the one in "O'Malley") are converted to double quotes, which in turn leads to a JavaScript syntax error. Changing the string delimiters to single quotes wouldn't help because there's an unescaped single quote as well inside the string.
 
-To escape text we can preface it with "escaped":
+To escape text we can prefix it with "escaped", which adds backslashes before characters that might cause problems inside strings:
 
 	To greet (name - text):
 		execute JavaScript command "alert( 'Hello [escaped name]!' )".
 
 Now the string can be safely used in the JavaScript expression.
 
-By default newlines are removed. If we want to preserve them, or turn them into for example HTML line breaks:
+By default escaping removes newlines. If we want to turn them into, for example, HTML line breaks, or just preserve them:
 
 	To greet (name - text):
 		let safe name be escaped name using "\n" as line breaks;
@@ -491,6 +545,36 @@ By default newlines are removed. If we want to preserve them, or turn them into 
 Remember to use "[bracket]" and "[close bracket]" for square brackets in JavaScript code.
 
 	execute JavaScript command "var myArray = [bracket]1, 2, 3[close bracket]".
+
+
+Chapter: User interface setup
+
+Vorple provides a separate rulebook called "Vorple interface setup" for setting up the user interface on the browser side. It runs during startup before the "when play begins" rules. The rulebook is meant for rules that build or initialize the user interface that has to be ready before the story does anything else. 
+
+The following example sets up a click handler that adds a custom CSS class to the command prompt. Depending on the CSS rule it might flash the prompt to draw attention to it.
+
+	Vorple interface setup rule:
+		execute JavaScript command "$(document).on('click', function() { $('#lineinput').addClass('highlight') }".
+
+When building any user interface elements we need to remember that through save/restore the player can continue the story potentially from any point or rewind actions with undo or restart, unless the story has disabled those commands. We can't rely on JavaScript code that has been run during previous commands because the player might have skipped them by restoring a later save, and we can't assume that turns happen only once because the player might undo and replay a turn. Therefore it's best to initialize the user interface at story start instead of along the way as the story progresses.
+
+There's a mechanism in place that prevents the interface setup rules from running more than once during one page session, even if the player restarts the story. In other words the interface setup rules run only when the web page loads. This guarantees that we can't add duplicate event handlers or otherwise run things twice that should only be run once.
+
+
+Chapter: Blocking the user interface
+
+If at some point we need to wait for a network request or some other asynchronous operation to finish before continuing with the story, we can prevent the player from doing anything in the meanwhile by blocking the user interface. When the user interface is blocked the player can't type or click on anything, but they can still scroll the page normally. The phrases to block and unblock the user interface are:
+	
+	block the user interface;
+	unblock the user interface;
+
+Usually it's the JavaScript code that will unblock the user interface when it's ready by running a "vorple.layout.unblock()" call, but the Inform 7 phrase is provided for cases where the script executes a parser command which causes the story to continue normally.
+
+Note that manually blocking the user interface is necessary only in asynchronous operations, most notably network requests via Ajax. Normal synchronous code already blocks the user interface, so the turn can't end before all code has been executed.
+
+The example "The Sum of Human Knowledge" shows one use case where we might want to block the user interface: it takes some time for the request to Wikipedia to finish and we don't want the player to continue before the response has been shown on the screen.
+
+Even though typing is disabled while the user interface is blocked, the command prompt is still visible by default (if the story is waiting for line input). In the extension Vorple Command Prompt Control there are phrases to hide the command prompt which can be used together with or instead of blocking the user interface.
 
 		
 Example: ** Convenience Store - Displaying the inventory styled as a HTML list.
@@ -597,14 +681,47 @@ The hint system works by wrapping scrambled hints in named elements. Their conte
 	Test me with "hints / reveal 1 / reveal 2 / reveal 3".
 
 
-Example: *** Spy Games - Setting the story time to match the real-world time.
+Example: *** The Grandfather Clock - Setting the story time to match the real-world time.
 
-[to be rewritten]
+In the "synchronize clocks" phrase the system time is retrieved by JavaScript and the story's internal "time of day" variable is changed to match the system time. 
 
+	*: "The Grandfather Clock"
+	
+	Include Vorple by Juhana Leinonen.
+	Release along with the "Vorple" interpreter.
+	
+	The Library is a room.
+	
+	The grandfather clock is in the Library. "A grandfather clock shows that the current time is [synchronized time]." The description is "The clock shows the time [synchronized time]." The grandfather clock is fixed in place.
+	
+	The calendar is in the Library. "There's a calendar on the wall." The description is "Today's date has been circled: [today's date]."
+	
+	To say today's date:
+		if Vorple is supported:
+			execute JavaScript command "var today=new Date(); [bracket]'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'[close bracket][bracket]today.getMonth()[close bracket]+' '+today.getDate()+', '+today.getFullYear()";
+			say the text returned by the JavaScript command;
+		otherwise:
+			say "March 9, 2017." [just some random date for non-Vorple interpreters]
+	
+	To synchronize clocks:
+		if Vorple is supported:
+			[we can't set the time directly so we have to calculate the time difference between the story time and the real time in minutes and increment the story time by that amount.]
+			execute JavaScript command "var now=new Date(); now.getHours()*60+now.getMinutes()";
+			let real time be the number returned by the JavaScript command;
+			let story time be ((the hours part of the time of day) * 60) + the minutes part of the time of day;
+			let time difference be real time - story time;
+			increase the time of day by time difference minutes. 
+			
+	To say synchronized time:
+		synchronize clocks;
+		say the time of day.
+		
 
 Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service.
 
 Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/vorple/doc/inform7/examples/resources/javascript/encyclopedia.js .
+
+Note that the pause between issuing the lookup command and the encyclopedia text appearing on the screen is caused by the time it takes to send a request to and receive a response from Wikipedia.
 
 	*: "The Sum of Human Knowledge"
 	
@@ -618,12 +735,13 @@ Here we set up an encyclopedia that can be used to query articles from Wikipedia
 	Understand "look up [text]" as looking up.
 	
 	Carry out looking up when Vorple is supported:
-		place a block level element called "dictionary-entry";
-		execute JavaScript command "wikipedia_query('[escaped topic understood]')".
+		place a block level element called "dictionary-entry";		
+		execute JavaScript command "wikipedia_query('[escaped topic understood]')";
+		block the user interface. [the Wikipedia script will unblock the UI]
 		
 	Report looking up when Vorple is not supported:
 		say "You find the correct volume and learn about [topic understood].".
 	 	
-	Test me with "look up ducks / look up mars / look up interactive fiction".
+	Test me with "look up ducks / look up granite / look up interactive fiction".
 	
 	
