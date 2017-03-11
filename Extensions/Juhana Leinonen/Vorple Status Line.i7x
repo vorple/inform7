@@ -10,11 +10,11 @@ Include version 3 of Vorple Element Manipulation by Juhana Leinonen.
 
 Chapter 1 - Constructing the status line
 
-Left hand Vorple status line, middle Vorple status line, right hand Vorple status line and mobile Vorple status line are text that varies.
+The left hand Vorple status line, middle Vorple status line, right hand Vorple status line and mobile Vorple status line are text that varies.
 
-The left hand Vorple status line is "[left hand status line]".
-The right hand Vorple status line is "[right hand status line]".
-The mobile Vorple status line is "[left hand status line]".
+The left hand Vorple status line is usually "[left hand status line]".
+The right hand Vorple status line is usually "[right hand status line]".
+The mobile Vorple status line is usually "[left hand status line]".
 
 [don't change this number directly – internal use only]
 The Vorple status line size is a number that varies.
@@ -51,4 +51,28 @@ Vorple Status Line ends here.
 
 
 ---- DOCUMENTATION ----
+
+By default Vorple doesn't show the standard Glulx status line. This extension re-adds the status line feature, with some extra functionality.
+
+
+Chapter: Constructing the status line
+
+Just like the standard status line, the Vorple status line can have either 1, 2 or 3 columns.
+
+	construct the status line with 3 columns;
+
+
+Chapter: Mobile status line
+
+If the browser screen is 568 pixels wide or smaller, the usual status line columns are replaced with a special mobile status line. The idea is to automatically reduce two and three column status lines to just one so that individual columns don't become too narrow on phones. The contents of the mobile status line are centered.
+
+The default content of the mobile status line is the same as the left hand status line. It can be changed by setting the value of "mobile Vorple status line". 
+
+Here we'll set the mobile status line to all three columns separated by slashes. This works well when the columns have very short content.
+
+	*: The mobile Vorple status line is "[left hand Vorple status line] / [middle Vorple status line] / [right hand Vorple status line]".
+	
+If there's longer content, it's better to place the columns on top of each other.
+
+	*: The mobile Vorple status line is "[left hand Vorple status line][line break][middle Vorple status line][line break][right hand Vorple status line]".
 
