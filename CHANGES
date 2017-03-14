@@ -1,3 +1,7 @@
+See also the changelog of the main JavaScript library
+(https://github.com/vorple/vorple/CHANGES).
+
+
 Release 3.0
 ===========
 
@@ -131,6 +135,29 @@ Screen Effects
    style) to the entire page" which can be used to apply any style to the
    interpreter window
  - Added helper phrases for making header and list elements
+
+
+Tooltips
+--------
+
+ - Syntax for adding mouseover tooltips to existing elements changed to "attach"
+   instead of "display" to more accurately reflect the fact that the tooltip
+   isn't displayed immediately
+ - Syntax for displaying tooltips immediately is changed from "... element" to
+   "element called ..." for consistency with other extensions
+ - Removed the option to pass tooltip delay in milliseconds
+ - Added an option to pass the duration for how long manually triggered tooltips
+   are shown, in addition to an "indefinitely" option to never automatically
+   hide the tooltip
+ - Added phrases to hide tooltips
+ - Tooltips are no longer attached to all future elements automatically if they
+   match the classname of previously attached tooltips. In other words, when
+   attaching tooltips to all elements, the "all" refers only to currently
+   existing elements.
+ - When creating text with tooltip attached with "place text ... with tooltip"
+   the element can be named
+ - Fixed example "How To II" so that it won't suppress parser messages
+ - Fixed wrong phrases in the documentation
 
 
 

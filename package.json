@@ -10,7 +10,7 @@
     "url": "git+https://github.com/vorple/inform7.git"
   },
   "author": "Juhana Leinonen",
-  "license": "CC-BY",
+  "license": "(MIT OR CC-BY-4.0)",
   "bugs": {
     "url": "https://github.com/vorple/inform7/issues"
   },

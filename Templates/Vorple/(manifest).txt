@@ -54,25 +54,27 @@ g
 ! or gadget actually appears.
 
 [INTERPRETERBODY]
-    <main id="haven">
-        <div id="output">
-            <div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
-        </div>
+	<main id="haven">
+		<div id="output">
+			<div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
+		</div>
 
-        <form id="lineinput">
-            <label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
-        </form>
+		<form id="lineinput">
+			<label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
+		</form>
 
-        <div id="loader">
-            <h2 id="loader-message">Loading scripts</h2>
-            <div id="spinner">V</div>
-        </div>
-    </main>
+		<div id="loader">
+			<h2 id="loader-message">Loading scripts</h2>
+			<div id="spinner">V</div>
+		</div>
+	</main>
 
-    <script type="text/javascript" src="interpreter/jquery.min.js"></script>
-    <script type="text/javascript" src="interpreter/toastr.min.js"></script>
-    <script type="text/javascript" src="interpreter/haven.min.js"></script>
-    <script type="text/javascript" src="interpreter/vorple.min.js"></script>
+    <script src="interpreter/jquery.min.js"></script>
+    <script src="interpreter/toastr.min.js"></script>
+	<script src="interpreter/vex.combined.min.js"></script>
+	<script src="interpreter/jquery.powertip.min.js"></script>
+    <script src="interpreter/haven.min.js"></script>
+    <script src="interpreter/vorple.min.js"></script>
 
     <script>
     	if( location.protocol === "file:" ) {
@@ -151,6 +153,8 @@ vorple.min.js
 haven.min.js
 jquery.min.js
 toastr.min.js
+vex.combined.min.js
+jquery.powertip.min.js
 vorple.min.css
 git.js
 git.js.mem
