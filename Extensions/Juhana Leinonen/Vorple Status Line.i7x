@@ -99,6 +99,7 @@ If there's longer content, it's better to place the columns on top of each other
 
 Example: *** The Petting Zoo - An icon in the status line to show the player character's mood
 
+The icon files can be downloaded from http://vorple-if.com/doc/inform7/examples .
 
 	*: "The Petting Zoo"
 

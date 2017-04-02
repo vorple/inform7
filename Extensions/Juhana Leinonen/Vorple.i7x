@@ -1,4 +1,4 @@
-Version 3/170309 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/170319 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -165,7 +165,7 @@ To decide if the JavaScript code/command returned (x - truth state):
 	if the value returned by the JavaScript command is "false" and x is false:
 		decide on true;
 	decide on false.
-
+	
 
 Section 3 - Escaping text for JavaScript
 
@@ -274,6 +274,15 @@ To decide if an/the/-- element called (classes - text) doesn't exist:
 	decide yes.
 
 
+Section 6 - Scrolling
+
+To scroll to an/the/-- element called (classes - text):
+	execute JavaScript command "vorple.layout.scrollTo('.[classes]:last')".
+
+To scroll to the/-- end/bottom of the/-- page:
+	execute JavaScript command "vorple.layout.scrollToEnd()".
+
+
 Chapter 5 - User Interface Setup
 
 The Vorple interface setup rules is a rulebook.
@@ -362,7 +371,7 @@ First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
 		execute JavaScript command "vorple.version";
 		let version number be the text returned by the JavaScript command;
-		say "Vorple version [version number][line break]" (A).
+		say "Vorple version [version number] preview[line break]" (A).
 
 	
 Vorple ends here.
@@ -419,7 +428,7 @@ Many Vorple features can be replicated at least to some extent on standard Glulx
 
 Chapter: The command prompt
 
-To gain more control over the command prompt, Vorple replaces the built-in prompt with its own. The process should be completely automated: changing the "command prompt" variable should change the Vorple prompt as well, apart from some fringe cases where the source text or an extension does something exotic with the Glulx prompt. The prompt, or the player's command, will also not be printed in the actual story output so Glulx extensions that capture output text will not be able to read it.
+To gain more control over the command prompt, Vorple replaces the built-in prompt with its own. The process should be completely automated: changing the "command prompt" variable should change the Vorple prompt as well, apart from some fringe cases where the source text or an extension does something exotic with the Glulx prompt. The prompt and the player's command are printed on the screen with custom techniques so they will not be included in the usual story output flow. It means that Glulx extensions that capture output text will not be able to read them.
 
 The extension Vorple Command Prompt Control offers features to manipulate the command prompt and the interpreter's line input in general.
 
@@ -442,7 +451,7 @@ The previous example generates elements equivalent to this HTML markup:
 	
 The element's name should be one word only and a valid CSS class name. It's safest to only use letters, numbers, underscores and dashes.
 
-Contents can be added on creation:
+Text content can be added on creation:
 
 	place a "h1" element called "title" reading "An exciting story";
 	place a "h2" element reading "Story so far:";
@@ -455,7 +464,9 @@ Contents can be added on creation:
 	
 This technique can be used to modify the story output later (see example "Scrambled Eggs").
 
-In the above examples the element contents should be plain text only. Trying to add nested tags or text styles will lead to erratic behavior. For longer and more complex contents the tags can be opened and closed manually:
+If the text is included at the same time when creating the element, the default behavior in non-Vorple interpreters is to print the text normally. Text added later will not do anything. In other words, 'place a "h1" element called "title" reading "An exciting story"' will print "An exciting story" in all interpreters, but 'display text "Anonymous Adventurer" in the element called "name"' will not print anything in anywhere other than the Vorple interpreter.
+
+In the above examples element contents should be plain text only. Trying to add nested tags or text styles will lead to erratic behavior. For longer and more complex contents the tags can be opened and closed manually:
 
 	Report reading the letter:
 		open HTML tag "div" called "letter";
@@ -475,8 +486,10 @@ We can also test whether an element exists or not, or count the number of elemen
 	
 The extension Vorple Element Manipulation contains more tools for working with the HTML document.
 	
-Finally, the Vorple interpreter uses a concept called "output focus" to decide where it should print the story text. Any HTML element can have the output focus, and any text coming from the story will be appended to the end of that element. For example we can have a separate element where the player's inventory is printed:
+Finally, the Vorple interpreter uses a concept called "output focus" to decide where it should print the story text. Any HTML element* can have the output focus, and any text coming from the story will be appended to the end of that element. For example we can have a separate element where the player's inventory is printed:
 	
+(* The element that has output focus must be able contain child elements, so void elements, for example <img> or <hr>, can receive output focus but any output is ignored.)
+
 	Before taking inventory:
 		set output focus to the element called "inventory".
 		
@@ -487,15 +500,28 @@ Finally, the Vorple interpreter uses a concept called "output focus" to decide w
 "Set output focus to the main window" returns the focus back to the default location.
 
 
+Chapter: Scrolling to elements
+
+The page can be scrolled to bring a named element into view:
+	
+	scroll to the element called "target";
+	
+The page then scrolls so that the target element's top is near the browser window's top. If the element is already fully visible on the page and its top position is on the top half of the window, the phrase does nothing.
+
+A similar phrase can be used to scroll to the bottom of the page:
+	
+	scroll to the end of the page;
+
+
 Chapter: Executing JavaScript code
 
 Vorple breaks out of the Glulx sandbox by letting the story file send JavaScript code for the web browser to evaluate. An "execute JavaScript command" phrase is provided to do just this:
 
 	execute JavaScript command "alert('Hello World!')";
 
-There are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt. (Although this might sound ominous, there's no danger unless you're doing some very complex things that involve evaluating JavaScript from unknown or untrusted sources, and the web browser has its own safeguards. Using any of the official Vorple extensions is safe.)
+There are no safeguards against invalid or potentially malicious JavaScript. If an illegal JavaScript expression is evaluated, the browser will show an error message in the console and the interpreter will halt. (Although this might sound ominous, there's no real danger unless you're doing some very complex things that involve evaluating JavaScript from unknown or untrusted sources, and the web browser itself has its own safeguards. Using any of the official Vorple extensions is safe.)
 
-Any return value the JavaScript code returns can be retrieved with "the value returned by the JavaScript command". If we know the type of the return value, we can use specific phrases to retrieve values of those types:
+Any value the JavaScript code returns can be retrieved with "the value returned by the JavaScript command" which gives the return value as text. If we know the type of the return value, we can use specific phrases to retrieve values of those types:
 	
 	the text returned by the JavaScript command
 	the number returned by the JavaScript command
@@ -558,7 +584,7 @@ The following example sets up a click handler that adds a custom CSS class to th
 
 When building any user interface elements we need to remember that through save/restore the player can continue the story potentially from any point or rewind actions with undo or restart, unless the story has disabled those commands. We can't rely on JavaScript code that has been run during previous commands because the player might have skipped them by restoring a later save, and we can't assume that turns happen only once because the player might undo and replay a turn. Therefore it's best to initialize the user interface at story start instead of along the way as the story progresses.
 
-There's a mechanism in place that prevents the interface setup rules from running more than once during one page session, even if the player restarts the story. In other words the interface setup rules run only when the web page loads. This guarantees that we can't add duplicate event handlers or otherwise run things twice that should only be run once.
+There's a mechanism in place that prevents the interface setup rules from running more than once during one session, even if the player restarts the story. In other words the interface setup rules run only when the web page loads. This guarantees that we can't add duplicate event handlers by mistake or otherwise run things twice that should only be run once.
 
 
 Chapter: Blocking the user interface
@@ -568,9 +594,9 @@ If at some point we need to wait for a network request or some other asynchronou
 	block the user interface;
 	unblock the user interface;
 
-Usually it's the JavaScript code that will unblock the user interface when it's ready by running a "vorple.layout.unblock()" call, but the Inform 7 phrase is provided for cases where the script executes a parser command which causes the story to continue normally.
+Usually it's the JavaScript code that will unblock the user interface when it's ready by running a "vorple.layout.unblock()" call, but the Inform 7 phrase is provided for cases where the script executes a parser command that causes the story to continue normally.
 
-Note that manually blocking the user interface is necessary only in asynchronous operations, most notably network requests via Ajax. Normal synchronous code already blocks the user interface, so the turn can't end before all code has been executed.
+Note that manually blocking the user interface is necessary only in asynchronous operations, most notably network requests via Ajax. Normal synchronous code already blocks the user interface so the turn can't end before all code has been executed.
 
 The example "The Sum of Human Knowledge" shows one use case where we might want to block the user interface: it takes some time for the request to Wikipedia to finish and we don't want the player to continue before the response has been shown on the screen.
 
@@ -676,7 +702,7 @@ The hint system works by wrapping scrambled hints in named elements. Their conte
 		
 	Carry out revealing hint (this is the change past transcript rule):
 		choose row number understood in the table of hints;
-		display hint entry in the element "hint-[number understood]".
+		display text hint entry in the element called "hint-[number understood]".
 		
 	Test me with "hints / reveal 1 / reveal 2 / reveal 3".
 
@@ -719,7 +745,7 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 
 Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service.
 
-Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/vorple/doc/inform7/examples/resources/javascript/encyclopedia.js .
+Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/doc/inform7/examples . Put the file in the project's Resources folder to include it with the release.
 
 Note that the pause between issuing the lookup command and the encyclopedia text appearing on the screen is caused by the time it takes to send a request to and receive a response from Wikipedia.
 

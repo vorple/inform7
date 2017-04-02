@@ -32,7 +32,7 @@ To show all the/-- elements called/-- (classes - text):
 	execute JavaScript command "$('.[classes]').show()".
 
 To move the/-- element called/-- (classes - text) under (target - text):
-	execute JavaScript command "$('.[classes]'). last().appendTo('.[target]')".
+	execute JavaScript command "$('.[classes]').last().appendTo('.[target]')".
 
 To move all the/-- elements called/-- (classes - text) under (target - text):
 	execute JavaScript command "$('.[classes]').appendTo('.[target]')".

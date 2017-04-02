@@ -216,7 +216,7 @@ This example shows brings the player's command back to the command prompt after 
 		if R is parser clarification internal rule response (D) or R is parser clarification internal rule response (E):
 			prefill the command line with "[parser command so far] ".
 			
-	The playroom is a room. There is a wooden block and a toy horse here.
+	The playroom is a room. A wooden block and a toy horse are here.
 	
 	Test me with "x".
 

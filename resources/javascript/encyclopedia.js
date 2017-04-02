@@ -1,11 +1,12 @@
 /**
- * This is a custom JavaScript file used by the example The Sum of Human Knowledge in the core Vorple extension.
+ * This is a custom JavaScript file used by examples in the Vorple extensions.
+ */
+
+/*
+ * Vorple: The Sum of Human Knowledge
  */
 
 function wikipedia_query( topic ) {
-    // Hide the prompt. The I7 code blocks the UI.
-    vorple.prompt.hide();
-
     $.getJSON(
         'http://en.wikipedia.org/w/api.php?callback=?',
         {
@@ -23,9 +24,9 @@ function wikipedia_query( topic ) {
                 // get the page info (we don't know its key so it can't be referenced directly)
                 for( var id in data.query.pages ) {
                     var $article = $( '<div>'+data.query.pages[ id ].revisions[ 0 ]['*']+'</div>' );
-
+                    
                     // get the first paragraph
-                    var $para = $article.find( 'p' ).filter( function() { return $( this ).text().trim().length > 0; } ).first();
+                    var $para = $article.children( 'p' ).first();
 
                     // try to detect if it's a disambiguation page; if so,
                     // show the entire page.
@@ -49,7 +50,7 @@ function wikipedia_query( topic ) {
                         // internal Wikipedia links trigger a new search inside the story
                         else if( href.indexOf( '/wiki/' ) === 0 ) {
                             $this.on( 'click', function( e ) {
-                                vorple.prompt.queueCommand( 'look up ' + decodeURI( href.substr( 6 ).replace( /\_/g, ' ' ) ) );
+                                vorple.parser.sendCommand( 'look up ' + decodeURI( href.substr( 6 ).replace( /\_/g, ' ' ) ) );
                                 e.preventDefault(); 
                             });
                         }
@@ -62,9 +63,6 @@ function wikipedia_query( topic ) {
                     // remove edit links
                     $para.find( '.editsection' ).remove();
 
-                    // remove references and other Wiki markup
-                    $para.find( 'sup' ).remove();
-
                     $( '.dictionary-entry:last' ).append( $para );
                     break;
                 }
@@ -73,13 +71,6 @@ function wikipedia_query( topic ) {
                 // An error is to be expected when there are no search results
                 $dictEntry.html( 'You find nothing about that topic.' );
             }
-
-            // unblock the UI and show the prompt
-            vorple.layout.unblock();
-            vorple.prompt.unhide();
-
-            // scroll to the end of the page so that the player sees the result
-            vorple.layout.scrollToEnd();
         }
     );
 }

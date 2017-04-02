@@ -6,6 +6,8 @@ Include Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 
+Default tooltip duration is a number that varies. Default tooltip duration is usually 7.
+
 
 Chapter 1 - Tooltips on mouseover
 
@@ -29,7 +31,7 @@ To attach a/-- tooltip (tip - text) on/to the/-- element called (classes - text)
 Chapter 2 - Manually triggered tooltips
 
 To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) seconds for (duration - number) seconds:
-	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('.[classes]').last();$.powerTip.hide();$t.attr('title','[escaped tip]').powerTip({manual:true,smartPlacement:true});$.powerTip.show($t)[if duration >= 0];_v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[ duration times 1000 ]);[end if]},[ delay times 1000 ])".
+	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('.[classes]').last();$.powerTip.hide();$t.attr('title','[escaped tip]').powerTip({manual:true,smartPlacement:true});$.powerTip.show($t)[if duration >= 0];_v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[duration]*1000);[end if]},[delay]*1000)".
 	
 To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) seconds indefinitely:
 	display a tooltip tip on the element called classes in delay seconds for -1 seconds.
@@ -53,7 +55,7 @@ Vorple interface setup rule (this is the initialize prompt tooltip rule):
 	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-prefix').powerTip({manual:true,placement:'sw-alt',smartPlacement:true})".
 
 To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) seconds for (duration - number) seconds:
-	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('#lineinput-prefix');$.powerTip.hide();$t.data('powertip','[escaped tip]');$.powerTip.show($t)[if duration >= 0]; _v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[ duration times 1000 ]);[end if]},[ delay times 1000 ])".
+	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('#lineinput-prefix');$.powerTip.hide();$t.data('powertip','[escaped tip]');$.powerTip.show($t)[if duration >= 0]; _v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[duration]*1000);[end if]},[delay]*1000)".
 
 To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) seconds indefinitely:
 	display a tooltip tip on the prompt in delay seconds for -1 seconds.
@@ -77,7 +79,7 @@ To hide the/-- tooltip:
 	execute JavaScript command "clearTimeout(_v_tooltip_timer);$.powerTip.hide()".
 
 To hide the/-- tooltip in/after (delay - number) seconds:
-	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {$.powerTip.hide()}, [delay times 1000])".
+	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {$.powerTip.hide()}, [delay]*1000)".
 	
 
 Chapter 5 - Initialization

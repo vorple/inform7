@@ -63,6 +63,10 @@ Multimedia
 ----------
 
  - Removed the YouTube video feature
+ - Added playlist features
+ - Added phrases for checking if audio is playing and retrieving the file name
+   of the currently playing music
+ - "Sounds" are now called more specifically "sound effects"
  - For consistency, the "display image" phrase now puts the image in an existing
    element. Creating new images (the old behavior) is done with a "place image"
    phrase, consistent with the core extension's element creation phrases.
@@ -70,6 +74,8 @@ Multimedia
    readers and non-Vorple interpreters
  - When adding custom classes to the images, they're added after the default
    class "vorple-image"
+ - Added a note to documentation about the possibility of using images from
+   other URLs
 
 
 Notifications

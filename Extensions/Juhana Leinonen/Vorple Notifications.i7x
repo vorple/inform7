@@ -7,13 +7,13 @@ Include version 3 of Vorple by Juhana Leinonen.
 Use authorial modesty.
 
 
-Chapter 1 - Notifications
+Chapter 1 - Displaying notifications
 
 Notification type is a kind of value. Notification types are info notification, success notification, warning notification and error notification.
 
-Default notification duration is a number that varies. Default notification duration is 7.
+Default notification duration is a number that varies. Default notification duration is usually 7.
 
-To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text) for (sec - number) second/seconds:
+To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text) for (sec - real number) second/seconds:
 	let method be text;
 	if type is:
 		-- info notification:
@@ -24,25 +24,25 @@ To display a/an/-- (type - notification type) with the/a/-- title (header - text
 			now method is "warning";
 		-- error notification:
 			now method is "error";
-	execute JavaScript command "toastr.[method]('[escaped msg]',[if header is not empty]'[escaped header]',[end if]{timeOut: [sec]000, escapeHtml: true})";
+	execute JavaScript command "toastr.[method]('[escaped msg]',[if header is not empty]'[escaped header]',[end if]{timeOut: [sec]*1000, escapeHtml: true})";
 	add msg to the displayed notifications.
 
 To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text):
 	display a type with title header reading msg for default notification duration seconds.
 
-To display a/an/-- (type - notification type) reading (msg - text) for (sec - number) second/seconds:
+To display a/an/-- (type - notification type) reading (msg - text) for (sec - real number) second/seconds:
 	display a type with title "" reading msg for sec seconds.
 
 To display a/an/-- (type - notification type) reading (msg - text):
 	display a type with title "" reading msg for default notification duration seconds.
 
-To display a/-- notification with the/a/-- title (header - text) reading (msg - text) for (sec - number) second/seconds:
+To display a/-- notification with the/a/-- title (header - text) reading (msg - text) for (sec - real number) second/seconds:
 	display an info notification with title header reading msg for sec seconds.
 
 To display a/-- notification with the/a/-- title (header - text) reading (msg - text):
 	display an info notification with title header reading msg for default notification duration seconds.
 
-To display a/-- notification reading (msg - text) for (sec - number) second/seconds:
+To display a/-- notification reading (msg - text) for (sec - real number) second/seconds:
 	display an info notification with title "" reading msg for sec seconds.
 
 To display a/-- notification reading (msg - text):

@@ -38,35 +38,78 @@ To place an/the/-- image (file - text) with the/-- description (desc - text), ce
 To preload an/the/-- image (file - text):
 	execute JavaScript command "new Image().src='[escaped file]';".
 	
-To preload images (image-list - list of text):
+To preload the/-- images (image-list - list of text):
 	repeat with X running through image-list:
 		preload image X.
 
 
 Chapter 2 - Audio
 
-To play sound file/-- (file - text), looping:
+To play a/the/-- sound effect file/-- (file - text), looping:
 	let loop-attr be false;
 	if looping:	
 		now loop-attr is true;
 	execute JavaScript command "$('<audio class=\'vorple-audio vorple-sound\' src=\'[escaped file]\' autoplay[if loop-attr is true] loop[end if]>').appendTo('body')";
 
-To play music file/-- (file - text), looping:
+To play a/the/-- music file/-- (file - text), looping:
 	let loop-attr be false;
 	if looping:	
 		now loop-attr is true;
-	execute JavaScript command "$('.vorple-music').remove();$('<audio class=\'vorple-audio vorple-music\' src=\'[escaped file]\' autoplay[if loop-attr is true] loop[end if]>').appendTo('body')";
+	execute JavaScript command "vorple.audio.playMusic('[escaped file]'[if loop-attr is true], true[end if])";
+
+To start a/the/-- playlist (playlist - list of text), repeating and/or shuffled:
+	let files be playlist;
+	let array be "[bracket]";
+	let loop-attr be false;
+	if repeating:
+		now loop-attr is true;
+	if shuffled:
+		sort files in random order;
+	repeat with filename running through files:
+		now array is "[array]'[escaped filename]',";
+	now array is "[array]''[close bracket]";
+	execute JavaScript command "var pl=[array];pl.pop();vorple.audio.setPlaylist(pl[if loop-attr is true], true[end if])".
+
+To clear the/-- playlist:
+	execute JavaScript command "vorple.audio.clearPlaylist()".
 	
 To stop the/-- music:
-	execute JavaScript command "$('.vorple-music').remove()".
+	execute JavaScript command "vorple.audio.stopMusic()".
 
-To stop sounds:
+To stop all/-- sound effects:
 	execute JavaScript command "$('.vorple-sound').remove()".
 
 To stop all audio:
-	execute JavaScript command "$('.vorple-audio').remove()".
+	execute JavaScript command "$('.vorple-sound').remove();vorple.audio.stopMusic()".
 
+To decide whether music is playing:
+	execute JavaScript command "vorple.audio.isMusicPlaying()";
+	if the JavaScript command returned true:
+		decide on true;
+	decide on false.
+
+To decide whether a/any/-- sound effect/effects is/are playing:
+	execute JavaScript command "vorple.audio.isEffectPlaying()";
+	if the JavaScript command returned true:
+		decide on true;
+	decide on false.
+
+To decide whether an/any/-- audio is playing:
+	execute JavaScript command "vorple.audio.isAudioPlaying()";
+	if the JavaScript command returned true:
+		decide on true;
+	decide on false.
+
+To decide whether an/the/-- audio file called/-- (filename - text) is playing:
+	execute JavaScript command "vorple.audio.isElementPlaying('.vorple-audio[bracket]src=\'[escaped filename]\'[close bracket]')";
+	if the JavaScript command returned true:
+		decide on true;
+	decide on false.
 	
+To decide which text is the/-- currently playing music file/--:
+	execute JavaScript command "vorple.audio.currentMusicPlaying()||''";
+	decide on the text returned by the JavaScript command.
+
 Vorple Multimedia ends here.
 
 
@@ -80,8 +123,6 @@ Media files (images and audio) should be declared in the story source so that In
 	Release along with the file "whatever.png".
 
 The files should be placed in the Materials directory, as per chapter 23.7. in Writing with Inform.
-
-It doesn't matter what you call the resource ("Some picture" in the above example). Only the filename ("whatever.png") is significant.
 
 Note that we shouldn't use the "Figure of ..." or "Sound of ..." directives described in chapter 22 of Writing with Inform. Files declared this way won't be included correctly in the release folder.
 
@@ -109,13 +150,13 @@ Tip: When releasing the project, the file "Cover.jpg" or "Cover.png" is automati
 
 Section: Images from the Internet
 
-The "display image" phrase accepts direct web addresses of images as well:
+The "place an image" phrase accepts direct web addresses of images as well:
 	
-	display image "http://example.com/image.jpg";
+	place an image "http://example.com/image.jpg";
 	
 Some important caveats:
 	
-- Things on the Internet tend to disappear over time: they get removed, moved, or the web site just stops to exists. If you don't have control over the image source, it's better to just download the image and include it with other story resources - within the limits of copyright permissions, of course.
+- Things on the Internet tend to disappear over time: they get removed, moved, or the web site just ceases to exists. If you don't have control over the image source, it's better to just download the image and include it with other story resources - within the limits of copyright permissions, of course.
 
 - Don't include an image as a link if you don't have a permission to do so! It's called 'hotlinking' and is generally frowned upon as it causes sometimes expensive traffic to the original web site. Furthermore the owner of the hotlinked web site might change the image to something else, which might be more than awkward to the author. This obviously doesn't include image sharing web sites that are explicitly meant for this kind of use.
 
@@ -139,27 +180,85 @@ There are two types of audio: sound effects and music. The main difference is th
 
 Audio files should be in either mp3 or ogg format.
 
-	play sound file "bang.mp3";
+	play sound effect file "bang.mp3";
 	play music file "horns.mp3";
 
 By default the files are played once and then stopped. They can also be set to loop:
 
 	play music file "background.mp3", looping;
 
+Starting to play a music file that's already playing doesn't do anything other than set the looping status. In other words, if the file "mozart.mp3" is already playing and we try to play it again:
+
+	play music file "mozart.mp3", looping;
+	
+...then nothing happens, except that when the music ends it starts to loop. Conversely, if we leave out the 'looping' option then the music will not loop when it ends, even if it was originally set to loop.
+
+Starting a new music track while a different track is playing will fade out the old track before starting the new one. The old track fades out during one second and then waits another second to play the next one.
+
 Once playing the sounds can be stopped with the following phrases:
 
-	stop sounds;
+	stop sound effects;
 	stop music;
 	stop all audio;
 
-(Naturally stopping just the sound effects won't affect music, and vice versa.)
+(Naturally stopping just the sound effects won't affect music, and vice versa.) Stopping music or all audio also clears the playlist (see the next chapter.)
+
+Whether audio is currently playing can be tested with these phrases:
+	
+	if music is playing: ...
+	if a sound effect is playing: ...
+	if any audio is playing: ...
+	if the audio file called "bigband.mp3" is playing: ...
+	
+An audio file is considered 'playing' even when it's still loading and hasn't actually started to play yet.
+
+The currently playing music file can be retrieved by:
+	
+	if the currently playing music file is "elvis.mp3": ...
+
+
+Chapter: Playlists
+
+Playlists are collections of music that automatically play one after another. Playlists can be started with the following phrase:
+	
+	start the playlist { "one.mp3", "two.mp3", "three.mp3" };
+	
+The file "one.mp3" starts to play, when it finishes "two.mp3" starts automatically, and finally after that "three.mp3" plays. If we want the playlist to repeat from the start after it has played the last track:
+
+	start the playlist { "one.mp3", "two.mp3", "three.mp3" }, repeating;
+	
+We can also play the list in a random order:
+
+	start the playlist { "one.mp3", "two.mp3", "three.mp3" }, shuffled;
+	
+Both options can be used together, but a repeating playlist is shuffled only once. When the playlist finishes and restarts again, it replays in the same order as the first time.
+
+If the first track in the playlist is already playing at the same time when the playlist is started, the track will keep playing normally to the end and then continue from the second track in the playlist. Otherwise any music track that's playing will stop and the playlist will start immediately from the first item.
+
+If a music file is played manually with the "play music file..." phrase while the playlist is running, the playlist will continue from the next track after the manually started music ends. Starting a new playlist while the previous one is playing will replace the old playlist with the new one.
+
+The playlist can be cleared with:
+	
+	clear the playlist;
+	
+Clearing the playlist doesn't immediately stop the currently playing track. Unless instructed otherwise, the track will continue but doesn't start a new track when it ends. Stopping music with "stop the music" or "stop all audio" phrases clears the playlist automatically.
+
+Note that the music system uses the playlist internally for queueing songs, so remember to clear the playlist before playing a new track or starting a new playlist.
+
+	[DON'T DO THIS - WON'T WORK!]
+	play the music file called "new.mp3";
+	clear the playlist;
+	
+	[DO THIS INSTEAD]
+	clear the playlist;
+	play the music file called "new.mp3";
 
 
 Example: * Serinette - Basic example of playing music and sound effects.
 
 The serinette (a type of music box) plays music when it opens and a sound effect when it's wound. We'll also show its picture when it's examined.
 
-The example media files can be downloaded from http://vorple-if.com/vorple/doc/inform7/examples/resources.
+The example media files can be downloaded from http://vorple-if.com/doc/inform7/examples .
 
 	*: "Serinette"
 	
@@ -230,15 +329,15 @@ The example media files can be downloaded from http://vorple-if.com/vorple/doc/i
 
 Example: ** Port Royal Reggae - Applying background music to different regions.
 
-We'll spice up example 9 - Port Royal 3 with some background music.
+We'll spice up the Port Royal example from Writing with Inform with some background music.
 
 When the player moves around the map the music will change according to the region they're in. We'll assign each region a music file, and the music changes only if the new room is in a different region than the one we just came from so that the same sound file won't start over when the player moves inside the same region. 
 
 With small modifications the code could be used with individual rooms or scenes.
 
-The first part is identical with Port Royal 3, example 10 in the Writing with Inform manual. Vorple-specific code starts from chapter 2 at the end.
+The first part is identical with the Port Royal 3 example in the Writing with Inform manual. Vorple-specific code starts from chapter 2 at the end.
 
-The audio files used here can be downloaded from http://vorple-if.com/vorple/doc/inform7/examples/resources/music.
+The audio files used here can be downloaded from http://vorple-if.com/doc/inform7/examples .
 
 	*: "1691"
 		
@@ -299,20 +398,20 @@ The audio files used here can be downloaded from http://vorple-if.com/vorple/doc
 
 	Release along with the file "inland.mp3".
 	Release along with the file "waterfront.mp3".
-	Release along with the file "military.mp3".
+	Release along with the file "wind.mp3".
 	Release along with the file "tavern.mp3".
 	
 	A region has some text called the background audio.
-	The current audio is text that varies.
+	The current region is a region that varies.
 	
 	The background audio of Inland is "inland.mp3".
 	The background audio of Waterfront is "waterfront.mp3".
 	The background audio of Military Holdings is "wind.mp3".
 	The background audio of Tavern is "tavern.mp3".
 	
-	Every turn when the map region of the location is not nothing and the background audio of the map region of the location is not the current audio and the background audio of the map region of the location is not "" (this is the play background audio rule):
+	Every turn when the map region of the location is not nothing and the map region of the location is not the current region and the background audio of the map region of the location is not "" (this is the play background audio rule):
 		play music file background audio of the map region of the location, looping;
-		now the current audio is the background audio of the map region of the location.
+		now the current region is the map region of the location.
 		
 	[Every turn rules aren't run on the first turn so we'll run it manually.]
 	When play begins (this is the start initial background audio rule):
@@ -320,3 +419,24 @@ The audio files used here can be downloaded from http://vorple-if.com/vorple/doc
 			follow the play background audio rule.		
 
 	Test me with "s / s / n / e / e / s / in".
+	
+We could also set up playlists for each region instead of just one track.
+
+	A region has a list of text called the background playlist.
+	The current region is a region that varies.
+	
+	The background playlist of Inland is {"inland.mp3", "market.mp3"}.
+	The background playlist of Waterfront is {"waterfront.mp3", "seagulls.mp3", "fishermen.mp3"}.
+	The background playlist of Military Holdings is {"wind.mp3", "cannons.mp3"}.
+	The background playlist of Tavern is {"tavern.mp3"}.
+	
+	Every turn when the map region of the location is not nothing and the map region of the location is not the current region and the background playlist of the map region of the location is not empty (this is the play background audio rule):
+		start the playlist background playlist of the map region of the location, repeating and shuffled;
+		now the current region is the map region of the location.
+		
+	[Every turn rules aren't run on the first turn so we'll run it manually.]
+	When play begins (this is the start initial background audio rule):
+		if the map region of the location is not nothing and the background playlist of the map region of the location is not empty:
+			follow the play background audio rule.		
+
+(The tracks in the playlists are made up so unfortunately they're not included in the example resource package like the other tracks.)
