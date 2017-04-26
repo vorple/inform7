@@ -6,18 +6,51 @@ Include version 3 of Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 
+Chapter 1 - Modal windows
+
 To show a/-- modal window reading (content - text):
 	let modal message be escaped content using "\n" as line breaks;
-	execute JavaScript code "vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:vorple.prompt.unhide});vorple.prompt.hide()".
+	execute JavaScript code "vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:vorple.layout.unblock});vorple.layout.block()";
+	if Vorple is not supported:
+		say "[content][paragraph break]";
+	wait for any key.
 
 To show a/-- modal window:
-	show a modal window reading "".
+	show a modal window reading "";
+	wait for any key.
 	
 To set output focus to the/-- modal window:
 	set output focus to the element called "vex-dialog-message".
 	
 To close the/-- modal window:
 	execute JavaScript code "vex.closeAll()".
+
+	
+Chapter 2 - Waiting for keypress (for use without Basic Screen Effects by Emily Short)
+
+To wait for any key:
+	(- KeyPause(); -).
+	
+Include (-
+	[ KeyPause key; 
+		while ( 1 )
+		{
+			key = VM_KeyChar();
+			#Ifdef TARGET_ZCODE;
+			if ( key == 63 or 129 or 130 or 132 )
+			{
+				continue;
+			}
+			#Ifnot; ! TARGET_GLULX
+			if ( key == -4 or -5 or -10 or -11 or -12 or -13 )
+			{
+				continue;
+			}
+			#Endif; ! TARGET_
+			rfalse;
+		}
+	];
+-).
 
 Vorple Modal Windows ends here.
 
@@ -52,23 +85,6 @@ The "show a modal window reading ..." lets us show only plain text, but if we wa
 Chapter: Closing modals programmatically
 
 The modal can be closed with the phrase "close the modal window". This is useful if we have links inside the modal that trigger parser commands, so we can have the command close the modal. If no modals are open the phrase doesn't do anything.
-
-Opening a new modal automatically closes any modal that is already open.
-
-
-Chapter: A note about non-blocking modal behavior
-
-Modals don't pause the story while they're waiting for the player to click on the OK button. The turn continues to the end where it would start waiting for new player input.
-
-For example:
-	
-	say "One.";
-	show a modal window reading "Two.";
-	say "Three.";
-	show a modal window reading "Four.";
-	say "Five.";
-	
-What happens here is that the story prints "One" to the main window, then pops up a modal that reads "Two", then without waiting, prints "Three" to the main window. Then it shows a new modal that reads "Four" and closes the old modal (which means that the player will never see the first modal), then again without wating prints "Five" to the main window.
 
 
 Example: * The Greeter - Showing a modal at the start of the play

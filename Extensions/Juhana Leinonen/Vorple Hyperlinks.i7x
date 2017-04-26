@@ -82,7 +82,7 @@ To place a/-- link to execute a/the/-- JavaScript command (cmd - text) reading (
 
 Chapter 2 - Disabling links
 
-To disable a/the/-- link/links called (classes - text):
+To disable all/a/the/-- link/links called (classes - text):
 	execute JavaScript command "$('a.vorple-link.[classes]').replaceWith(function() { return $('<span>').addClass('vorple-disabled-link [classes]').html($(this).html())}).length".
 
 To disable all the/-- links inside element called (elem - text):
@@ -233,4 +233,42 @@ Because we can't print the topic entry that contains the actual command, we'll a
 		end the story finally.
 		
 	Test me with "take gem".
+
+
+Example: *** Mood Swings - Changing the text of clicked links
+
+A commonly used technique in modern hypertext IF is to make a linked text cycle through a set of options that changes the story state. For example, clicking on the word "happy" in the text "Alice is happy" changes the sentence to "Alice is sad" without otherwise advancing the story.
+
+Here we do the same thing by making links in character descriptions trigger a hidden command that changes the property called appearance and then changing the link to reflect the new property. The phrase that changes the link ("display text...") is from the core Vorple extension.
+
+
+	*: "Mood Swings"
+
+	Include Vorple Hyperlinks by Juhana Leinonen.
+	Release along with the "Vorple" interpreter.
+	
+	An appearance is a kind of value. Appearances are confident, energetic, flustered, tired and cheerful. A person has an appearance.
+	
+	The Savoy Ballroom is a room. Alice is a woman in the ballroom. Bob is a man in the ballroom. Carol is a woman in the ballroom. David is a man in the ballroom.
+	
+	The description of a person is usually "[The item described] is looking [link to the appearance of the item described]."
+	
+	To say link to the appearance of (target - person):
+		let link name be "appearance-[target]";
+		disable all links called link name; [don't let the player click on old links]
+		place a link to the command "cycle appearance of [target]" called link name reading "[appearance of the target]" , without showing the command.
+		
+	Cycling the appearance is an action applying to one visible thing.
+	
+	Understand  "cycle appearance of [any person]" as cycling the appearance.
+	
+	Carry out cycling the appearance:
+		now the noun is the appearance after the appearance of the noun;
+		if Vorple is supported:
+			display text "[appearance of the noun]" in the element called "appearance-[noun]".
+	
+	Report cycling the appearance when Vorple is not supported:
+		say "[The noun] is now [appearance of the noun]."
+
+	Test me with "x alice/cycle appearance of alice/g/x alice/x bob/cycle appearance of bob/x bob".
 

@@ -1,18 +1,19 @@
 Version 3 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen begins here.
 
-"Changing the style and contents of the command prompt and manipulating the command history."
+"Manually triggering parser commands, changing the contents of the command prompt and manipulating the command history."
 
 Use authorial modesty.
 
 Include version 3 of Vorple by Juhana Leinonen.
 
+
 Chapter 1 - Queueing parser commands
 
 To queue a/the/-- parser command (cmd - text), without showing the command:
-	let hideCommand be "false";
+	let hide command be false;
 	if without showing the command:
-		now hideCommand is "true";
-	execute JavaScript command "vorple.prompt.queueCommand('[escaped cmd]',[hideCommand])".
+		now hide command is true;
+	execute JavaScript command "vorple.prompt.queueCommand('[escaped cmd]'[if hide command is true],true[end if])".
 	
 
 Chapter 2 - Command history
@@ -73,7 +74,7 @@ Specifying "without showing the command" hides the command from view, but not th
 	After examining the player:
 		queue a parser command "inventory", without showing the command.
 		
-Because of the modifier the output is something like:
+The modifier causes the output to be something similar to:
 	
 	>x me
 	As good-looking as ever.
@@ -84,7 +85,7 @@ Hiding the command is purely a visual effect. It doesn't stop the turn counter f
 	
 The feature should be used sparingly: unless there's a specific reason to pass the commands through the parser this way, in vast majority of cases it's better to trigger actions using the standard "try" construct. In the previous example we should rather write "After examining the player: try taking inventory."
 
-Why queue the commands instead of just passing them to the prompt immediately? Technically the input prompt is available only between turns, so we must wait for it to become available. The story can't start processing a new turn while it's still processing the previous one. 
+Why queue the commands instead of just passing them to the prompt immediately? Whenever any Inform code is executed, the game loop is processing a turn. Technically the input prompt is available only between turns, so we must wait for it to become available. The story can't start processing a new turn while it's still processing the previous one. 
 
 
 Chapter: Manipulating the command history
@@ -136,7 +137,7 @@ The phrases "hide the prompt" and "unhide the prompt" hide and show the command 
 
 Hiding the prompt is needed only for asynchronous operations that don't already block script execution in the browser. It's not necessary to hide the prompt for slow synchronous operations that just take some time to finish.
 
-In most cases the JavaScript code itself will unhide the prompt when it's ready. The JavaScript command to unhide the prompt is "vorple.prompt.unhide()". The script can also hide the prompt with "vorple.prompt.hide()".
+In most cases the JavaScript code itself will unhide the prompt when it's ready. The JavaScript command to show the prompt is "vorple.prompt.unhide()". The script can also hide the prompt with "vorple.prompt.hide()".
 
 "Hide the prompt" only prevents user input. Passing commands to the prompt programmatically with "queue a parser command" still works even when the prompt is hidden.
 
@@ -269,7 +270,7 @@ This example gives the effect the full treatment: the player's command is interc
 		say "The presidential motorcade is just approaching in the distance."
 		
 	Instead of taking inventory:
-		say "You are carrying a rifle. You can't remember where you've got it."
+		say "You are carrying a rifle. You can't remember where you got it."
 		
 	After putting the rifle on the sill:
 		say "You place the rifle on the window sill."
