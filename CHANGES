@@ -2,8 +2,8 @@ See also the changelog of the main JavaScript library
 (https://github.com/vorple/vorple/CHANGES).
 
 
-Release 3.0
-===========
+Release 3.0 preview (2017-04-29)
+================================
 
  - Moved to the new Glulx-only interpreter model
  - Added the Command Prompt Control, Element Manipulation and Status Line

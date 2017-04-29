@@ -395,7 +395,7 @@ All standard Vorple extensions already have the "Include Vorple" line, so it's n
 
 In contrast to previous versions that were only for Z-Machine, version 3 of Vorple is for Glulx only. The project's story file format must be set to Glulx in Inform's Settings pane.
 	
-At the time of release of the current, third version of Vorple, the latest Inform release 6M62 includes the older version 2 of Vorple which is not compatible with the new extensions. The latest Vorple interpreter template is in the same package as these extensions. If you downloaded the extensions separately, you can find the interpreter template from vorple-if.com's download page.
+At the time of release of the current, third version of Vorple, the latest Inform release 6M62 includes the older version 2 of Vorple which is not compatible with the new extensions. The latest Vorple interpreter template is in the same package as these extensions.
 
 Also note that old Vorple extensions are not compatible with the current version of Vorple. If you get en error message about an extension being for Z-Machine only, the project is trying to include an old extension.
 
@@ -745,7 +745,7 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 
 Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service.
 
-Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/doc/inform7/examples . Put the file in the project's Resources folder to include it with the release.
+Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/doc/resources.zip . Put the file in the project's Resources folder to include it with the release.
 
 Note that the pause between issuing the lookup command and the encyclopedia text appearing on the screen is caused by the time it takes to send a request to and receive a response from Wikipedia.
 
