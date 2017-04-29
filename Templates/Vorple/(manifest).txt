@@ -81,10 +81,13 @@ g
     	if( location.protocol === "file:" ) {
     		$( 'body' )
     			.empty()
-    			.html( "<div>You are currently viewing the page from the filesystem. " +
+    			.html( "<div><p>You are currently viewing the page from the filesystem. " +
     				"Unfortunately Vorple requires that the page is viewed through " +
     				"the HTTP protocol, that is, you'll need to either upload it " +
-    				"to the Internet or install a local server.</div>" )
+    				"to the Internet or install a local server.</p>" +
+    				'<p>See <a href="http://vorple-if.com/doc/localhost" style="color:#dde">vorple-if.com/doc/localhost</a> ' +
+    				"for more information.</p>" +
+    				"</div>" )
     			.find( 'div' )
     			.css({
                     margin: "2em",
