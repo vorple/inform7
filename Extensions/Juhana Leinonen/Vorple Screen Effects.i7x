@@ -1,4 +1,4 @@
-Version 3 of Vorple Screen Effects by Juhana Leinonen begins here.
+Version 3/170429 of Vorple Screen Effects by Juhana Leinonen begins here.
 
 "Vorple equivalent of Basic Screen Effects by Emily Short. Waiting for a keypress, clearing the screen, aligning, styling and coloring text."
 
@@ -186,16 +186,16 @@ light red background,
 light magenta background
 are Vorple styles.
 
+[
+ -- not ready yet --
 
 To apply (style - Vorple style) style to the/-- entire/whole/-- page:
-	do nothing;
-	[
 	execute JavaScript command "$('#vorpleContainer')[bracket]0[close bracket].className=$('#vorpleContainer')[bracket]0[close bracket].className.replace(/\b[bracket]a-z[close bracket]+\-foreground/,'');$('#vorpleContainer').addClass('[color]-foreground')".
-]
 
 To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
 	do nothing.
-	
+
+
 To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
 	set the text color of the element called classes to red r green g blue b with 100 percent opacity.
 
@@ -204,7 +204,6 @@ To set the/-- text color/colour of all the/-- elements called (classes - text) t
 	
 To set the/-- text color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
 	set the text color of all the elements called classes to red r green g blue b with 100 percent opacity.
-
 
 To set the/-- background color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
 	do nothing.
@@ -217,6 +216,7 @@ To set the/-- background color/colour of all the/-- elements called (classes - t
 	
 To set the/-- background color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
 	set the background color of all the elements called classes to red r green g blue b with 100 percent opacity.
+]
 
 
 Section 7 - Headers

@@ -1,4 +1,4 @@
-Version 3 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
+Version 3/170429 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 
 "Displaying images and playing sounds and music."
 

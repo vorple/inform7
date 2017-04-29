@@ -1,4 +1,4 @@
-Version 3 of Vorple Modal Windows (for Glulx only) by Juhana Leinonen begins here.
+Version 3/170429 of Vorple Modal Windows (for Glulx only) by Juhana Leinonen begins here.
 
 "Modal windows are dialog prompts or other information windows that pop up on top of the play area and require user action to dismiss."
 

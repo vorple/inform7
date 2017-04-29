@@ -1,4 +1,4 @@
-Version 3/170319 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/170429 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -763,6 +763,7 @@ Note that the pause between issuing the lookup command and the encyclopedia text
 	Carry out looking up when Vorple is supported:
 		place a block level element called "dictionary-entry";		
 		execute JavaScript command "wikipedia_query('[escaped topic understood]')";
+		say run paragraph on;
 		block the user interface. [the Wikipedia script will unblock the UI]
 		
 	Report looking up when Vorple is not supported:
