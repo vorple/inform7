@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Screen Effects by Juhana Leinonen begins here.
+Version 3/180524 of Vorple Screen Effects by Juhana Leinonen begins here.
 
 "Vorple equivalent of Basic Screen Effects by Emily Short. Waiting for a keypress, clearing the screen, aligning, styling and coloring text."
 
@@ -310,16 +310,16 @@ The following styles are provided with the extension:
 	strong font
 	underlined font
 	
-The "cursive" style displays text in a font resembling cursive writing, "fantasy" uses a decorative font resembling handwriting and "monospace" is a fixed width font (corresponding to Inform's [fixed letter spacing]). The actual font used depends on the web browser, operating system, user preferences and any custom CSS directives. 
+The "cursive font" style displays text in a font resembling cursive writing, "fantasy font" uses a decorative font resembling handwriting and "monospace font" is a fixed width font (corresponding to Inform's "[fixed letter spacing]"). The actual font used depends on the web browser, operating system, user preferences and any custom CSS directives. 
 
-"Emphasized" and "strong" are usually (but not guaranteed to be) italic and bold text respectively.
+"Emphasized font" and "strong font" are usually (but not guaranteed to be) italic and bold text respectively.
 
-The "nowrap" style does not allow line breaks inside the style. It's mostly used when displaying numbers that use space as a separator. For example, we don't want the text "The suitcase contains a statue worth 100 000 dollars" to be split between "100" and "000":
+The "nowrap font" style does not allow line breaks inside the style. It's mostly used when displaying numbers that use space as a separator. For example, we don't want the text "The suitcase contains a statue worth 100 000 dollars" to be split between "100" and "000":
 
 	The suitcase contains a statue worth 100
 	000 dollars.
 	
-If we add the "nowrap" style ("The suitcase contains a statue worth [nowrap style]100 000[end style] dollars.") the number is guaranteed to stay on the same line:
+If we add the "nowrap font" style ("The suitcase contains a statue worth [nowrap font style]100 000[end style] dollars.") the number is guaranteed to stay on the same line:
 
 	The suitcase contains a statue worth 
 	100 000 dollars. 
