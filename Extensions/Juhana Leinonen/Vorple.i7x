@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/180524 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -525,7 +525,6 @@ Any value the JavaScript code returns can be retrieved with "the value returned 
 	
 	the text returned by the JavaScript command
 	the number returned by the JavaScript command
-	the truth state returned by the JavaScript command
 	
 There's also a shorthand phrase for testing for boolean return values:
 	
@@ -727,7 +726,7 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 			execute JavaScript command "var today=new Date(); [bracket]'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'[close bracket][bracket]today.getMonth()[close bracket]+' '+today.getDate()+', '+today.getFullYear()";
 			say the text returned by the JavaScript command;
 		otherwise:
-			say "March 9, 2017." [just some random date for non-Vorple interpreters]
+			say "March 9, 2017" [just some random date for non-Vorple interpreters]
 	
 	To synchronize clocks:
 		if Vorple is supported:
