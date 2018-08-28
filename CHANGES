@@ -1,223 +1,260 @@
 See also the changelog of the main JavaScript library
 (https://github.com/vorple/vorple/CHANGES).
 
-
-Release 3.0 preview (2017-04-29)
-================================
-
- - Moved to the new Glulx-only interpreter model
- - Added the Command Prompt Control, Element Manipulation and Status Line
-   extensions
+The numbers after the items refer to GitHub issues.
 
 
-Vorple
-------
+Release 3.1
+===========
 
- - Removed the concept of queueing JavaScript code, because the new interpreter
-   doesn't have the same limitations queueing used to solve
- - Removed the special rulebook that was designed to let the interpreter
-   pass control commands to the game before the "when play begins" rulebook,
-   because the new model doesn't need to communicate through line input anymore
- - Similarly, because communication through line input isn't a central concept
-   of the system, triggering line input from I7 has been moved from the core
-   extension to a new Vorple Command Prompt Control extension
- - Added a Vorple interface setup rulebook that also runs before the "when play
-   begins" rulebook but is guaranteed to run only once per web page load and is
-   meant for initializing the user interface, e.g. event handlers
- - Passing JavaScript to the interpreter doesn't use output streams in the new
-   system so JavaScript can't mess up line breaks in normal output anymore
- - Restarting the game doesn't pop up a custom restart prompt because the
-   new interpreter can handle native restart correctly
- - Removed the transient text description from the documentation, since the
-   interpreter doesn't provide it by default anymore
- - Removed turn type marking from the core extension
- - "display (text) in element (text)" is now "display text (text) in element
-   called (text)" and for consistency with other phrases "display (text) in all
-   (text) elements" is now "display text (text) in all elements called (text)"
- - Added the phrase "set output focus to ..." which will cause further output to
-   continue in the named element
- - Added phrases to find the number of elements and testing for the existence of
-   elements
- - Tweaked the Sum of Human Knowledge example's Wikipedia script to return
-   meaningful results more often
- - Removed an extra line break in the banner after Vorple credits when there's
-   more text added after it
+- Unit tests are rewritten to use Webdriver.io and Selenium so that the I7 story
+  file only runs the I7 code and the JavaScript test cases check the results
 
 
-Hyperlinks
-----------
+Modal Windows
+-------------
 
- - Fixed a bug that caused linked text to be displayed twice in non-Vorple
-   interpreters
- - Removed the option to suppress story output when making links that trigger
-   parser commands because it's not the recommended way to pass information
-   to I7 anymore
- - Added an option to name the links for referring to them in the future
- - Added links that execute JavaScript code
- - Added phrases to disable links
- - For consistency, the default classes that are applied to the link elements
-   are now called "vorple-weblink", "vorple-commandlink" and "vorple-jslink"
+- Due to how the modal windows block Inform from continuing with the turn,
+  having an Inform phrase to close modals doesn't really have any practical use.
+  The "close the modal window" phrase is therefore removed from the extension.
+- Fixed a problem that caused the modal windows to require a keypress before
+  showing custom content when creating them without using the "reading ..."
+  shorthand. This also fixes the problem that dismissing the modal required two
+  clicks or keypresses. (#5, #9)
 
 
 Multimedia
 ----------
 
- - Removed the YouTube video feature
- - Added playlist features
- - Added phrases for checking if audio is playing and retrieving the file name
-   of the currently playing music
- - "Sounds" are now called more specifically "sound effects"
- - For consistency, the "display image" phrase now puts the image in an existing
-   element. Creating new images (the old behavior) is done with a "place image"
-   phrase, consistent with the core extension's element creation phrases.
- - When displaying images, they must be accompanied by a description for screen
-   readers and non-Vorple interpreters
- - When adding custom classes to the images, they're added after the default
-   class "vorple-image"
- - Added a note to documentation about the possibility of using images from
-   other URLs
-
-
-Notifications
--------------
-
- - Notifications are split into two separate extensions: "pure" notifications
-   (short messages that disappear after a while) stay in this one, and more
-   complex dialogs are moved to the new Vorple Modal Windows extension.
- - Changed the notification JavaScript library to Toastr
-   (http://codeseven.github.io/toastr/)
- - Four different notification types (info, success, warning, and error),
-   provided by Toastr, are now supported
- - Notifications can now have titles
- - Custom positioning is removed. Notifications are shown in the location that's
-   defined in CSS. Positioning is responsive, i.e. they're shown top right
-   except in mobile view where they're shown as a top bar.
- - The phrase to show the notification is changed to be consistent with other
-   extensions ("display a notification reading...")
- - Added an option to define how long the notification is displayed
-
-
-Screen Effects
---------------
-
- - The extension is now designed to work together with Basic Screen Effects by
-   Emily Short instead of as a complete replacement. As such Basic Screen
-   Effects is now automatically included with Vorple Screen Effects.
- - The phrase that creates centered text no longer has an option to print the
-   text in fixed letter spacing. A note has been added in the documentation
-   instructing how to apply any styling to the centered text block.
- - The extension now extends Standard Rules' "boxed quotation" feature so that
-   in the Vorple interpreter the boxed quotation is placed inside a blockquote
-   element
- - Renamed the right-align phrase to right align
- - Vorple style values are now allowed to consist of more than one word and they
-   may contain uppercase characters. When applying styles to an element, the
-   style value is converted to lowercase and spaces are replaced with dashes.
- - Because the values can have more than one word, basic style values include
-   the word "font" to avoid namespace clashes, e.g. the "cursive" value is now
-   "cursive font" and so on
- - Similarly color styles are now called "<color> letters" and "<color>
-   background"
- - Removed the transient font style (fading out content at the start of next
-   turn) because the interpreter doesn't provide the feature anymore
- - Added more color styles. The basic set now covers the full 16-color EGA
-   palette, which is what the Haven interpreter provides out of the box.
- - Added phrases to change elements' text and background colors to arbitrary
-   values, including setting the alpha channel (opacity)
- - Removed the "end all styles" phrase which would also close all currently open
-   non-style elements
- - Removed the "default letters" phrase which would have the same issues as
-   "end all styles" and as an analogue to the equivalent Z-machine phrase isn't
-   necessary anymore
- - Glulx doesn't support text colors the same way that Z-machine did, so there
-   are no non-Vorple fallbacks for text and background colors anymore
- - Related to the removal of the color fallbacks, removed the individual
-   "say <color> letters/background" phrases that existed for two reasons:
-   firstly, they replaced the equivalent Z-machine phrases from Basic Screen
-   Effects, and secondly they were more readable than the one-word color styles.
-   The Z-machine phrases aren't used anymore and color styles are now more
-   naturally named so they don't have any reason to exist anymore.
- - Renamed the phrase to change the styles of the entire page to "apply (vorple
-   style) to the entire page" which can be used to apply any style to the
-   interpreter window
- - Added helper phrases for making header and list elements
+- Fixed documentation where comments in the code would be invisible in the
+  Inform IDE (#18)
+- Added documentation about adding HTML classes images and how the resulting
+  HTML will look like
 
 
 Tooltips
 --------
 
- - Syntax for adding mouseover tooltips to existing elements changed to "attach"
-   instead of "display" to more accurately reflect the fact that the tooltip
-   isn't displayed immediately
- - Syntax for displaying tooltips immediately is changed from "... element" to
-   "element called ..." for consistency with other extensions
- - Removed the option to pass tooltip delay in milliseconds
- - Added an option to pass the duration for how long manually triggered tooltips
-   are shown, in addition to an "indefinitely" option to never automatically
-   hide the tooltip
- - Added phrases to hide tooltips
- - Tooltips are no longer attached to all future elements automatically if they
-   match the classname of previously attached tooltips. In other words, when
-   attaching tooltips to all elements, the "all" refers only to currently
-   existing elements.
- - When creating text with tooltip attached with "place text ... with tooltip"
-   the element can be named
- - Fixed example "How To II" so that it won't suppress parser messages
- - Fixed wrong phrases in the documentation
+- Added a configurable default duration for how long tooltips stay on screen
+- Phrases with the word "seconds" now have synonyms with "second" so phrases
+  like "...after 1 seconds" can be written as "...after 1 second"
+
+
+Release 3.0 preview (2017-04-29)
+================================
+
+- Moved to the new Glulx-only interpreter model
+- Added the Command Prompt Control and Element Manipulation extensions
+
+
+Vorple
+------
+
+- Removed the concept of queueing JavaScript code, because the new interpreter
+  doesn't have the same limitations queueing used to solve
+- Removed the special rulebook that was designed to let the interpreter
+  pass control commands to the game before the "when play begins" rulebook,
+  because the new model doesn't need to communicate through line input anymore
+- Similarly, because communication through line input isn't a central concept
+  of the system, triggering line input from I7 has been moved from the core
+  extension to a new Vorple Command Prompt Control extension
+- Added a Vorple interface setup rulebook that also runs before the "when play
+  begins" rulebook but is guaranteed to run only once per web page load and is
+  meant for initializing the user interface, e.g. event handlers
+- Passing JavaScript to the interpreter doesn't use output streams in the new
+  system so JavaScript can't mess up line breaks in normal output anymore
+- Restarting the game doesn't pop up a custom restart prompt because the
+  new interpreter can handle native restart correctly
+- Removed the transient text description from the documentation, since the
+  interpreter doesn't provide it by default anymore
+- Removed turn type marking from the core extension
+- "display (text) in element (text)" is now "display text (text) in element
+  called (text)" and for consistency with other phrases "display (text) in all
+  (text) elements" is now "display text (text) in all elements called (text)"
+- Added the phrase "set output focus to ..." which will cause further output to
+  continue in the named element
+- Added phrases to find the number of elements and testing for the existence of
+  elements
+- Tweaked the Sum of Human Knowledge example's Wikipedia script to return
+  meaningful results more often
+- Removed an extra line break in the banner after Vorple credits when there's
+  more text added after it
+
+
+Hyperlinks
+----------
+
+- Fixed a bug that caused linked text to be displayed twice in non-Vorple
+  interpreters
+- Removed the option to suppress story output when making links that trigger
+  parser commands because it's not the recommended way to pass information
+  to I7 anymore
+- Added an option to name the links for referring to them in the future
+- Added links that execute JavaScript code
+- Added phrases to disable links
+- For consistency, the default classes that are applied to the link elements
+  are now called "vorple-weblink", "vorple-commandlink" and "vorple-jslink"
+
+
+Multimedia
+----------
+
+- Removed the YouTube video feature
+- Added playlist features
+- Added phrases for checking if audio is playing and retrieving the file name
+  of the currently playing music
+- "Sounds" are now called more specifically "sound effects"
+- For consistency, the "display image" phrase now puts the image in an existing
+  element. Creating new images (the old behavior) is done with a "place image"
+  phrase, consistent with the core extension's element creation phrases.
+- When displaying images, they must be accompanied by a description for screen
+  readers and non-Vorple interpreters
+- When adding custom classes to the images, they're added after the default
+  class "vorple-image"
+- Added a note to documentation about the possibility of using images from
+  other URLs
+
+
+Notifications
+-------------
+
+- Notifications are split into two separate extensions: "pure" notifications
+  (short messages that disappear after a while) stay in this one, and more
+  complex dialogs are moved to the new Vorple Modal Windows extension.
+- Changed the notification JavaScript library to Toastr
+  (http://codeseven.github.io/toastr/)
+- Four different notification types (info, success, warning, and error),
+  provided by Toastr, are now supported
+- Notifications can now have titles
+- Custom positioning is removed. Notifications are shown in the location that's
+  defined in CSS. Positioning is responsive, i.e. they're shown top right
+  except in mobile view where they're shown as a top bar.
+- The phrase to show the notification is changed to be consistent with other
+  extensions ("display a notification reading...")
+- Added an option to define how long the notification is displayed
+
+
+Screen Effects
+--------------
+
+- The extension is now designed to work together with Basic Screen Effects by
+  Emily Short instead of as a complete replacement. As such Basic Screen
+  Effects is now automatically included with Vorple Screen Effects.
+- The phrase that creates centered text no longer has an option to print the
+  text in fixed letter spacing. A note has been added in the documentation
+  instructing how to apply any styling to the centered text block.
+- The extension now extends Standard Rules' "boxed quotation" feature so that
+  in the Vorple interpreter the boxed quotation is placed inside a blockquote
+  element
+- Renamed the right-align phrase to right align
+- Vorple style values are now allowed to consist of more than one word and they
+  may contain uppercase characters. When applying styles to an element, the
+  style value is converted to lowercase and spaces are replaced with dashes.
+- Because the values can have more than one word, basic style values include
+  the word "font" to avoid namespace clashes, e.g. the "cursive" value is now
+  "cursive font" and so on
+- Similarly color styles are now called "<color> letters" and "<color>
+  background"
+- Removed the transient font style (fading out content at the start of next
+  turn) because the interpreter doesn't provide the feature anymore
+- Added more color styles. The basic set now covers the full 16-color EGA
+  palette, which is what the Haven interpreter provides out of the box.
+- Added phrases to change elements' text and background colors to arbitrary
+  values, including setting the alpha channel (opacity)
+- Removed the "end all styles" phrase which would also close all currently open
+  non-style elements
+- Removed the "default letters" phrase which would have the same issues as
+  "end all styles" and as an analogue to the equivalent Z-machine phrase isn't
+  necessary anymore
+- Glulx doesn't support text colors the same way that Z-machine did, so there
+  are no non-Vorple fallbacks for text and background colors anymore
+- Related to the removal of the color fallbacks, removed the individual
+  "say <color> letters/background" phrases that existed for two reasons:
+  firstly, they replaced the equivalent Z-machine phrases from Basic Screen
+  Effects, and secondly they were more readable than the one-word color styles.
+  The Z-machine phrases aren't used anymore and color styles are now more
+  naturally named so they don't have any reason to exist anymore.
+- Renamed the phrase to change the styles of the entire page to "apply (vorple
+  style) to the entire page" which can be used to apply any style to the
+  interpreter window
+- Added helper phrases for making header and list elements
+
+
+Tooltips
+--------
+
+- Syntax for adding mouseover tooltips to existing elements changed to "attach"
+  instead of "display" to more accurately reflect the fact that the tooltip
+  isn't displayed immediately
+- Syntax for displaying tooltips immediately is changed from "... element" to
+  "element called ..." for consistency with other extensions
+- Removed the option to pass tooltip delay in milliseconds
+- Added an option to pass the duration for how long manually triggered tooltips
+  are shown, in addition to an "indefinitely" option to never automatically
+  hide the tooltip
+- Added phrases to hide tooltips
+- Tooltips are no longer attached to all future elements automatically if they
+  match the classname of previously attached tooltips. In other words, when
+  attaching tooltips to all elements, the "all" refers only to currently
+  existing elements.
+- When creating text with tooltip attached with "place text ... with tooltip"
+  the element can be named
+- Fixed example "How To II" so that it won't suppress parser messages
+- Fixed wrong phrases in the documentation
 
 
 
 Release 2.5 (2014-05-07)
 ========================
 
- - Updated to work with the new I7 release
- - Changed the author's name from "The Vorple Project" to "Juhana Leinonen"
-   to conform with Inform 7 extension guidelines, added "Vorple" in front
-   of extension names, renamed "Hypertext" to "Hyperlinks" and
-   "Core" to just "Vorple"
- - Added the "Vorple Screen Effects" extension
- - Added and fixed examples across the board
+- Updated to work with the new I7 release
+- Changed the author's name from "The Vorple Project" to "Juhana Leinonen"
+  to conform with Inform 7 extension guidelines, added "Vorple" in front
+  of extension names, renamed "Hypertext" to "Hyperlinks" and
+  "Core" to just "Vorple"
+- Added the "Vorple Screen Effects" extension
+- Added and fixed examples across the board
 
 
 Vorple
 ------
 
- - Separate checks for new Z-machine 1.2 streams and caching Vorple
-   availability (closes #1 in main repo)
- - Removed the Undo Output Control which is now unneeded
- - Reworked the creation and placing content to HTML tags completely.
-   The only allowed phrases are now "place an ["element"] element
-   [called "name"] [reading "text"]", "display "text" in the element "name""
-   and "display "text" in all "name" elements". The "display "text" in the
-   element "name"" phrase affects only the last available element.
- - Changed "eval" to "execute JavaScript command/code" and "queue code"
-   to "queue JavaScript command/code"
- - Moved transient text to the Screen Effects extension
- - Added phrases to issue commands directly to the parser
+- Separate checks for new Z-machine 1.2 streams and caching Vorple
+  availability (closes #1 in main repo)
+- Removed the Undo Output Control which is now unneeded
+- Reworked the creation and placing content to HTML tags completely.
+  The only allowed phrases are now "place an ["element"] element
+  [called "name"] [reading "text"]", "display "text" in the element "name""
+  and "display "text" in all "name" elements". The "display "text" in the
+  element "name"" phrase affects only the last available element.
+- Changed "eval" to "execute JavaScript command/code" and "queue code"
+  to "queue JavaScript command/code"
+- Moved transient text to the Screen Effects extension
+- Added phrases to issue commands directly to the parser
 
 
 Hyperlinks
 ----------
 
- - Added a missing full stop at the end of first line which
-   prevented the extension from installing correctly
- - Added an option for external links to open in the same window
- - Renamed the phrases to match the new phrasing in the main extension
- - Leaving out the links' text content will default to the link target
+- Added a missing full stop at the end of first line which
+  prevented the extension from installing correctly
+- Added an option for external links to open in the same window
+- Renamed the phrases to match the new phrasing in the main extension
+- Leaving out the links' text content will default to the link target
 
 
 Multimedia
 ----------
 
- - Replaced documentation about including resources with the current version
+- Replaced documentation about including resources with the current version
 
 
 Tooltips
 --------
 
- - Added the missing "Z-machine only" directive
- - Renamed the say phrase to match the main extension's new phrases
- - By default tooltips are shown only on the last matching element
- - Phrases to create tooltips that are activated on mouseover
- - The delay for showing the tooltip can be supplied, and the default
-   delay is dropped from 3 seconds to nothing.
+- Added the missing "Z-machine only" directive
+- Renamed the say phrase to match the main extension's new phrases
+- By default tooltips are shown only on the last matching element
+- Phrases to create tooltips that are activated on mouseover
+- The delay for showing the tooltip can be supplied, and the default
+  delay is dropped from 3 seconds to nothing.

@@ -6,32 +6,46 @@ Include Vorple Element Manipulation by Juhana Leinonen.
 Include Vorple Hyperlinks by Juhana Leinonen.
 Include Vorple Modal Windows by Juhana Leinonen.
 Include Vorple Multimedia by Juhana Leinonen.
+Include Vorple Notifications by Juhana Leinonen.
 Include Vorple Screen Effects by Juhana Leinonen.
+Include Vorple Tooltips by Juhana Leinonen.
 
 There is a room.
 
 
-Volume 1 - Unit tests
+Volume 1 - Extension tests
 
-Container counter is a number that varies.
+Book 1 - Vorple
 
-Book 1 – Vorple
+Chapter 1 - Handshake
 
-When play begins (this is the handshake test rule):
-	start tests for "Handshake";
+Carry out unit testing "handshake":
 	whether or not Vorple is supported confirms "Vorple support";
 	execute JavaScript command "vorple.version";
 	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?" confirms "Version number ([text returned by the JavaScript command])";
 
-When play begins (this is the JavaScript evaluation test rule):
-	start tests for "JavaScript evaluation";
+
+Chapter 2 - Interface setup
+
+Vorple interface setup rule:
+	execute JavaScript command "$('<div>').attr('id', 'interface-setup').appendTo('body')".
+
+Carry out unit testing "interface setup":
+	execute JavaScript command "$('#interface-setup').length";
+	expect the number returned by the JavaScript command to be 1 which confirms "Rules fired";
+	[cleanup]
+	execute JavaScript command "$('#interface-staging').remove()".
+
+
+Chapter 3 - JavaScript evaluation
+
+Carry out unit testing "string escaping":
 	let unclean text be "Testy 'Tester' O'Testface";
 	execute JavaScript command "'[escaped unclean text]'";
 	expect the text returned by the JavaScript command to be "[unclean text]" which confirms "Escaping quotes";
 
-When play begins (this is the return values test rule):
-	let return value be "";
-	start tests for "Return values";
+Carry out unit testing "JS evaluation":
+  let return value be "";
 	execute JavaScript command "'one two three'";
 	now return value is the value returned by the JavaScript command;
 	expect the text returned by the JavaScript command to be "one two three" which confirms "Text return value";
@@ -80,6 +94,7 @@ When play begins (this is the return values test rule):
 	expect the value returned by the JavaScript command to be "1000000000000000000000000000000" which confirms "Scientific notation is converted to plain integer";
 	execute JavaScript command "true";
 	expect the type of the value returned by the JavaScript command to be "truth state" which confirms "Truth state type";
+	execute JavaScript command "true";
 	whether or not the JavaScript command returned true confirms "Truth state value (true)";
 	execute JavaScript command "false";
 	whether or not the JavaScript command returned false confirms "Truth state value (false)";
@@ -114,18 +129,17 @@ When play begins (this is the return values test rule):
 	expect the return value to be "null" which confirms "Null value";
 	expect the type of the return value to be "nothing" which confirms "Null type";
 
-Vorple interface setup rule:
-	execute JavaScript command "$('<div>').attr('id', 'interface-setup').appendTo('body')".
+Carry out unit testing "circular references":
+  [The following creates an object with a circular reference. Stringifying it
+   will throw an error, which shouldn't crash the game or throw an error in the
+   interpreter. Instead, null should be returned.]
+  execute JavaScript command "var a = {}; a.a = a; a";
+	expect the value returned by the JavaScript command to be "null" which confirms "Circular reference evaluates to null".
 
-When play begins (this is the user interface setup test rule):
-	start tests for "Interface setup";
-	execute JavaScript command "$('#interface-setup').length";
-	expect the number returned by the JavaScript command to be 1 which confirms "Rules fired";
-	[cleanup]
-	execute JavaScript command "$('#interface-staging').remove()".
 
-When play begins (this is the containers test rule):
-	start tests for "Containers";
+Chapter 4 - DOM manipulation
+
+Carry out unit testing "create containers":
 	open HTML tag "div" called "testdiv";
 	say "1";
 	open HTML tag "span" called "testspan";
@@ -133,36 +147,11 @@ When play begins (this is the containers test rule):
 	close HTML tag; [span]
 	say "3";
 	close HTML tag; [div]
-	execute JavaScript command "$('.testdiv').text()==='123' && $('.testdiv .testspan').length===1 && $('.testdiv .testspan').text()==='2'";
-	whether or not the JavaScript command returned true confirms "Div and span created";
-	[cleanup]
-	execute JavaScript command "$('.testdiv').remove()".
 
-[The prompt change rules are somewhat confusingly intertwined because of the
-asynchronous nature of command queues. They're made this way to keep the test
-output cleaner.]
-When play begins (this is the command prompt test rule):
-	now the command prompt is "==>";
-	queue parser command "unittest prompt change";
-	expect test result "New prompt set";
-	queue parser command "unittest html prompt change";
-	expect test result "HTML prompt change".
+Container counter is a number that varies.
 
-Carry out unit testing "prompt change":
-	execute JavaScript command "haven.prompt.prefix.get()";
-	if the text returned by the JavaScript command is "==&gt;":
-		resolve test result "New prompt set";
-	now the command prompt is "<span>::</span>".
-
-Carry out unit testing "html prompt change":
-	execute JavaScript command "haven.prompt.prefix.get()";
-	if the text returned by the JavaScript command is "&lt;span&gt;::&lt;/span&gt;":
-		resolve test result "HTML prompt change";
-	[cleanup]
-	now the command prompt is ">".
-
-When play begins (this is the basic element manipulation test rule):
-	start tests for "Element manipulation";
+[TODO: break this up into smaller rules and have the test runner check results]
+Carry out unit testing "element manipulation":
 	open HTML tag "div" called "element-unittest-container";
 	place a "span" element called "unittest[container counter]" reading "one two three";
 	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').length";
@@ -268,10 +257,21 @@ When play begins (this is the basic element manipulation test rule):
 	expect the number of elements called "unittest[container counter]" to be 2 which confirms "Element count";
 
 
-Book 2 – Command Prompt Control
+Book 2 - Command Prompt Control
+
+Chapter 1 - Command queue
 
 Carry out unit testing "command queue":
-	start tests for "Command prompt";
+	queue parser command "unittest add to queue";
+	expect test result "Queueing parser commands";
+	queue parser command "unittest null";
+	queue parser command "unittest silent command queue", without showing the command;
+	expect test result "Queueing silent parser commands";
+	queue parser command "unittest command queue order 1";
+	queue parser command "unittest command queue order 2";
+	expect test result "Parser command queue order".
+
+Carry out unit testing "add to queue":
 	resolve test result "Queueing parser commands".
 
 Carry out unit testing "silent command queue":
@@ -288,18 +288,11 @@ Carry out unit testing "command queue order 2":
 	if correct command queue order is true:
 		resolve test result "Parser command queue order".
 
-When play begins (this is the command queue test rule):
-	queue parser command "unittest command queue";
-	expect test result "Queueing parser commands";
-	queue parser command "unittest null";
-	queue parser command "unittest silent command queue", without showing the command;
-	expect test result "Queueing silent parser commands";
-	queue parser command "unittest command queue order 1";
-	queue parser command "unittest command queue order 2";
-	expect test result "Parser command queue order".
 
-When play begins (this is the command history test rule):
-	start tests for "Command history";
+Chapter 2 - Command history
+
+[TODO: break this up into smaller rules and have the test runner check results]
+Carry out unit testing "command history":
 	add the command "test" to the command history;
 	execute JavaScript command "haven.prompt.history.get().pop()";
 	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
@@ -318,11 +311,11 @@ When play begins (this is the command history test rule):
 	execute JavaScript command "haven.prompt.history.get().length";
 	expect the number returned by the JavaScript command to be 0 which confirms "Clearing the entire history".
 
-When play begins (this is the command line manipulation test rule):
-	start tests for "Command line manipulation";
-	prefill the command line with "test";
-	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-field').val()";
-	expect the text returned by the JavaScript command to be "test" which confirms "Prefilling command line".
+
+Chapter 3 - Command line manipulation
+
+Carry out unit testing "command line manipulation":
+	prefill the command line with "test".
 
 Carry out unit testing "queue when prompt available":
 	resolve test result "Command queue when prompt is available";
@@ -331,178 +324,119 @@ Carry out unit testing "queue when prompt available":
 
 Book 3 - Element Manipulation
 
-[
+[TBA]
 
-To display (content - text) in all the/-- elements called (classes - text):
-	let print-safe content be escaped content using "\n" as line breaks;
-	execute JavaScript command "$('.[classes]').text('[print-safe content]')".
-
-To display (content - text) in the/-- element called/-- (classes - text):
-	display content in all "[classes]:last" elements.
-]
 
 Book 4 - Hyperlinks
 
-When play begins (this is the URL hyperlink test rule):
-	start tests for "Hyperlinks";
-	open HTML tag "div" called "hyperlink-unittest";
+Chapter 1 - URL links
+
+Carry out unit testing "URL hyperlinks":
+	open HTML tag "div" called "url-hyperlinks";
 	place a link to the web site "http://vorple-if.com" called "hyperlink1" reading "link1";
 	place a link to the web site "http://vorple-if.com" called "hyperlink2" reading "link2", opening in the same window;
 	place a link to the web site "http://vorple-if.com" called "hyperlink3";
 	place a link to the web site "http://vorple-if.com" reading "link4";
 	place a link to the web site "http://vorple-if.com";
-	close HTML tag;
-	execute JavaScript command "$('.hyperlink-unittest a').length";
-	expect the number returned by the JavaScript command to be 5 which confirms "URL hyperlinks created";
-	execute JavaScript command "$('.hyperlink-unittest a[bracket]href=[']http://vorple-if.com['][close bracket]').length";
-	expect the number returned by the JavaScript command to be 5 which confirms "URLs correct";
-	execute JavaScript command "$('.hyperlink-unittest a.hyperlink1').text()";
-	expect the text returned by the JavaScript command to be "link1" which confirms "URL link class and content correct";
-	execute JavaScript command "$('.hyperlink-unittest a.hyperlink1').attr('target')";
-	expect the text returned by the JavaScript command to be "_blank" which confirms "Opens in new window by default";
-	execute JavaScript command "$('.hyperlink-unittest a.hyperlink2').attr('target')||''";
-	expect the text returned by the JavaScript command to be "" which confirms "Option to open in the same window";
-	execute JavaScript command "$('.hyperlink-unittest a.hyperlink3').text()";
-	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "Content is URL by default";
-	execute JavaScript command "$('.hyperlink-unittest a').eq(3).text()";
-	expect the text returned by the JavaScript command to be "link4" which confirms "No class specified";
-	execute JavaScript command "$('.hyperlink-unittest a').eq(4).text()";
-	expect the text returned by the JavaScript command to be "http://vorple-if.com" which confirms "No class or content";
+	place a link to the web site "http://example.com";
+	close HTML tag.
 
-When play begins (this is the command hyperlink test rule):
+
+Chapter 2 - Command links
+
+Carry out unit testing "command hyperlinks":
 	increment container counter;
-	open HTML tag "div" called "unittest[container counter]";
+	open HTML tag "div" called "command-hyperlinks";
 	place a link to the command "unittest command link 1" called "commandlink1" reading "link1";
 	place a link to the command "unittest command link 2" called "commandlink2" reading "silent", without showing the command;
 	place a link to the command "unittest command link 3" called "commandlink3";
 	place a link to the command "unittest command link 4" reading "link4";
 	place a link to the command "unittest command link 5";
 	close HTML tag;
-	execute JavaScript command "$('.unittest[container counter] a').length";
-	expect the number returned by the JavaScript command to be 5 which confirms "Command hyperlinks created";
-	execute JavaScript command "$('.unittest[container counter] a[bracket]data-command^=[']unittest command link['][close bracket]').length";
-	expect the number returned by the JavaScript command to be 5 which confirms "Commands correct";
-	execute JavaScript command "$('.unittest[container counter] a.commandlink1').text()";
-	expect the text returned by the JavaScript command to be "link1" which confirms "Command link class and content correct";
-	execute JavaScript command "$('.unittest[container counter] a.commandlink3').text()";
-	expect the text returned by the JavaScript command to be "unittest command link 3" which confirms "Content is command by default";
-	execute JavaScript command "$('.unittest[container counter] a').eq(3).text()";
-	expect the text returned by the JavaScript command to be "link4" which confirms "No class specified";
-	execute JavaScript command "$('.unittest[container counter] a').eq(4).text()";
-	expect the text returned by the JavaScript command to be "unittest command link 5" which confirms "No class or content";
-	execute JavaScript command "$('.unittest[container counter] a.commandlink1').click()";
-	expect test result "Clicking on command link";
-	execute JavaScript command "$('.unittest[container counter] a.commandlink2').click()";
-	expect test result "Clicking on hidden command link";
 
 Carry out unit testing "command link 1":
-	resolve test result "Clicking on command link".
+	set a shared flag "command link 1".
 
 Carry out unit testing "command link 2":
-	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
-	if the text returned by the JavaScript command is "unittest command link 1":
-		resolve test result "Clicking on hidden command link";
+	set a shared flag "command link 2".
 
-When play begins (this is the JS hyperlink test rule):
-	increment container counter;
-	open HTML tag "div" called "unittest[container counter]";
+Carry out unit testing "command link 3":
+	set a shared flag "command link 3".
+
+
+Chapter 3 - JavaScript links
+
+Carry out unit testing "JS hyperlinks":
+	open HTML tag "div" called "js-hyperlinks";
 	place a link to execute the JavaScript command "vorple.prompt.queueCommand('unittest js link 1')" called "jslink1" reading "link1";
 	place a link to execute the JavaScript command "vorple.prompt.queueCommand('unittest js link 2')" reading "link2";
 	close HTML tag;
-	execute JavaScript command "$('.unittest[container counter] a').length";
-	expect the number returned by the JavaScript command to be 2 which confirms "JavaScript hyperlinks created";
-	execute JavaScript command "$('.unittest[container counter] a.jslink1').text()";
-	expect the text returned by the JavaScript command to be "link1" which confirms "JavaScript link class and content correct";
-	execute JavaScript command "$('.unittest[container counter] a.jslink1').click()";
-	expect test result "Clicking on JavaScript link";
 
 Carry out unit testing "js link 1":
-	resolve test result "Clicking on JavaScript link";
-	finish testing.
+	set a shared flag "js link 1".
 
-To decide which number is the amount of active links:
-	execute JavaScript command "$('a.vorple-link').length";
-	decide on the number returned by the JavaScript command.
 
-When play begins (this is the disable hyperlinks test rule):
-	let initially active links be the amount of active links;
-	execute JavaScript command "$('a.vorple-link.hyperlink1').html()";
-	let initial text content be the text returned by the JavaScript command;
-	disable the link called "hyperlink1";
-	expect the amount of active links to be initially active links - 1 which confirms "Disabling one link";
-	execute JavaScript command "$('a.vorple-link.hyperlink1').length";
-	expect the number returned by the JavaScript command to be 0 which confirms "Correct link disabled";
-	execute JavaScript command "$('span.vorple-disabled-link.hyperlink1').html()";
-	expect the text returned by the JavaScript command to be the initial text content which confirms "Link turned into span with correct content";
-	now initially active links is the amount of active links;
-	execute JavaScript command "$('.hyperlink-unittest a.vorple-link').length";
-	let grouped links be the number returned by the JavaScript command;
-	disable all links inside element called "hyperlink-unittest";
-	expect the amount of active links to be initially active links - grouped links which confirms "Disabling links in a container";
-	disable all links;
-	expect the amount of active links to be 0 which confirms "Disabling all links";
+Chapter 4 - Disabling links
+
+Carry out unit testing "disabling one link":
+	disable the link called "hyperlink1".
+
+Carry out unit testing "disabling links in containers":
+	disable all links inside element called "hyperlink-unittest".
+
+Carry out unit testing "disabling all links":
+	disable all links.
 
 
 Book 5 - Modal Windows
 
-When play begins (this is the modal windows test rule):
-	start tests for "Modal windows";
-	show a modal window reading "Test";
-	execute JavaScript command "$('.vex-dialog-message').text()";
-	expect the text returned by the JavaScript command to be "Test" which confirms "Modal created";
+Carry out unit testing "show modal":
+	show a modal window reading "Test".
+
+
+Carry out unit testing "create empty modal":
 	show a modal window;
 	set output focus to the modal window;
 	say "Test2";
 	set output focus to the main window;
-	execute JavaScript command "$('.vex-dialog-message:last').text()";
-	expect the text returned by the JavaScript command to be "Test2" which confirms "Manual modal created";
-	close the modal window.
+	wait for any key.
 
 
 Book 6 - Multimedia
 
-When play begins (this is the image test rule):
-	start tests for "Multimedia / images";
-	place the image "../inform7/tests/logo.png" called "logo" with description "Vorple's logo", centered;
-	execute JavaScript command "$('.logo > img').length";
-	expect the number returned by the JavaScript command to be 1 which confirms "Image created";
-	execute JavaScript command "$('.logo > img').attr('alt')";
-	expect the text returned by the JavaScript command to be "Vorple's logo" which confirms "Alt text included";
+Carry out unit testing "image":
+	place the image "/media/vorple.png" called "logo" with description "Vorple's logo", centered.
 
 
-Book 7 - Screen Effects
+Book 7 - Notifications
+
+Carry out unit testing "default notification":
+	display a notification reading "Test notification".
 
 
-[
-Book 8 - Status Line
+Book 8 - Screen Effects
 
-When play begins (this is the status line construction test rule):
-	start tests for "Status line";
-	construct a status line with 3 columns;
-	now the left hand Vorple status line is "left";
-	now the middle Vorple status line is "middle";
-	now the right hand Vorple status line is "right";
-	refresh the status line;
-	execute JavaScript command "$('#output > div:first .col-sm').length";
-	expect the number returned by the JavaScript command to be 3 which confirms "3-column status line created";
-	]
+[TBA]
 
 
-Book 9 - Finish
+Book 9 - Tooltips
 
-To finish testing:
-	execute JavaScript command "var listener = function() {
-		vorple.prompt.queueCommand('unittest queue when prompt available');
-		haven.prompt.get().removeEventListener('lineinputReady', listener);
-	}; haven.prompt.get().addEventListener('lineinputReady', listener)";
-	expect test result "Command queue when prompt is available".
+Carry out unit testing "text with tooltip on hover":
+  place text "tooltip test" called "tooltip-test" with a tooltip reading "tooltip contents".
 
-Carry out unit testing "finish":
-	execute JavaScript command "$('[bracket]class^=[']unittest['][close bracket]').remove()"; [cleanup]
-	print test results.
+Carry out unit testing "tooltip on demand":
+  display a tooltip "tooltip on demand test" on the element called "tooltip-test" after 1 second for 2 seconds.
+
+Carry out unit testing "tooltip on prompt":
+  display a tooltip "tooltip on prompt test" on the prompt indefinitely.
+
+Carry out unit testing "hiding tooltips":
+	hide the tooltip.
 
 
 Volume 2 - Testing framework
+
+Book 1 - Unit testing command
 
 Unit testing is an action applying to one topic.
 Understand "unittest [text]" as unit testing.
@@ -510,6 +444,7 @@ Understand "unittest [text]" as unit testing.
 Fail count is a number that varies. Fail count is 0.
 Pass count is a number that varies. Pass count is 0.
 Run-time error thrown is a truth state that varies. Run-time error thrown is false.
+Current test name is text that varies.
 
 [this overrides the error printing in the Vorple extension]
 To throw Vorple run-time error (desc – text):
@@ -519,14 +454,17 @@ To start tests for (name - text):
 	say "[bold type][name][roman type][line break]";
 
 To name the test (name - text):
-	say "  [name]: ".
+	say "  [name]: ";
+  now current test name is name.
 
 To pass the test:
 	place an inline element called "textcolor-2" reading "PASSED[line break]";
+	execute JavaScript command "passI7Test()";
 	increment pass count.
 
 To fail the test:
 	place an inline element called "textcolor-4" reading "FAILED[line break]";
+	execute JavaScript command "failI7Test('[escaped current test name]')";
 	increment fail count.
 
 To fail the test expecting (x - text) to be (y - text):
@@ -536,6 +474,7 @@ To fail the test expecting (x - text) to be (y - text):
 	if y is "":
 		now y is "(empty)";
 	say " - expected [x] to be [y][line break]";
+	execute JavaScript command "failI7Test('[escaped current test name]')";
 	increment fail count.
 
 To (x - truth state) confirms (msg - text):
@@ -569,17 +508,17 @@ To resolve test result (msg - text):
 	pass the test.
 
 
-To print test results:
-	if test result expectations is not empty:
-		place a block level element called "textcolor-4" reading "Some expected test results were never resolved:[line break]";
-		repeat with X running through test result expectations:
-			say "  [X]: ";
-			fail the test;
-	say line break;
-	if fail count is 0:
-		place a block level element called "textcolor-2" reading "All [pass count] tests passed.";
-	otherwise:
-		place a block level element called "textcolor-4" reading "[pass count + fail count] tests run. [pass count] passed, [fail count] failed."
+Book 2 - Flags
 
-To quit:
-	(- quit; -)
+Setting a flag is an action out of world applying to a topic.
+
+Understand "set flag [text]" as setting a flag.
+
+Carry out setting a flag:
+	set a shared flag topic understood.
+
+To set a shared flag (flag name - text):
+	execute JavaScript command "window.testFlags[bracket]'[escaped flag name]'[close bracket] = true".
+
+First when play begins (this is the create the flag object rule):
+	execute JavaScript command "window.testFlags = {}".

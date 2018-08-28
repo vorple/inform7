@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Tooltips (for Glulx only) by Juhana Leinonen begins here.
+Version 3/180828 of Vorple Tooltips (for Glulx only) by Juhana Leinonen begins here.
 
 "Tooltips that can be activated on request or when the mouse cursor is moved over an element."
 
@@ -30,19 +30,19 @@ To attach a/-- tooltip (tip - text) on/to the/-- element called (classes - text)
 
 Chapter 2 - Manually triggered tooltips
 
-To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) seconds for (duration - number) seconds:
+To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) second/seconds for (duration - number) seconds:
 	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('.[classes]').last();$.powerTip.hide();$t.attr('title','[escaped tip]').powerTip({manual:true,smartPlacement:true});$.powerTip.show($t)[if duration >= 0];_v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[duration]*1000);[end if]},[delay]*1000)".
 	
-To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) seconds indefinitely:
+To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) second/seconds indefinitely:
 	display a tooltip tip on the element called classes in delay seconds for -1 seconds.
 
-To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) seconds:
-	display a tooltip tip on the element called classes in delay seconds for 7 seconds.
+To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) in/after (delay - number) second/seconds:
+	display a tooltip tip on the element called classes in delay seconds for default tooltip duration seconds.
 
 To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) indefinitely:
 	display a tooltip tip on the element called classes in 0 seconds indefinitely.
 
-To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) for (duration - number) seconds:
+To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text) for (duration - number) second/seconds:
 	display a tooltip tip on the element called classes in 0 seconds for duration seconds.
 	
 To display a/-- tooltip (tip - text) on/at the/-- element called (classes - text):
@@ -54,23 +54,23 @@ Chapter 3 - Tooltips on the prompt
 Vorple interface setup rule (this is the initialize prompt tooltip rule):
 	execute JavaScript command "$(haven.prompt.get()).find('#lineinput-prefix').powerTip({manual:true,placement:'sw-alt',smartPlacement:true})".
 
-To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) seconds for (duration - number) seconds:
+To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) second/seconds for (duration - number) second/seconds:
 	execute JavaScript command "clearTimeout(_v_tooltip_timer);_v_tooltip_timer=setTimeout(function() {var $t=$('#lineinput-prefix');$.powerTip.hide();$t.data('powertip','[escaped tip]');$.powerTip.show($t)[if duration >= 0]; _v_tooltip_timer=setTimeout(function() {$.powerTip.hide($t,true);$t.removeAttr('title')},[duration]*1000);[end if]},[delay]*1000)".
 
-To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) seconds indefinitely:
+To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) second/seconds indefinitely:
 	display a tooltip tip on the prompt in delay seconds for -1 seconds.
 
-To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) seconds:
-	display a tooltip tip on the prompt in delay seconds for 7 seconds.
+To display a/-- tooltip (tip - text) on/at the/-- prompt in/after (delay - number) second/seconds:
+	display a tooltip tip on the prompt in delay seconds for default tooltip duration seconds.
 
-To display a/-- tooltip (tip - text) on/at the/-- prompt in for (duration - number) seconds:
+To display a/-- tooltip (tip - text) on/at the/-- prompt in for (duration - number) second/seconds:
 	display a tooltip tip on the prompt in 0 seconds for duration seconds.
 	
 To display a/-- tooltip (tip - text) on/at the/-- prompt:
 	display a tooltip tip on the prompt in 0 seconds. 
 
 To display a/-- tooltip (tip - text) on/at the/-- prompt indefinitely:
-	display a tooltip tip on the prompt in 0 seconds indefinitely. 
+	display a tooltip tip on the prompt in 0 seconds indefinitely.
 
 
 Chapter 4 - Hiding tooltips
@@ -129,6 +129,10 @@ The duration can also be "indefinitely" which keeps the tooltip visible until it
 
 	display a tooltip "Take a look here" on the element called "important" indefinitely;
 
+The default duration can be changed globally. The following example makes all tooltips display for 4 seconds unless otherwise specified:
+
+	The default tooltip duration is 4.
+
 As with tooltips that are activated on mouseover, if there are multiple elements with the same name the tooltip is shown only on the last one. 
 
 A tooltip can be placed on the prompt (handy for giving a hint on how to play to people who aren't familiar with interactive fiction):
@@ -145,7 +149,7 @@ The currently open tooltip can be closed immediately with:
 	
 An optional duration can be provided:
 
-	hide the tooltip after 5 seconds.
+	hide the tooltip after 5 seconds;
 
 Only one tooltip can be open at a time. Tooltips are automatically closed when a new tooltip is shown.
 		

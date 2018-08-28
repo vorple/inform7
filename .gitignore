@@ -1,6 +1,11 @@
+.env
+tests/unittest.ulx
+
+# directory created by the unit tests
+errorShots
+
+# directories created by the I7 compiler
 Documentation
 Telemetry
-tests/tmp
-tests/gameinfo.dbg
-tests/unittest.ulx
 Extensions/Reserved
+gameinfo.dbg

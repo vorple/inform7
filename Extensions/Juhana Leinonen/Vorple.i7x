@@ -1,4 +1,4 @@
-Version 3/180524 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/180828 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -371,7 +371,7 @@ First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
 		execute JavaScript command "vorple.version";
 		let version number be the text returned by the JavaScript command;
-		say "Vorple version [version number] preview[line break]" (A).
+		say "Vorple version [version number][line break]" (A).
 
 	
 Vorple ends here.

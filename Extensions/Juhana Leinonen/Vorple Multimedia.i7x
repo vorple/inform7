@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
+Version 3/180828 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 
 "Displaying images and playing sounds and music."
 
@@ -142,6 +142,16 @@ By default the image is displayed left-aligned. The position can be changed by g
 The possible values are centered, aligned left, aligned right, floating left or floating right. Floating means that the image is set to the left or to the right and the text is wrapped around it, in contrast to left or right aligned where the remaining space is left blank.
 
 Images should be in jpg, png or gif format.
+
+The images can be named by adding 'called "something"':
+
+	place an image "pic.jpg" called "example" with the description "Example image";
+
+Note that in HTML the image is wrapped in a div that receives the image's name as a class. The above code produces the following HTML:
+
+	<div class="vorple-image example">
+		<img src="pic.jpg" alt="Example image">
+	</div>
 
 Tip: When releasing the project, the file "Cover.jpg" or "Cover.png" is automatically included in the same place where other project files are. Therefore we can always show the cover image with:
 	

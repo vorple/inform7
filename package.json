@@ -1,9 +1,15 @@
 {
   "name": "vorple-inform7-extensions",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Inform 7 extensions for Vorple",
   "scripts": {
-    "build": "mkdir -p ../build/inform7; cp -r Templates Extensions ../build/inform7/; (cd ../build; cp vorple/vorple.min.js haven/haven.min.js git/git.js* vorple/vorple.min.css vendor/*.* vendor/roboto/Roboto-* inform7/Templates/Vorple)"
+    "build": "mkdir -p ../build/inform7; cp -r Templates Extensions ../build/inform7/; (cd ../build; cp vorple/vorple.min.js haven/haven.min.js git/git.js* vorple/vorple.min.css vendor/*.* vendor/roboto/Roboto-* inform7/Templates/Vorple)",
+    "build:test": "./tests/stories/compile.sh",
+    "test": "./tests/stories/compile.sh && wdio wdio.conf.js",
+    "test:chrome": "./tests/stories/compile.sh && BROWSER=chrome wdio wdio.conf.js",
+    "test:firefox": "./tests/stories/compile.sh && BROWSER=firefox wdio wdio.conf.js",
+    "test:safari": "./tests/stories/compile.sh && BROWSER=safari wdio wdio.conf.js",
+    "test:all": "./tests/stories/compile.sh && npm run test:chrome && npm run test:firefox && npm run test:safari"
   },
   "repository": {
     "type": "git",
@@ -16,6 +22,12 @@
   },
   "homepage": "https://github.com/vorple/inform7",
   "devDependencies": {
-    "grunt": "^1.0.1"
+    "chai": "^4.1.2",
+    "chai-webdriverio": "^0.4.3",
+    "chromedriver": "^2.38.3",
+    "wdio-chromedriver-service": "^0.1.3",
+    "wdio-mocha-framework": "^0.6.3",
+    "wdio-spec-reporter": "^0.1.4",
+    "webdriverio": "^4.13.2"
   }
 }

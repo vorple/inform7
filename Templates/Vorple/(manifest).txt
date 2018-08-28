@@ -47,82 +47,83 @@ g
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link rel="stylesheet" href="interpreter/vorple.min.css">
+    <link rel="stylesheet" type="text/css" href="roboto/roboto.css">
+    <link rel="stylesheet" type="text/css" href="jquery.powertip.css">
+    <link rel="stylesheet" type="text/css" href="toastr.css">
+    <link rel="stylesheet" type="text/css" href="vex.css">
+    <link rel="stylesheet" type="text/css" href="vex-theme-plain.css">
 
+    <link rel="stylesheet" type="text/css" href="haven.css">
+    <link rel="stylesheet" type="text/css" href="vorple.css">
 []
 
 ! [INTERPRETERBODY] provides the part of the page where the window
 ! or gadget actually appears.
 
 [INTERPRETERBODY]
-	<main id="haven">
-		<div id="output">
-			<div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
-		</div>
+  <main id="haven">
+    <div id="output">
+      <div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
+    </div>
 
-		<form id="lineinput">
-			<label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
-		</form>
+    <form id="lineinput">
+      <label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
+    </form>
 
-		<div id="loader">
-			<h2 id="loader-message">Loading scripts</h2>
-			<div id="spinner">V</div>
-		</div>
-	</main>
+    <div id="loader">
+      <h2 id="loader-message">Loading scripts</h2>
+      <div id="spinner">V</div>
+    </div>
+  </main>
 
-    <script src="interpreter/jquery.min.js"></script>
-    <script src="interpreter/toastr.min.js"></script>
-	<script src="interpreter/vex.combined.min.js"></script>
-	<script src="interpreter/jquery.powertip.min.js"></script>
-    <script src="interpreter/haven.min.js"></script>
-    <script src="interpreter/vorple.min.js"></script>
+  <script src="interpreter/haven.min.js"></script>
+  <script src="interpreter/vorple.min.js"></script>
 
-    <script>
-    	if( location.protocol === "file:" ) {
-    		$( 'body' )
-    			.empty()
-    			.html( "<div><p>You are currently viewing the page from the filesystem. " +
-    				"Unfortunately Vorple requires that the page is viewed through " +
-    				"the HTTP protocol, that is, you'll need to either upload it " +
-    				"to the Internet or install a local server.</p>" +
-    				'<p>See <a href="http://vorple-if.com/doc/localhost" style="color:#dde">vorple-if.com/doc/localhost</a> ' +
-    				"for more information.</p>" +
-    				"</div>" )
-    			.find( 'div' )
-    			.css({
-                    margin: "2em",
-                    padding: "1em",
-                    color: "#fff",
-                    backgroundColor: "rgb(137, 50, 58)",
-                    border: "3px solid gray"
-    			});
+  <script>
+    if( location.protocol === "file:" ) {
+      $( 'body' )
+        .empty()
+        .html( "<div><p>You are currently viewing the page from the filesystem. " +
+          "Unfortunately Vorple requires that the page is viewed through " +
+          "the HTTP protocol, that is, you'll need to either upload it " +
+          "to the Internet or install a local server.</p>" +
+          '<p>See <a href="https://vorple-if.com/docs/localhost" style="color:#dde">vorple-if.com/docs/localhost</a> ' +
+          "for more information.</p>" +
+          "</div>" )
+        .find( 'div' )
+        .css({
+          margin: "2em",
+          padding: "1em",
+          color: "#fff",
+          backgroundColor: "rgb(137, 50, 58)",
+          border: "3px solid gray"
+        });
 
-    		throw new Error( "Vorple can't be run from the filesystem" );
-    	}
+      throw new Error( "Vorple can't be run from the filesystem" );
+    }
 
-		$( function() {
-			$( '#haven' ).prependTo( 'body' );
-			$( '.container, .interpretercredit' ).remove();
-		});
+    $( function() {
+      $( '#haven' ).prependTo( 'body' );
+      $( '.container, .interpretercredit' ).remove();
+    });
 
-		Module.locateFile = function( name ) {
-			return "interpreter/" + name;
-		};
+    Module.locateFile = function( name ) {
+      return "interpreter/" + name;
+    };
 
-        vorple.options = {
-        	autosave: false,
-        	engineColors: false,
+    vorple.options = {
+      autosave: false,
+      engineColors: false,
 
-            // URL to the game file
-            story: "[STORYFILE]"
-        };
+      // URL to the game file
+      story: "[STORYFILE]"
+    };
 
-        vorple.debug.off();
+    vorple.debug.off();
+    vorple.init();
+  </script>
 
-        vorple.init();
-    </script>
-
-    <script src="interpreter/git.js" defer></script>
+  <script src="interpreter/git.js" defer></script>
 []
 
 ! The following footnote is added to the small print about how to play IF
@@ -155,10 +156,6 @@ processBase64Zcode('
 
 vorple.min.js
 haven.min.js
-jquery.min.js
-toastr.min.js
-vex.combined.min.js
-jquery.powertip.min.js
 vorple.min.css
 git.js
 git.js.mem
