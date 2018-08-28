@@ -245,11 +245,13 @@ Clearing the playlist doesn't immediately stop the currently playing track. Unle
 
 Note that the music system uses the playlist internally for queueing songs, so remember to clear the playlist before playing a new track or starting a new playlist.
 
-	[DON'T DO THIS - WON'T WORK!]
+In other words, don't do this as it won't work:
+
 	play the music file called "new.mp3";
 	clear the playlist;
 	
-	[DO THIS INSTEAD]
+Do this instead:
+
 	clear the playlist;
 	play the music file called "new.mp3";
 
