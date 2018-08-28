@@ -8,24 +8,21 @@ Use authorial modesty.
 
 Chapter 1 - Modal windows
 
-To show a/-- modal window reading (content - text):
+To show a/-- modal window reading (content - text), without pausing:
 	let modal message be escaped content using "\n" as line breaks;
 	execute JavaScript code "vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:vorple.layout.unblock});vorple.layout.block()";
 	if Vorple is not supported:
 		say "[content][paragraph break]";
-	wait for any key.
+	if not without pausing:
+		wait for any key.
 
 To show a/-- modal window:
-	show a modal window reading "";
-	wait for any key.
-	
+	show a modal window reading "", without pausing.
+
 To set output focus to the/-- modal window:
 	set output focus to the element called "vex-dialog-message".
 	
-To close the/-- modal window:
-	execute JavaScript code "vex.closeAll()".
 
-	
 Chapter 2 - Waiting for keypress (for use without Basic Screen Effects by Emily Short)
 
 To wait for any key:
@@ -78,13 +75,11 @@ The "show a modal window reading ..." lets us show only plain text, but if we wa
 	say "[bold type]Welcome![roman type]";
 	place the image "Cover.jpg" with description "Cover page", centered;
 	set output focus to the main window;
+	wait for any key;
 
 ("Place the image" phrase is from the Vorple Multimedia extension.)
 
-
-Chapter: Closing modals programmatically
-
-The modal can be closed with the phrase "close the modal window". This is useful if we have links inside the modal that trigger parser commands, so we can have the command close the modal. If no modals are open the phrase doesn't do anything.
+Note that when creating a modal window this way we should "wait for any key" after creating the modal so that the game pauses to wait for the player to act.
 
 
 Example: * The Greeter - Showing a modal at the start of the play
