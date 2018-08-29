@@ -38,14 +38,21 @@ describe( "Core library", () => {
         it( "treats objects with circular references as null", () => {
             runI7Test( "circular reference" );
         });
+
+        it( "escapes and prints Unicode properly", () => {
+            sendCommand( "unittest unicode" );
+            browser.waitForExist( ".unicode-test", 5000 );
+
+            expect( ".unicode-test" ).to.have.text( "ÜNÏCÖDÉ⁈" );
+        });
     });
 
     describe( "DOM manipulation", () => {
         it( "creates new elements and switches focus", () => {
             sendCommand( "unittest create containers" );
             // if the containers never appear, these will throw an error
-            browser.waitForExist( ".testdiv", 50000 );
-            browser.waitForExist( ".testspan", 50000 );
+            browser.waitForExist( ".testdiv", 5000 );
+            browser.waitForExist( ".testspan", 5000 );
 
             expect( ".testdiv" ).to.have.text( "123" );
             expect( ".testspan" ).to.have.text( "2" );

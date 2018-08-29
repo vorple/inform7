@@ -257,6 +257,14 @@ Carry out unit testing "element manipulation":
 	expect the number of elements called "unittest[container counter]" to be 2 which confirms "Element count";
 
 
+Chapter 5 - Unicode characters
+
+Carry out unit testing "unicode":
+	place an element called "unicode-test";
+	let Unicode string be "ÜNÏCÖDÉ[unicode 8264]";
+	execute JavaScript command "$('.unicode-test').text('[escaped Unicode string]')".
+
+
 Book 2 - Command Prompt Control
 
 Chapter 1 - Command queue

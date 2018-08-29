@@ -1,7 +1,8 @@
 See also the changelog of the main JavaScript library
 (https://github.com/vorple/vorple/CHANGES).
 
-The numbers after the items refer to GitHub issues.
+The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
+number xx in the main Vorple repository.
 
 
 Release 3.1
@@ -9,6 +10,8 @@ Release 3.1
 
 - Unit tests are rewritten to use Webdriver.io and Selenium so that the I7 story
   file only runs the I7 code and the JavaScript test cases check the results
+- Unicode characters evaluated as JavaScript are escaped properly when using the
+  "escaped" transformation (vorple #22)
 
 
 Modal Windows

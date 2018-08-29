@@ -181,8 +181,35 @@ To decide which text is escaped (string - text) using (lb - text) as line breaks
 		if char is "[line break]":
 			now safe-string is "[safe-string][lb]";
 		otherwise:
-			now safe-string is "[safe-string][char]";
+			let Unicode value be the Unicode value of char;
+			if Unicode value < 128:
+				now safe-string is "[safe-string][char]";
+			otherwise:
+				now safe-string is "[safe-string]\u[the hexadecimal value of Unicode value]";
 	decide on safe-string.
+
+To decide which number is the Unicode value of (X - text):
+	(- (BlkValueRead({X}, 0)) -).
+
+To decide which number is the value of Y in the hexadecimal conversion algorithm for (X - number):
+	(- (({X} & $7f00) / $100) -).
+
+To decide which text is hexdigit (N - number):
+	let X be the remainder after dividing N by 16;
+	if X < 10:
+		decide on "[X]";
+	if X is:
+		-- 10: decide on "a";
+		-- 11: decide on "b";
+		-- 12: decide on "c";
+		-- 13: decide on "d";
+		-- 14: decide on "e";
+		-- 15: decide on "f".
+
+To decide which text is the hexadecimal value of (N - number):
+	let Y be the value of Y in the hexadecimal conversion algorithm for N;
+	let X be the remainder after dividing N by 256;
+	decide on "[hexdigit Y / 16][hexdigit Y][hexdigit X / 16][hexdigit X]".
 
 
 Chapter 4 – HTML tags
@@ -537,7 +564,7 @@ The return value gets overwritten by the next JavaScript command's return value 
 
 	execute JavaScript command "[bracket]'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'[close bracket][bracket]new Date().getDay()[close bracket]";
 	let weekday be the text returned by the JavaScript command;
-	say "It's [weekday]!"
+	say "It's [weekday]!";
 
 See the technical documentation at http://github.com/vorple/vorple/wiki for more details.
 
@@ -569,7 +596,14 @@ By default escaping removes newlines. If we want to turn them into, for example,
 		
 Remember to use "[bracket]" and "[close bracket]" for square brackets in JavaScript code.
 
-	execute JavaScript command "var myArray = [bracket]1, 2, 3[close bracket]".
+	execute JavaScript command "var myArray = [bracket]1, 2, 3[close bracket]";
+
+Escaping also turns Unicode characters (basically any characters that aren't letters a-z, numbers or common punctuation) into \uXXXX format so that they can be passed to the browser intact. We'll have to escape any strings that contain e.g. accented characters:
+
+	let destination be "Mêlée Island";
+	execute JavaScript command "var destination = '[escaped destination]'";
+
+Non-escaped Unicode characters show up in the output as question marks or empty squares.
 
 
 Chapter: User interface setup
