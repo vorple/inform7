@@ -4,9 +4,41 @@ chai.use( chaiWebdriver( browser ) );
 const { expect } = chai;
 
 const VERSION = require( "../../package.json" ).version;
-const { runI7Test, sendCommand } = require( "../utility" );
+const {
+    flagValue,
+    runI7Test,
+    sendCommand,
+    waitForPrompt
+} = require( "../utility" );
 
 describe( "Core library", () => {
+    describe( "UI state", () => {
+        // This test must be the first one!
+        it( "runs the construction rulebook on turn 1", () => {
+            expect( flagValue( "ui construction 1" ) ).to.be.true;
+        });
+
+        it( "interface setup rulebook executes successfully", () => {
+            expect( flagValue( "ui setup" ) ).to.be.true;
+        });
+
+        it( "runs the construction rulebook every turn", () => {
+            expect( flagValue( "ui construction 2" ) ).to.be.false;
+            sendCommand( "z" );
+            waitForPrompt();
+            expect( flagValue( "ui construction 2" ) ).to.be.true;
+        });
+
+        it( "runs the rulebook after undo", () => {
+            sendCommand( "unittest state 3 on" );
+            waitForPrompt();
+            expect( flagValue( "ui construction 3" ) ).to.be.true;
+            sendCommand( "undo" );
+            waitForPrompt();
+            expect( flagValue( "ui construction 3" ) ).to.be.false;
+        });
+    });
+
     describe( "Version", () => {
         it( "is printed in the banner", () => {
             expect( "#output" ).to.have.text( new RegExp( "Vorple version " + VERSION.replace( ".", "\\." ) ) );
@@ -17,13 +49,6 @@ describe( "Core library", () => {
         it( "is executed successfully", () => {
             runI7Test( "handshake" );
         });
-    });
-
-    // This tests that the interface setup rulebook works
-    describe( "Interface setup", () => {
-        it( "rule executes successfully", () => {
-            runI7Test( "interface setup" );
-        })
     });
 
     describe( "JavaScript evaluation", () => {

@@ -12,6 +12,9 @@ Release 3.1
   file only runs the I7 code and the JavaScript test cases check the results
 - Unicode characters evaluated as JavaScript are escaped properly when using the
   "escaped" transformation (vorple #22)
+- Added the Vorple interface construction rulebook as a mechanism for
+  state-based user interface updating, specifically for keeping the UI in sync
+  after undo and restore
 
 
 Modal Windows

@@ -25,16 +25,25 @@ Carry out unit testing "handshake":
 	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?" confirms "Version number ([text returned by the JavaScript command])";
 
 
-Chapter 2 - Interface setup
+Chapter 2 - User Interface
 
 Vorple interface setup rule:
-	execute JavaScript command "$('<div>').attr('id', 'interface-setup').appendTo('body')".
+	set a shared flag "ui setup".
 
-Carry out unit testing "interface setup":
-	execute JavaScript command "$('#interface-setup').length";
-	expect the number returned by the JavaScript command to be 1 which confirms "Rules fired";
-	[cleanup]
-	execute JavaScript command "$('#interface-staging').remove()".
+UI state is a list of truth states that varies. UI state is { true, false, false }.
+
+Vorple interface construction rule:
+	repeat with N running from 1 to the number of entries in the UI state:
+		if entry N in the UI state is true:
+			set a shared flag "ui construction [N]";
+		otherwise:
+			unset a shared flag "ui construction [N]".
+
+Every turn:
+	now entry 2 in UI state is true.
+
+Carry out unit testing "state 3 on":
+	now entry 3 in UI state is true.
 
 
 Chapter 3 - JavaScript evaluation
@@ -528,5 +537,8 @@ Carry out setting a flag:
 To set a shared flag (flag name - text):
 	execute JavaScript command "window.testFlags[bracket]'[escaped flag name]'[close bracket] = true".
 
-First when play begins (this is the create the flag object rule):
+To unset a shared flag (flag name - text):
+	execute JavaScript command "window.testFlags[bracket]'[escaped flag name]'[close bracket] = false".
+
+First Vorple interface setup rule (this is the create the flag object rule):
 	execute JavaScript command "window.testFlags = {}".
