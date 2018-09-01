@@ -186,7 +186,7 @@ Include (-
 				BlkValueWrite(ctxt, j+1, ch);
 				j++;
 			} else if (ch==10) {
-				j=j+VorpleAppendLinebreakWhileEscaping(ctxt, j, lb)-1;
+				j=j+VorpleAppendToText(ctxt, j, lb)-1;
 			} else if (ch < 128) {
 				BlkValueWrite(ctxt, j, ch);
 			} else {
@@ -200,7 +200,7 @@ Include (-
 	return ctxt;
 ];
 
-[ VorpleAppendLinebreakWhileEscaping ctxt j lb	k cp pk len;
+[ VorpleAppendToText ctxt j lb	k cp pk len;
 	cp = lb-->0; pk = TEXT_TY_Temporarily_Transmute(lb);
 	len = TEXT_TY_CharacterLength(lb);
 	for (k=0:k<len:k++) {
