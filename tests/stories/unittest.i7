@@ -49,9 +49,20 @@ Carry out unit testing "state 3 on":
 Chapter 3 - JavaScript evaluation
 
 Carry out unit testing "string escaping":
-	let unclean text be "Testy 'Tester' O'Testface";
-	execute JavaScript command "'[escaped unclean text]'";
-	expect the text returned by the JavaScript command to be "[unclean text]" which confirms "Escaping quotes";
+	let unclean text be "\ Testy 'Tester' O'Testface /";
+	place an element called "string-escaping";
+	execute JavaScript command "$('.string-escaping').text('[escaped unclean text]')".
+
+Carry out unit testing "string escaping with line breaks":
+	let unclean text be "\ Testy[line break] 'Tester'[line break] O'Testface[line break] /";
+	place an element called "string-escaping-no-linebreaks";
+	execute JavaScript command "$('.string-escaping-no-linebreaks').text('[escaped unclean text]')".
+
+Carry out unit testing "string escaping with line break changes":
+	let unclean text be "\ [line break] Testy [line break] 'Tester' [line break] O'Testface [line break] /";
+	let asterisks be "**";
+	place an element called "string-escaping-linebreaks-change";
+	execute JavaScript command "$('.string-escaping-linebreaks-change').text('[escaped unclean text using asterisks as line breaks]')".
 
 Carry out unit testing "JS evaluation":
   let return value be "";

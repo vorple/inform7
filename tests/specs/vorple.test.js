@@ -52,10 +52,6 @@ describe( "Core library", () => {
     });
 
     describe( "JavaScript evaluation", () => {
-        it( "escapes strings correctly", () => {
-            runI7Test( "string escaping" );
-        });
-
         it( "evaluates JavaScript code", () => {
             runI7Test( "JS evaluation" );
         });
@@ -63,8 +59,28 @@ describe( "Core library", () => {
         it( "treats objects with circular references as null", () => {
             runI7Test( "circular reference" );
         });
+    });
 
-        it( "escapes and prints Unicode properly", () => {
+    describe( "JavaScript string escaping", () => {
+        it( "works for strings without line breaks", () => {
+            sendCommand( "unittest string escaping" );
+            waitForPrompt();
+            expect( ".string-escaping" ).to.have.text( `\\ Testy "Tester" O'Testface /` );
+        });
+
+        it( "removes line breaks by default", () => {
+            sendCommand( "unittest string escaping with line breaks" );
+            waitForPrompt();
+            expect( ".string-escaping-no-linebreaks" ).to.have.text( `\\ Testy "Tester" O'Testface /` );
+        });
+
+        it( "replaces line breaks", () => {
+            sendCommand( "unittest string escaping with line break changes" );
+            waitForPrompt();
+            expect( ".string-escaping-linebreaks-change" ).to.have.text( `\\ ** Testy ** "Tester" ** O'Testface ** /` );
+        });
+
+        it( "prints Unicode properly", () => {
             sendCommand( "unittest unicode" );
             browser.waitForExist( ".unicode-test", 5000 );
 

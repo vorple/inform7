@@ -15,6 +15,8 @@ Release 3.1
 - Added the Vorple interface construction rulebook as a mechanism for
   state-based user interface updating, specifically for keeping the UI in sync
   after undo and restore
+- JavaScript string escaping has been rewritten in Inform 6 to improve
+  performance. The new routine is about 97% faster than the previous one. (#15)
 
 
 Modal Windows

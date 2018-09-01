@@ -169,24 +169,75 @@ To decide if the JavaScript code/command returned (x - truth state):
 
 Section 3 - Escaping text for JavaScript
 
+[The text escape routines are in I6 because I7 is several magnitudes slower.]
+Include (-
+[ VorpleEscapeLineBreaks txt lb ctxt i j ch len bnd pk cp;
+	ctxt = BlkValueCreate(TEXT_TY);
+	if (txt==0) return 0;
+	cp = txt-->0; pk = TEXT_TY_Temporarily_Transmute(txt);
+	TEXT_TY_Transmute(ctxt);
+	len = TEXT_TY_CharacterLength(txt);
+	if (BlkValueSetLBCapacity(ctxt, (len+1)*5)) {
+		bnd = 1;
+		for (i=0, j=0:i<len:i++, j++) {
+			ch = BlkValueRead(txt, i);
+			if (ch==34 or 39 or 92) {	! " or ' or \
+				BlkValueWrite(ctxt, j, 92);
+				BlkValueWrite(ctxt, j+1, ch);
+				j++;
+			} else if (ch==10) {
+				j=j+VorpleAppendLinebreakWhileEscaping(ctxt, j, lb)-1;
+			} else if (ch < 128) {
+				BlkValueWrite(ctxt, j, ch);
+			} else {
+				VorpleUnicodeEscapeCode(ctxt, j, ch);
+				j=j+5;
+			}
+		}
+		BlkValueWrite(ctxt, j, 0);
+	}
+	TEXT_TY_Untransmute(txt, pk, cp);
+	return ctxt;
+];
+
+[ VorpleAppendLinebreakWhileEscaping ctxt j lb	k cp pk len;
+	cp = lb-->0; pk = TEXT_TY_Temporarily_Transmute(lb);
+	len = TEXT_TY_CharacterLength(lb);
+	for (k=0:k<len:k++) {
+		BlkValueWrite(ctxt, j+k, BlkValueRead(lb, k));
+	}
+	TEXT_TY_Untransmute(lb, pk, cp);
+	return len;
+];
+
+[ VorpleUnicodeEscapeCode ctxt j x			y;
+	y = (x & $7f00) / $100;
+	if (x<0) y = y + $80;
+	x = x & $ff;
+
+	BlkValueWrite(ctxt, j, 92);
+	BlkValueWrite(ctxt, j+1, 'u');
+	BlkValueWrite(ctxt, j+2, VorpleConvertToHexdigit(y/$10));
+	BlkValueWrite(ctxt, j+3, VorpleConvertToHexdigit(y));
+	BlkValueWrite(ctxt, j+4, VorpleConvertToHexdigit(x/$10));
+	BlkValueWrite(ctxt, j+5, VorpleConvertToHexdigit(x));
+];
+
+[ VorpleConvertToHexdigit x;
+	x = x % $10;
+	switch (x) {
+		0 to 9: return '0' + x;
+		10 to 15: return 'a' + x - 10;
+	}
+];
+-).
+
+
 To decide which text is escaped (string - text):
 	decide on escaped string using "" as line breaks.
 
 To decide which text is escaped (string - text) using (lb - text) as line breaks:
-	let safe-string be text;
-	repeat with X running from 1 to number of characters in string:
-		let char be character number X in string;
-		if char is "'" or char is "[apostrophe]" or char is "\":
-			now safe-string is "[safe-string]\";
-		if char is "[line break]":
-			now safe-string is "[safe-string][lb]";
-		otherwise:
-			let Unicode value be the Unicode value of char;
-			if Unicode value < 128:
-				now safe-string is "[safe-string][char]";
-			otherwise:
-				now safe-string is "[safe-string]\u[the hexadecimal value of Unicode value]";
-	decide on safe-string.
+	(- (VorpleEscapeLineBreaks({string}, {lb}))-).
 
 To decide which number is the Unicode value of (X - text):
 	(- (BlkValueRead({X}, 0)) -).
@@ -345,61 +396,61 @@ Replace GGRecoverObjects;
 
 Include (-
 [ GGRecoverObjects id;
-    ! If GGRecoverObjects() has been called, all these stored IDs are
-    ! invalid, so we start by clearing them all out.
-    ! (In fact, after a restoreundo, some of them may still be good.
-    ! For simplicity, though, we assume the general case.)
-    gg_mainwin = 0;
-    gg_statuswin = 0;
-    gg_quotewin = 0;
-    gg_scriptfref = 0;
-    gg_scriptstr = 0;
-    gg_savestr = 0;
-    statuswin_cursize = 0;
-    gg_foregroundchan = 0;
-    gg_backgroundchan = 0;
-    #Ifdef DEBUG;
-    gg_commandstr = 0;
-    gg_command_reading = false;
-    #Endif; ! DEBUG
-    ! Also tell the game to clear its object references.
-    IdentifyGlkObject(0);
+		! If GGRecoverObjects() has been called, all these stored IDs are
+		! invalid, so we start by clearing them all out.
+		! (In fact, after a restoreundo, some of them may still be good.
+		! For simplicity, though, we assume the general case.)
+		gg_mainwin = 0;
+		gg_statuswin = 0;
+		gg_quotewin = 0;
+		gg_scriptfref = 0;
+		gg_scriptstr = 0;
+		gg_savestr = 0;
+		statuswin_cursize = 0;
+		gg_foregroundchan = 0;
+		gg_backgroundchan = 0;
+		#Ifdef DEBUG;
+		gg_commandstr = 0;
+		gg_command_reading = false;
+		#Endif; ! DEBUG
+		! Also tell the game to clear its object references.
+		IdentifyGlkObject(0);
 
-    id = glk_stream_iterate(0, gg_arguments);
-    while (id) {
-        switch (gg_arguments-->0) {
-            GG_SAVESTR_ROCK: gg_savestr = id;
-            GG_SCRIPTSTR_ROCK: gg_scriptstr = id;
-            #Ifdef DEBUG;
-            GG_COMMANDWSTR_ROCK: gg_commandstr = id;
-                                 gg_command_reading = false;
-            GG_COMMANDRSTR_ROCK: gg_commandstr = id;
-                                 gg_command_reading = true;
-            #Endif; ! DEBUG
-            default: IdentifyGlkObject(1, 1, id, gg_arguments-->0);
-        }
-        id = glk_stream_iterate(id, gg_arguments);
-    }
+		id = glk_stream_iterate(0, gg_arguments);
+		while (id) {
+				switch (gg_arguments-->0) {
+						GG_SAVESTR_ROCK: gg_savestr = id;
+						GG_SCRIPTSTR_ROCK: gg_scriptstr = id;
+						#Ifdef DEBUG;
+						GG_COMMANDWSTR_ROCK: gg_commandstr = id;
+																 gg_command_reading = false;
+						GG_COMMANDRSTR_ROCK: gg_commandstr = id;
+																 gg_command_reading = true;
+						#Endif; ! DEBUG
+						default: IdentifyGlkObject(1, 1, id, gg_arguments-->0);
+				}
+				id = glk_stream_iterate(id, gg_arguments);
+		}
 
-    id = glk_window_iterate(0, gg_arguments);
-    while (id) {
-        switch (gg_arguments-->0) {
-            GG_MAINWIN_ROCK: gg_mainwin = id;
-            GG_STATUSWIN_ROCK: gg_statuswin = id;
-            GG_QUOTEWIN_ROCK: gg_quotewin = id;
-            default: IdentifyGlkObject(1, 0, id, gg_arguments-->0);
-        }
-        id = glk_window_iterate(id, gg_arguments);
-    }
+		id = glk_window_iterate(0, gg_arguments);
+		while (id) {
+				switch (gg_arguments-->0) {
+						GG_MAINWIN_ROCK: gg_mainwin = id;
+						GG_STATUSWIN_ROCK: gg_statuswin = id;
+						GG_QUOTEWIN_ROCK: gg_quotewin = id;
+						default: IdentifyGlkObject(1, 0, id, gg_arguments-->0);
+				}
+				id = glk_window_iterate(id, gg_arguments);
+		}
 
-    id = glk_fileref_iterate(0, gg_arguments);
-    while (id) {
-        switch (gg_arguments-->0) {
-            GG_SCRIPTFREF_ROCK: gg_scriptfref = id;
-            default: IdentifyGlkObject(1, 2, id, gg_arguments-->0);
-        }
-        id = glk_fileref_iterate(id, gg_arguments);
-    }
+		id = glk_fileref_iterate(0, gg_arguments);
+		while (id) {
+				switch (gg_arguments-->0) {
+						GG_SCRIPTFREF_ROCK: gg_scriptfref = id;
+						default: IdentifyGlkObject(1, 2, id, gg_arguments-->0);
+				}
+				id = glk_fileref_iterate(id, gg_arguments);
+		}
 
 	if (glk_gestalt(gestalt_Sound, 0)) {
 		id = glk_schannel_iterate(0, gg_arguments);
@@ -415,11 +466,11 @@ Include (-
 		if (gg_backgroundchan ~= 0) { glk_schannel_stop(gg_backgroundchan); }
 	}
 
-    ! Tell the game to tie up any loose ends.
-    IdentifyGlkObject(2);
+		! Tell the game to tie up any loose ends.
+		IdentifyGlkObject(2);
 
-    ! RUN THE VORPLE INTERFACE CONSTRUCTION RULEBOOK
-    (+ construct Vorple interface rule +)();
+		! RUN THE VORPLE INTERFACE CONSTRUCTION RULEBOOK
+		(+ construct Vorple interface rule +)();
 ];
 -) after "Starting Up" in "Glulx.i6t".
 
@@ -459,7 +510,7 @@ Include (-
 	ClearRTP();
 	style roman;
 	EnsureBreakBeforePrompt();
-	if( ~~(+ Vorple support +) )  TEXT_TY_Say( (Global_Vars-->1) );
+	if( ~~(+ Vorple support +) )	TEXT_TY_Say( (Global_Vars-->1) );
 	ClearBoxedText();
 	ClearParagraphing(14);
 ];
