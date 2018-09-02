@@ -83,31 +83,31 @@ To stop all audio:
 	execute JavaScript command "$('.vorple-sound').remove();vorple.audio.stopMusic()".
 
 To decide whether music is playing:
-	execute JavaScript command "vorple.audio.isMusicPlaying()";
+	execute JavaScript command "return vorple.audio.isMusicPlaying()";
 	if the JavaScript command returned true:
 		decide on true;
 	decide on false.
 
 To decide whether a/any/-- sound effect/effects is/are playing:
-	execute JavaScript command "vorple.audio.isEffectPlaying()";
+	execute JavaScript command "return vorple.audio.isEffectPlaying()";
 	if the JavaScript command returned true:
 		decide on true;
 	decide on false.
 
 To decide whether an/any/-- audio is playing:
-	execute JavaScript command "vorple.audio.isAudioPlaying()";
+	execute JavaScript command "return vorple.audio.isAudioPlaying()";
 	if the JavaScript command returned true:
 		decide on true;
 	decide on false.
 
 To decide whether an/the/-- audio file called/-- (filename - text) is playing:
-	execute JavaScript command "vorple.audio.isElementPlaying('.vorple-audio[bracket]src=\'[escaped filename]\'[close bracket]')";
+	execute JavaScript command "return vorple.audio.isElementPlaying('.vorple-audio[bracket]src=\'[escaped filename]\'[close bracket]')";
 	if the JavaScript command returned true:
 		decide on true;
 	decide on false.
 	
 To decide which text is the/-- currently playing music file/--:
-	execute JavaScript command "vorple.audio.currentMusicPlaying()||''";
+	execute JavaScript command "return vorple.audio.currentMusicPlaying()||''";
 	decide on the text returned by the JavaScript command.
 
 Vorple Multimedia ends here.

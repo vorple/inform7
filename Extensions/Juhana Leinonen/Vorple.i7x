@@ -170,7 +170,7 @@ To decide if the JavaScript code/command returned (x - truth state):
 
 Section 3 - Escaping text for JavaScript
 
-[The text escape routines are in I6 because I7 is several magnitudes slower.]
+[The text escape routines are in I6 because the pure I7 version was several magnitudes slower.]
 Include (-
 [ VorpleEscapeLineBreaks txt lb ctxt i j ch len bnd pk cp;
 	ctxt = BlkValueCreate(TEXT_TY);
@@ -202,8 +202,11 @@ Include (-
 ];
 
 [ VorpleAppendToText ctxt j lb	k cp pk len;
-	cp = lb-->0; pk = TEXT_TY_Temporarily_Transmute(lb);
 	len = TEXT_TY_CharacterLength(lb);
+	if (len==0) {
+		return 0;
+	}
+	cp = lb-->0; pk = TEXT_TY_Temporarily_Transmute(lb);
 	for (k=0:k<len:k++) {
 		BlkValueWrite(ctxt, j+k, BlkValueRead(lb, k));
 	}
@@ -233,35 +236,11 @@ Include (-
 ];
 -).
 
-
 To decide which text is escaped (string - text):
 	decide on escaped string using "" as line breaks.
 
 To decide which text is escaped (string - text) using (lb - text) as line breaks:
 	(- (VorpleEscapeLineBreaks({string}, {lb}))-).
-
-To decide which number is the Unicode value of (X - text):
-	(- (BlkValueRead({X}, 0)) -).
-
-To decide which number is the value of Y in the hexadecimal conversion algorithm for (X - number):
-	(- (({X} & $7f00) / $100) -).
-
-To decide which text is hexdigit (N - number):
-	let X be the remainder after dividing N by 16;
-	if X < 10:
-		decide on "[X]";
-	if X is:
-		-- 10: decide on "a";
-		-- 11: decide on "b";
-		-- 12: decide on "c";
-		-- 13: decide on "d";
-		-- 14: decide on "e";
-		-- 15: decide on "f".
-
-To decide which text is the hexadecimal value of (N - number):
-	let Y be the value of Y in the hexadecimal conversion algorithm for N;
-	let X be the remainder after dividing N by 256;
-	decide on "[hexdigit Y / 16][hexdigit Y][hexdigit X / 16][hexdigit X]".
 
 
 Chapter 4 – HTML tags
@@ -339,7 +318,7 @@ To set output focus to the/-- main window:
 Section 5 - Counting and testing for existence
 
 To decide which number is the number of elements called (classes - text):
-	execute JavaScript command "$('.'+'[classes]'.split(' ').join('.')).length";
+	execute JavaScript command "return $('.'+'[classes]'.split(' ').join('.')).length";
 	decide on the number returned by the JavaScript command.
 
 To decide if an/the/-- element called (classes - text) exists:
@@ -370,7 +349,7 @@ The Vorple interface setup rules is a rulebook.
 
 This is the Vorple interface setup stage rule:
 	if Vorple is supported:
-		execute JavaScript command "window._vorpleSetupRulebookHasRun||false";
+		execute JavaScript command "return window._vorpleSetupRulebookHasRun||false";
 		if the JavaScript command returned false:
 			follow the Vorple interface setup rules;
 			execute JavaScript command "window._vorpleSetupRulebookHasRun=true".
@@ -384,7 +363,7 @@ Vorple interface construction rules is a rulebook.
 
 This is the construct Vorple interface rule:
 	if Vorple is supported:
-		execute JavaScript command "window._vorpleSetupRulebookHasRun||false";
+		execute JavaScript command "return window._vorpleSetupRulebookHasRun||false";
 		if the JavaScript command returned true:
 			follow the Vorple interface construction rules.
 
@@ -548,7 +527,7 @@ Chapter 10 - Credits
 [The Vorple version is shown in the banner by default, but there is no obligation to display it or otherwise credit Vorple (other than good manners.) The rule can be removed with "The display Vorple credits rule is not listed in any rulebook."]
 First after printing the banner text (this is the display Vorple credits rule):
 	if Vorple is supported:
-		execute JavaScript command "vorple.version";
+		execute JavaScript command "return vorple.version";
 		let version number be the text returned by the JavaScript command;
 		say "Vorple version [version number][line break]" (A).
 
@@ -714,11 +693,20 @@ The type of the return value can be retrieved with "the type of the value return
 
 The return value gets overwritten by the next JavaScript command's return value (or "undefined" if it doesn't return anything), so it's best to save the value immediately to a variable after executing the command. Otherwise another JavaScript between executing the command and reading the value might cause a hard to detect bug. The other code call might not be obvious, for example changing the font style with the Vorple Screen Effects extension involves a JavaScript call.
 
-	execute JavaScript command "[bracket]'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'[close bracket][bracket]new Date().getDay()[close bracket]";
+	execute JavaScript command "return [bracket]'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'[close bracket][bracket]new Date().getDay()[close bracket]";
 	let weekday be the text returned by the JavaScript command;
 	say "It's [weekday]!";
 
-See the technical documentation at http://github.com/vorple/vorple/wiki for more details.
+Note: Since version 3.1, the command must explicitly return a value with the "return" keyword for the expression's value to be readable in Inform. If the command returns nothing or undefined, the value of the last command that explicitly returned a value is still what you get when you query it with a "...returned by the JavaScript command" phrase. In other words:
+
+	execute JavaScript command "return 'foo'";
+	execute JavaScript command "'bar'";
+	say the text returned by the JavaScript command;
+
+The above code will print "foo", because the second line doesn't explicitly return anything. In versions 3.0 and before the same code would have printed "bar".
+
+
+See the documentation at https://vorple-if.com for more details about JavaScript evaluation.
 
 
 Chapter: Escaping strings
@@ -909,7 +897,7 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 	
 	To say today's date:
 		if Vorple is supported:
-			execute JavaScript command "var today=new Date(); [bracket]'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'[close bracket][bracket]today.getMonth()[close bracket]+' '+today.getDate()+', '+today.getFullYear()";
+			execute JavaScript command "var today=new Date(); return [bracket]'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'[close bracket][bracket]today.getMonth()[close bracket]+' '+today.getDate()+', '+today.getFullYear()";
 			say the text returned by the JavaScript command;
 		otherwise:
 			say "March 9, 2017" [just some random date for non-Vorple interpreters]
@@ -917,7 +905,7 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 	To synchronize clocks:
 		if Vorple is supported:
 			[we can't set the time directly so we have to calculate the time difference between the story time and the real time in minutes and increment the story time by that amount.]
-			execute JavaScript command "var now=new Date(); now.getHours()*60+now.getMinutes()";
+			execute JavaScript command "var now=new Date(); return now.getHours()*60+now.getMinutes()";
 			let real time be the number returned by the JavaScript command;
 			let story time be ((the hours part of the time of day) * 60) + the minutes part of the time of day;
 			let time difference be real time - story time;
@@ -947,7 +935,7 @@ Note that the pause between issuing the lookup command and the encyclopedia text
 	
 	Carry out looking up when Vorple is supported:
 		place a block level element called "dictionary-entry";		
-		execute JavaScript command "wikipedia_query('[escaped topic understood]')";
+		execute JavaScript command "return wikipedia_query('[escaped topic understood]')";
 		say run paragraph on;
 		block the user interface. [the Wikipedia script will unblock the UI]
 		

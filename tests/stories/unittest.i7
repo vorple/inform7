@@ -21,7 +21,7 @@ Chapter 1 - Handshake
 
 Carry out unit testing "handshake":
 	whether or not Vorple is supported confirms "Vorple support";
-	execute JavaScript command "vorple.version";
+	execute JavaScript command "return vorple.version";
 	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?" confirms "Version number ([text returned by the JavaScript command])";
 
 
@@ -66,100 +66,97 @@ Carry out unit testing "string escaping with line break changes":
 
 Carry out unit testing "JS evaluation":
   let return value be "";
-	execute JavaScript command "'one two three'";
+	execute JavaScript command "return 'one two three'";
 	now return value is the value returned by the JavaScript command;
 	expect the text returned by the JavaScript command to be "one two three" which confirms "Text return value";
 	expect the type of the return value to be "text" which confirms "Text type";
-	execute JavaScript command "'one \'two\' three'";
+	execute JavaScript command "return 'one \'two\' three'";
 	expect the text returned by the JavaScript command to be "one 'two' three" which confirms "Text with quotes";
-	execute JavaScript command "''";
+	execute JavaScript command "return ''";
 	expect the text returned by the JavaScript command to be "" which confirms "Empty string";
-	execute JavaScript command "'one\ntwo\nthree'";
+	execute JavaScript command "return 'one\ntwo\nthree'";
 	expect the text returned by the JavaScript command to be "one[line break]two[line break]three" which confirms "Text with line breaks";
-	execute JavaScript command "1+2";
+	execute JavaScript command "return 1+2";
 	now return value is the value returned by the JavaScript command;
 	expect the number returned by the JavaScript command to be 3 which confirms "Number return value";
 	expect the type of the return value to be "number" which confirms "Number type";
-	execute JavaScript command "'4'";
+	execute JavaScript command "return '4'";
 	expect the number returned by the JavaScript command to be 4 which confirms "Number returned as text";
-	execute JavaScript command "'-4'";
+	execute JavaScript command "return '-4'";
 	expect the number returned by the JavaScript command to be -4 which confirms "Negative number returned as text";
-	execute JavaScript command "3.2";
+	execute JavaScript command "return 3.2";
 	expect the number returned by the JavaScript command to be 3 which confirms "Positive reals rounded down";
-	execute JavaScript command "3.6";
+	execute JavaScript command "return 3.6";
 	expect the number returned by the JavaScript command to be 4 which confirms "Positive reals rounded up";
-	execute JavaScript command "3.5";
+	execute JavaScript command "return 3.5";
 	expect the number returned by the JavaScript command to be 4 which confirms "Positive real halfpoint rounded up";
-	execute JavaScript command "3.501";
+	execute JavaScript command "return 3.501";
 	expect the number returned by the JavaScript command to be 4 which confirms "Positive real near halfpoint rounded up";
-	execute JavaScript command "-3.5";
+	execute JavaScript command "return -3.5";
 	expect the number returned by the JavaScript command to be -3 which confirms "Negative real halfpoint rounded towards zero";
-	execute JavaScript command "-3.51";
+	execute JavaScript command "return -3.51";
 	expect the number returned by the JavaScript command to be -4 which confirms "Negative real halfpoint rounded up";
-	execute JavaScript command "-3.5000";
+	execute JavaScript command "return -3.5000";
 	expect the number returned by the JavaScript command to be -3 which confirms "Negative real halfpoint with trailing zeroes rounded towards zero";
-	execute JavaScript command "2147483647";
+	execute JavaScript command "return 2147483647";
 	expect the number returned by the JavaScript command to be 2147483647 which confirms "Number at Glulx upper range";
-	execute JavaScript command "-2147483647";
+	execute JavaScript command "return -2147483647";
 	expect the number returned by the JavaScript command to be -2147483647 which confirms "Number at Glulx lower range";
-	execute JavaScript command "2147483648";
+	execute JavaScript command "return 2147483648";
 	now run-time error thrown is false;
 	expect the number returned by the JavaScript command to be 0 which confirms "Number exceeding Glulx upper range returns 0";
 	whether or not run-time error thrown is true confirms "Number exceeding Glulx upper range throws an error";
-	execute JavaScript command "-2147483648";
+	execute JavaScript command "return -2147483648";
 	now run-time error thrown is false;
 	expect the number returned by the JavaScript command to be 0 which confirms "Number exceeding Glulx lower range returns 0";
 	whether or not run-time error thrown is true confirms "Number exceeding Glulx lower range throws an error";
-	execute JavaScript command "1e30";
+	execute JavaScript command "return 1e30";
 	expect the value returned by the JavaScript command to be "1000000000000000000000000000000" which confirms "Scientific notation is converted to plain integer";
-	execute JavaScript command "true";
+	execute JavaScript command "return true";
 	expect the type of the value returned by the JavaScript command to be "truth state" which confirms "Truth state type";
-	execute JavaScript command "true";
+	execute JavaScript command "return true";
 	whether or not the JavaScript command returned true confirms "Truth state value (true)";
-	execute JavaScript command "false";
+	execute JavaScript command "return false";
 	whether or not the JavaScript command returned false confirms "Truth state value (false)";
-	execute JavaScript command "1";
+	execute JavaScript command "return 1";
 	now run-time error thrown is false;
 	expect whether or not the JavaScript command returned true to be false which confirms "Retrieving the truth state of non-boolean returns false";
 	whether or not run-time error thrown is true confirms "Retrieving the truth state of non-boolean throws an error";
-	execute JavaScript command "[bracket]1,2,3[close bracket]";
+	execute JavaScript command "return [bracket]1,2,3[close bracket]";
 	expect the type of the value returned by the JavaScript command to be "list" which confirms "List type";
-	execute JavaScript command "({a:1, b:2})";
+	execute JavaScript command "return ({a:1, b:2})";
 	expect the type of the value returned by the JavaScript command to be "object" which confirms "Object type";
-	execute JavaScript command "1/0";
+	execute JavaScript command "return 1/0";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "Infinity" which confirms "Infinity value";
 	expect the type of the return value to be "infinity" which confirms "Infinity type";
-	execute JavaScript command "-1/0";
+	execute JavaScript command "return -1/0";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "-Infinity" which confirms "Negative infinity value";
 	expect the type of the return value to be "infinity" which confirms "Negative infinity type";
-	execute JavaScript command "(function(){})";
+	execute JavaScript command "return (function(){})";
 	expect the type of the value returned by the JavaScript command to be "function" which confirms "Function type";
-	execute JavaScript command "";
-	now return value is the value returned by the JavaScript command;
-	expect the return value to be "undefined" which confirms "Empty code value";
-	expect the type of the return value to be "nothing" which confirms "Empty code type";
-	execute JavaScript command "undefined";
-	now return value is the value returned by the JavaScript command;
-	expect the return value to be "undefined" which confirms "Undefined value";
-	expect the type of the return value to be "nothing" which confirms "Undefined type";
-	execute JavaScript command "null";
+	execute JavaScript command "return 'foo'";
+	execute JavaScript command "'bar'";
+	expect the text returned by the JavaScript command to be "foo" which confirms "Implicit return values ignored";
+	execute JavaScript command "return undefined";
+	expect the text returned by the JavaScript command to be "foo" which confirms "Return undefined is ignored";
+	execute JavaScript command "return null";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "null" which confirms "Null value";
 	expect the type of the return value to be "nothing" which confirms "Null type";
 
 Carry out unit testing "circular references":
   [The following creates an object with a circular reference. Stringifying it will throw an error, which shouldn't crash the game or throw an error in the interpreter. Instead, null should be returned.]
-  execute JavaScript command "var a = {}; a.a = a; a";
+  execute JavaScript command "var a = {}; a.a = a; return a";
 	expect the value returned by the JavaScript command to be "null" which confirms "Circular reference evaluates to null".
 
 Carry out unit testing "nested evaluation":
-	execute JavaScript command "var a = '[escaped nested expression result]'; a";
+	execute JavaScript command "var a = '[escaped nested expression result]'; return a";
 	expect the text returned by the JavaScript command to be "test" which confirms "Nested evaluation doesn't throw an error".
 
 To decide which text is the nested expression result:
-	execute JavaScript command "'test'";
+	execute JavaScript command "return 'test'";
 	decide on the text returned by the JavaScript command.
 
 
@@ -180,91 +177,91 @@ Container counter is a number that varies.
 Carry out unit testing "element manipulation":
 	open HTML tag "div" called "element-unittest-container";
 	place a "span" element called "unittest[container counter]" reading "one two three";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').length";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]').length";
 	expect the number returned by the JavaScript command to be 1 which confirms "Custom element created";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "one two three" which confirms "Custom element has correct content";
 	increment container counter;
 	place a "span" element called "unittest[container counter]" reading "one[line break]two
 
 	three";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "one[line break]two[line break][line break]three" which confirms "Content with line breaks";
 	increment container counter;
 	place a "span" element called "unittest[container counter]" reading "<span>test</span>";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "<span>test</span>" which confirms "HTML content is encoded";
 	increment container counter;
 	place a "section" element called "unittest[container counter]";
-	execute JavaScript command "$('#output .element-unittest-container section.unittest[container counter]').length";
+	execute JavaScript command "return $('#output .element-unittest-container section.unittest[container counter]').length";
 	expect the number returned by the JavaScript command to be 1 which confirms "Empty custom element created";
 	increment container counter;
 	open HTML tag "div" called "unittest[container counter]";
 	place a "p" element reading "four five six";
 	place a "div" element;
 	close HTML tag;
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > p').attr('class')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > p').attr('class')";
 	expect the text returned by the JavaScript command to be "" which confirms "Element without class created";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
 	expect the text returned by the JavaScript command to be "" which confirms "Plain element created, class list empty";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').text()";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > div').text()";
 	expect the text returned by the JavaScript command to be "" which confirms "Plain element created with no content";
 	increment container counter;
 	place an inline element called "unittest[container counter]" reading "seven eight nine";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').css('display')";
 	expect the text returned by the JavaScript command to be "inline" which confirms "Inline element created, is inline";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "seven eight nine" which confirms "Inline element created with correct content";
 	increment container counter;
 	place an inline element called "unittest[container counter]";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').css('display')";
 	expect the text returned by the JavaScript command to be "inline" which confirms "No-content inline element created, is inline";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "" which confirms "No-content inline element has no content";
 	increment container counter;
 	open HTML tag "div" called "unittest[container counter]";
 	place an inline element reading "inline noclass";
 	close HTML tag;
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > span').css('display')";
 	expect the text returned by the JavaScript command to be "inline" which confirms "No-class inline element created, is inline";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').attr('class')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > span').attr('class')";
 	expect the text returned by the JavaScript command to be "" which confirms "No-class inline element created, class list empty";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > span').text()";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > span').text()";
 	expect the text returned by the JavaScript command to be "inline noclass" which confirms "No-class inline element created with correct content";
 	increment container counter;
 	place a block level element called "unittest[container counter]" reading "seven eight nine";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').css('display')";
 	expect the text returned by the JavaScript command to be "block" which confirms "Inline element created";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "seven eight nine" which confirms "Inline element created with correct content";
 	increment container counter;
 	place a block level element called "unittest[container counter]";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').css('display')";
 	expect the text returned by the JavaScript command to be "block" which confirms "No-content block element created";
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "" which confirms "No-content block element has no content";
 	increment container counter;
 	open HTML tag "div" called "unittest[container counter]";
 	place a block level element reading "block noclass";
 	close HTML tag;
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').css('display')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > div').css('display')";
 	expect the text returned by the JavaScript command to be "block" which confirms "No-class block element created, is block level";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > div').attr('class')";
 	expect the text returned by the JavaScript command to be "" which confirms "No-class block element created, class list empty";
-	execute JavaScript command "$('#output .element-unittest-container div.unittest[container counter] > div').text()";
+	execute JavaScript command "return $('#output .element-unittest-container div.unittest[container counter] > div').text()";
 	expect the text returned by the JavaScript command to be "block noclass" which confirms "No-class block element created with correct content";
 	increment container counter;
 	place a "span" element called "unittest[container counter]";
 	place a "span" element called "unittest[container counter]";
 	display text "last" in the element called "unittest[container counter]";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:first').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]:first').text()";
 	expect the text returned by the JavaScript command to be "" which confirms "Display content in one of multiple elements, first element empty";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]:last').text()";
 	expect the text returned by the JavaScript command to be "last" which confirms "Display content in one of multiple elements, content in last element";
 	display text "all" in all the elements called "unittest[container counter]";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:first').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]:first').text()";
 	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in first element";
-	execute JavaScript command "$('#output .element-unittest-container span.unittest[container counter]:last').text()";
+	execute JavaScript command "return $('#output .element-unittest-container span.unittest[container counter]:last').text()";
 	expect the text returned by the JavaScript command to be "all" which confirms "Display content in all multiple elements, content in last element";
 	close HTML tag; [element-unittest-container]
 	set output focus to the element called "element-unittest-container";
@@ -275,7 +272,7 @@ Carry out unit testing "element manipulation":
 	set output focus to the element called "unittest[container counter]";
 	say "focus";
 	set output focus to the main window;
-	execute JavaScript command "$('#output .element-unittest-container .unittest[container counter]').text()";
+	execute JavaScript command "return $('#output .element-unittest-container .unittest[container counter]').text()";
 	expect the text returned by the JavaScript command to be "focus" which confirms "Setting output focus";
 	whether or not element called "unittest[container counter]" exists confirms "Existence of an existing element";
 	whether or not element called "unittest[container counter + 1]" doesn't exist confirms "Existence of a non-existing element";
@@ -309,7 +306,7 @@ Carry out unit testing "add to queue":
 	resolve test result "Queueing parser commands".
 
 Carry out unit testing "silent command queue":
-	execute JavaScript command "$('.lineinput.last .prompt-input').text()";
+	execute JavaScript command "return $('.lineinput.last .prompt-input').text()";
 	if the text returned by the JavaScript command is "unittest null":
 		resolve test result "Queueing silent parser commands".
 
@@ -328,21 +325,21 @@ Chapter 2 - Command history
 [TODO: break this up into smaller rules and have the test runner check results]
 Carry out unit testing "command history":
 	add the command "test" to the command history;
-	execute JavaScript command "haven.prompt.history.get().pop()";
+	execute JavaScript command "return haven.prompt.history.get().pop()";
 	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
 	add the command "test 2" to the command history;
 	remove the last command from the command history;
-	execute JavaScript command "haven.prompt.history.get().pop()";
+	execute JavaScript command "return haven.prompt.history.get().pop()";
 	expect the text returned by the JavaScript command to be "test" which confirms "Removing history";
-	execute JavaScript command "haven.prompt.history.get().length";
+	execute JavaScript command "return haven.prompt.history.get().length";
 	let history size be the number returned by the JavaScript command;
 	change the last command in the command history to "changed";
-	execute JavaScript command "haven.prompt.history.get().pop()";
+	execute JavaScript command "return haven.prompt.history.get().pop()";
 	expect the text returned by the JavaScript command to be "changed" which confirms "Changing history";
-	execute JavaScript command "haven.prompt.history.get().length";
+	execute JavaScript command "return haven.prompt.history.get().length";
 	expect the number returned by the JavaScript command to be history size which confirms "Changing history doesn't change history size";
 	clear the command history;
-	execute JavaScript command "haven.prompt.history.get().length";
+	execute JavaScript command "return haven.prompt.history.get().length";
 	expect the number returned by the JavaScript command to be 0 which confirms "Clearing the entire history".
 
 

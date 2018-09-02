@@ -15,6 +15,10 @@ Release 3.1
 Vorple
 ------
 
+- BREAKING CHANGE: Evaluated JavaScript code must now explicitly return a value
+  from the expression, otherwise no return value is available in Inform.
+  Previously the value of the last expression was automatically returned.
+  See the Vorple extension documentation for details.
 - Unicode characters evaluated as JavaScript are escaped properly when using the
   "escaped" transformation (vorple #22)
 - Added the Vorple interface construction rulebook as a mechanism for
@@ -29,9 +33,10 @@ Vorple
 Modal Windows
 -------------
 
-- Due to how the modal windows block Inform from continuing with the turn,
-  having an Inform phrase to close modals doesn't really have any practical use.
-  The "close the modal window" phrase is therefore removed from the extension.
+- BREAKING CHANGE: Due to how the modal windows block Inform from continuing
+  with the turn, having an Inform phrase to close modals doesn't really have any
+  practical use. The "close the modal window" phrase is therefore removed from
+  the extension.
 - Fixed a problem that caused the modal windows to require a keypress before
   showing custom content when creating them without using the "reading ..."
   shorthand. This also fixes the problem that dismissing the modal required two
