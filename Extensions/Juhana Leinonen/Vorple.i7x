@@ -46,7 +46,8 @@ The file of JavaScript Evaluation Input is called "VpJSEval".
 
 To execute JavaScript code/command (JavaScript code - text):
 	if Vorple is supported:
-		write JavaScript code to the file of JavaScript Evaluation Input;
+		let input be the substituted form of JavaScript code;
+		write input to the file of JavaScript Evaluation Input;
 		mark the file of JavaScript Evaluation Input as ready to read.
 
 

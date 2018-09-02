@@ -59,6 +59,10 @@ describe( "Core library", () => {
         it( "treats objects with circular references as null", () => {
             runI7Test( "circular reference" );
         });
+
+        it( "handles nested JS calls", () => {
+            runI7Test( "nested evaluation" );
+        });
     });
 
     describe( "JavaScript string escaping", () => {

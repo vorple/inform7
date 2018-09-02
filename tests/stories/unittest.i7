@@ -150,11 +150,17 @@ Carry out unit testing "JS evaluation":
 	expect the type of the return value to be "nothing" which confirms "Null type";
 
 Carry out unit testing "circular references":
-  [The following creates an object with a circular reference. Stringifying it
-   will throw an error, which shouldn't crash the game or throw an error in the
-   interpreter. Instead, null should be returned.]
+  [The following creates an object with a circular reference. Stringifying it will throw an error, which shouldn't crash the game or throw an error in the interpreter. Instead, null should be returned.]
   execute JavaScript command "var a = {}; a.a = a; a";
 	expect the value returned by the JavaScript command to be "null" which confirms "Circular reference evaluates to null".
+
+Carry out unit testing "nested evaluation":
+	execute JavaScript command "var a = '[escaped nested expression result]'; a";
+	expect the text returned by the JavaScript command to be "test" which confirms "Nested evaluation doesn't throw an error".
+
+To decide which text is the nested expression result:
+	execute JavaScript command "'test'";
+	decide on the text returned by the JavaScript command.
 
 
 Chapter 4 - DOM manipulation
