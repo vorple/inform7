@@ -54,41 +54,18 @@ To execute JavaScript code/command (JavaScript code - text):
 Section 2 – Return values
 
 The file of JavaScript Return Value is called "VpJSRtrn".
+The file of JavaScript Return Value Type is called "VpJSType".
 
-To decide which text is the value returned by the JavaScript code/command:
+To decide which text is the/-- value returned by the JavaScript code/command:
 	if Vorple is not supported:
 		decide on "";
 	decide on substituted form of "[text of the file of JavaScript Return Value]".
 
-To decide which text is the type of (source - text):
+To decide which text is the/-- type of the/-- value returned by the JavaScript code/command:
 	if Vorple is not supported:
-		decide on "nothing";
-	let rval be source;
-	if rval is:
-		-- "": decide on "nothing";
-		-- "undefined": decide on "nothing";
-		-- "null": decide on "nothing";
-		-- "true": decide on "truth state";
-		-- "false": decide on "truth state";
-		-- "NaN": decide on "NaN";
-		-- "Infinity": decide on "infinity";
-		-- "-Infinity": decide on "infinity";
-	let initial character be character number 1 in rval;
-	let last character be character number (number of characters in rval) in rval;
-	if initial character is:
-		-- "'":
-			if the number of characters in rval is 1 or the last character is not "'":
-				decide on "unknown";
-			decide on "text";
-		-- "[bracket]":
-			decide on "list";
-		-- "{":
-			decide on "object";
-	if word number 1 in rval is "function":
-		decide on "function";
-	if rval matches the regular expression "^\-?\d+(\.\d+)?$":
-		decide on "number";
-	decide on "unknown".
+		decide on "";
+	let T be the substituted form of "[text of the file of JavaScript Return Value Type]";
+	decide on T.
 
 To decide which text is the text returned by the JavaScript code/command:
 	if Vorple is not supported:
@@ -100,60 +77,79 @@ To decide which text is the text returned by the JavaScript code/command:
 	replace character number 1 in rval with "";
 	decide on rval.
 
-[The algorithm that converts text to numbers has been adapted from the extension Guncho Mockup by Guncho Cabal.]
-To decide which number is text (T - text) converted into a number:
-	let S be 1;
-	let L be the number of characters in T;
-	if L is 0, decide on 0;
-	let negated be false;
-	let previous-result be 0;
-	if character number 1 in T is "-":
-		let negated be true;
-		let S be 2;
-	let result be 0;
-	repeat with N running from S to L:
-		let C be character number N in T;
-		let D be 0;
-		if C is:			
-			-- "0": let D be 0;
-			-- "1": let D be 1;
-			-- "2": let D be 2;
-			-- "3": let D be 3;
-			-- "4": let D be 4;
-			-- "5": let D be 5;
-			-- "6": let D be 6;
-			-- "7": let D be 7;
-			-- "8": let D be 8;
-			-- "9": let D be 9;
-			-- ".": 
-				let first decimal be text character number N + 1 in T converted into a number;
-				if first decimal > 5:
-					increment result;
-				else if first decimal is 5:
-					if negated is false:
-						increment result;
-					otherwise unless T exactly matches the regular expression "\-\d+\.50*":
-						increment result;
-				break;
-		let result be (result * 10) + D;
-		if previous-result > result:
-			throw Vorple run-time error "Number [T] exceeds Glulx number range";
-			decide on 0;
-		now previous-result is result;
-	if negated is true:
-		decide on 0 - result;
-	decide on result.
+To decide which number is (T - text) converted into a number:
+	(- (ParseI7StringToNumber({T})) -).
+
+Include (-
+[ ParseI7StringToNumber txt	 n start len sign digit firstDecimal;
+	len = TEXT_TY_CharacterLength(txt);
+	n = 0;
+
+	if (BlkValueRead(txt, 0) == '-') {
+		sign = -1;
+		start = 1;
+	}
+	else {
+		sign = 1;
+		start = 0;
+	}
+
+	while( start < len ) {
+		digit = BlkValueRead(txt, start);
+
+		if( digit == '.' ) {
+			firstDecimal = BlkValueRead( txt, start + 1 );
+
+			if( firstDecimal >= '5' ) {
+				if( sign == -1 && firstDecimal == '5' ) {
+					start = start + 2;
+					
+					while( start < len ) {
+						if( BlkValueRead( txt, start ) ~= '0' ) {
+							jump notAll0s;
+						}
+						start++;
+					}
+					return -n;
+				}
+
+				.notAll0s;
+				n++;
+			}
+
+			return n * sign;
+		}
+
+		n = 10 * n + ( digit - '0' );
+		start++;
+
+		! check that there's no overflow or if there is, return the minimum Glulx value which will throw an error later
+		if( n < 0 ) {
+			return -2147483648;
+		}
+	}
+
+	return n * sign;
+];
+-);
 	
 To decide which number is the number returned by the JavaScript code/command:
+	let number string be text;
 	if Vorple is not supported:
 		decide on 0;
-	let rval be the value returned by the JavaScript command;
-	if the type of the value returned by the JavaScript command is "text":
-		now rval is the text returned by the JavaScript command;
-	otherwise if the type of the value returned by the JavaScript command is not "number":
-		throw Vorple run-time error "Trying to convert return value of type [type of the value returned by the JavaScript command] into a number";
+	let valtype be the type of the value returned by the JavaScript command;
+	if valtype is "text":
+		now number string is the text returned by the JavaScript command;
+	otherwise if valtype is "number":
+		now number string is the value returned by the JavaScript command;
+	otherwise:
+		throw Vorple run-time error "Trying to convert return value of type [valtype] into a number";
 		decide on 0;
-	decide on text rval converted into a number.
+	let parsed number be number string converted into a number;
+	if parsed number is -2147483648:
+		throw Vorple run-time error "Number [number string] exceeds Glulx number range";
+		decide on 0;
+	decide on parsed number.
 
 To decide if the JavaScript code/command returned (x - truth state):
 	if Vorple is not supported:
@@ -172,7 +168,7 @@ Section 3 - Escaping text for JavaScript
 
 [The text escape routines are in I6 because the pure I7 version was several magnitudes slower.]
 Include (-
-[ VorpleEscapeLineBreaks txt lb ctxt i j ch len bnd pk cp;
+[ VorpleEscapeLineBreaks txt lb   ctxt i j ch len bnd pk cp;
 	ctxt = BlkValueCreate(TEXT_TY);
 	if (txt==0) return 0;
 	cp = txt-->0; pk = TEXT_TY_Temporarily_Transmute(txt);
@@ -201,7 +197,7 @@ Include (-
 	return ctxt;
 ];
 
-[ VorpleAppendToText ctxt j lb	k cp pk len;
+[ VorpleAppendToText ctxt j lb		k cp pk len;
 	len = TEXT_TY_CharacterLength(lb);
 	if (len==0) {
 		return 0;
@@ -214,7 +210,7 @@ Include (-
 	return len;
 ];
 
-[ VorpleUnicodeEscapeCode ctxt j x			y;
+[ VorpleUnicodeEscapeCode ctxt j x		y;
 	y = (x & $7f00) / $100;
 	if (x<0) y = y + $80;
 	x = x & $ff;
@@ -240,7 +236,7 @@ To decide which text is escaped (string - text):
 	decide on escaped string using "" as line breaks.
 
 To decide which text is escaped (string - text) using (lb - text) as line breaks:
-	(- (VorpleEscapeLineBreaks({string}, {lb}))-).
+	(- (VorpleEscapeLineBreaks({string}, {lb})) -).
 
 
 Chapter 4 – HTML tags
@@ -339,6 +335,15 @@ To scroll to an/the/-- element called (classes - text):
 
 To scroll to the/-- end/bottom of the/-- page:
 	execute JavaScript command "vorple.layout.scrollToEnd()".
+
+
+Section 7 - Line break workarounds
+
+To save the internal state of line breaks:
+(- @push say__p; @push say__pc; -);
+
+To restore the internal state of line breaks:
+(- 	@pull say__pc; @pull say__p; -);
 
 
 Chapter 5 - User Interface rulebooks

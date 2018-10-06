@@ -69,7 +69,7 @@ Carry out unit testing "JS evaluation":
 	execute JavaScript command "return 'one two three'";
 	now return value is the value returned by the JavaScript command;
 	expect the text returned by the JavaScript command to be "one two three" which confirms "Text return value";
-	expect the type of the return value to be "text" which confirms "Text type";
+	expect the type of the value returned by the JavaScript command to be "text" which confirms "Text type";
 	execute JavaScript command "return 'one \'two\' three'";
 	expect the text returned by the JavaScript command to be "one 'two' three" which confirms "Text with quotes";
 	execute JavaScript command "return ''";
@@ -79,7 +79,7 @@ Carry out unit testing "JS evaluation":
 	execute JavaScript command "return 1+2";
 	now return value is the value returned by the JavaScript command;
 	expect the number returned by the JavaScript command to be 3 which confirms "Number return value";
-	expect the type of the return value to be "number" which confirms "Number type";
+	expect the type of the value returned by the JavaScript command to be "number" which confirms "Number type";
 	execute JavaScript command "return '4'";
 	expect the number returned by the JavaScript command to be 4 which confirms "Number returned as text";
 	execute JavaScript command "return '-4'";
@@ -129,11 +129,11 @@ Carry out unit testing "JS evaluation":
 	execute JavaScript command "return 1/0";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "Infinity" which confirms "Infinity value";
-	expect the type of the return value to be "infinity" which confirms "Infinity type";
+	expect the type of the value returned by the JavaScript command to be "infinity" which confirms "Infinity type";
 	execute JavaScript command "return -1/0";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "-Infinity" which confirms "Negative infinity value";
-	expect the type of the return value to be "infinity" which confirms "Negative infinity type";
+	expect the type of the value returned by the JavaScript command to be "infinity" which confirms "Negative infinity type";
 	execute JavaScript command "return (function(){})";
 	expect the type of the value returned by the JavaScript command to be "function" which confirms "Function type";
 	execute JavaScript command "return 'foo'";
@@ -144,7 +144,7 @@ Carry out unit testing "JS evaluation":
 	execute JavaScript command "return null";
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "null" which confirms "Null value";
-	expect the type of the return value to be "nothing" which confirms "Null type";
+	expect the type of the value returned by the JavaScript command to be "nothing" which confirms "Null type";
 
 Carry out unit testing "circular references":
   [The following creates an object with a circular reference. Stringifying it will throw an error, which shouldn't crash the game or throw an error in the interpreter. Instead, null should be returned.]
