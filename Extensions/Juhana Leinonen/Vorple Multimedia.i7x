@@ -46,29 +46,36 @@ To preload the/-- images (image-list - list of text):
 Chapter 2 - Audio
 
 To play a/the/-- sound effect file/-- (file - text), looping:
-	let loop-attr be false;
+	let loop-attr be "false";
 	if looping:	
-		now loop-attr is true;
-	execute JavaScript command "$('<audio class=\'vorple-audio vorple-sound\' src=\'[escaped file]\' autoplay[if loop-attr is true] loop[end if]>').appendTo('body')";
+		now loop-attr is "true";
+	execute JavaScript command "vorple.audio.playSound('[escaped file]', {looping: [loop-attr]})".
 
-To play a/the/-- music file/-- (file - text), looping:
-	let loop-attr be false;
+To play a/the/-- music file/-- (file - text), looping and/or always from the start:
+	let loop-attr be "false";
+	let restart-attr be "false";
 	if looping:	
-		now loop-attr is true;
-	execute JavaScript command "vorple.audio.playMusic('[escaped file]'[if loop-attr is true], true[end if])";
+		now loop-attr is "true";
+	if always from the start:
+		now restart-attr is "true";
+	execute JavaScript command "vorple.audio.playMusic('[escaped file]', {looping: [loop-attr], restart: [restart-attr]})";
 
-To start a/the/-- playlist (playlist - list of text), repeating and/or shuffled:
+To start a/the/-- playlist (playlist - list of text), looping and/or shuffled and/or always from the start:
 	let files be playlist;
 	let array be "[bracket]";
-	let loop-attr be false;
-	if repeating:
-		now loop-attr is true;
+	let loop-attr be "false";
+	let restart-attr be "false";
+	let shuffled-attr be "false";
+	if looping:
+		now loop-attr is "true";
+	if always from the start:
+		now restart-attr is "true";
 	if shuffled:
-		sort files in random order;
+		now shuffled-attr is "true";
 	repeat with filename running through files:
 		now array is "[array]'[escaped filename]',";
 	now array is "[array]''[close bracket]";
-	execute JavaScript command "var pl=[array];pl.pop();vorple.audio.setPlaylist(pl[if loop-attr is true], true[end if])".
+	execute JavaScript command "var pl=[array];pl.pop();vorple.audio.setPlaylist(pl, {looping: [loop-attr], restart: [restart-attr], shuffled: [shuffled-attr]})".
 
 To clear the/-- playlist:
 	execute JavaScript command "vorple.audio.clearPlaylist()".
@@ -203,6 +210,10 @@ Starting to play a music file that's already playing doesn't do anything other t
 	
 ...then nothing happens, except that when the music ends it starts to loop. Conversely, if we leave out the 'looping' option then the music will not loop when it ends, even if it was originally set to loop.
 
+If we do want the music to always start playing from the beginning even when it's already playing, we can command:
+
+	play music file "mozart.mp3", always from the start;
+
 Starting a new music track while a different track is playing will fade out the old track before starting the new one. The old track fades out during one second and then waits another second to play the next one.
 
 Once playing the sounds can be stopped with the following phrases:
@@ -220,9 +231,9 @@ Whether audio is currently playing can be tested with these phrases:
 	if any audio is playing: ...
 	if the audio file called "bigband.mp3" is playing: ...
 	
-An audio file is considered 'playing' even when it's still loading and hasn't actually started to play yet.
+An audio file is considered 'playing' even when it's still loading and hasn't actually started to play yet. 'If ... is playing' only checks for audio that is initiated by Vorple.
 
-The currently playing music file can be retrieved by:
+The currently playing music file can be retrieved with 'the currently playing music file':
 	
 	if the currently playing music file is "elvis.mp3": ...
 
@@ -235,13 +246,13 @@ Playlists are collections of music that automatically play one after another. Pl
 	
 The file "one.mp3" starts to play, when it finishes "two.mp3" starts automatically, and finally after that "three.mp3" plays. If we want the playlist to repeat from the start after it has played the last track:
 
-	start the playlist { "one.mp3", "two.mp3", "three.mp3" }, repeating;
+	start the playlist { "one.mp3", "two.mp3", "three.mp3" }, looping;
 	
 We can also play the list in a random order:
 
 	start the playlist { "one.mp3", "two.mp3", "three.mp3" }, shuffled;
 	
-Both options can be used together, but a repeating playlist is shuffled only once. When the playlist finishes and restarts again, it replays in the same order as the first time.
+Both options can be used together, but a looping playlist is shuffled only once. When the playlist finishes and restarts again, it replays in the same order as the first time.
 
 If the first track in the playlist is already playing at the same time when the playlist is started, the track will keep playing normally to the end and then continue from the second track in the playlist. Otherwise any music track that's playing will stop and the playlist will start immediately from the first item.
 
@@ -443,7 +454,7 @@ We could also set up playlists for each region instead of just one track.
 	The background playlist of Tavern is {"tavern.mp3"}.
 	
 	Every turn when the map region of the location is not nothing and the map region of the location is not the current region and the background playlist of the map region of the location is not empty (this is the play background audio rule):
-		start the playlist background playlist of the map region of the location, repeating and shuffled;
+		start the playlist background playlist of the map region of the location, looping and shuffled;
 		now the current region is the map region of the location.
 		
 	[Every turn rules aren't run on the first turn so we'll run it manually.]

@@ -46,10 +46,19 @@ Modal Windows
 Multimedia
 ----------
 
+- BREAKING CHANGE: The modifier "repeating" for phrase "start playlist" is now
+  called "looping", for consistency with other phrases
 - Fixed documentation where comments in the code would be invisible in the
   Inform IDE (#18)
 - Added documentation about adding HTML classes images and how the resulting
   HTML will look like
+- Added an "always from the start" modifier to "start music" phrase, which
+  forces the file to start playing from the beginning even if the same track is
+  already playing
+- When starting a playlist, if a track that's present in the playlist is already
+  playing at that moment, the track will not be stopped and the playlist will
+  now continue from that place instead of from the beginning, unless the
+  "always from the start" modifier is provided
 
 
 Tooltips

@@ -438,6 +438,17 @@ Book 6 - Multimedia
 Carry out unit testing "image":
 	place the image "/media/vorple.png" called "logo" with description "Vorple's logo", centered.
 
+Carry out unit testing "music":
+	play music file "media/winding.mp3".
+
+Carry out unit testing "music force restart":
+	play music file "media/winding.mp3", always from the start.
+
+Pl is a list of text that varies. Pl is {"media/1.wav", "media/2.wav", "media/3.wav", "media/4.wav", "media/5.wav"}.
+
+Carry out unit testing "pl":
+	start the playlist pl.
+
 
 Book 7 - Notifications
 
