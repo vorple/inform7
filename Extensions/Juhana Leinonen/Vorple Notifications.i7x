@@ -25,7 +25,7 @@ To display a/an/-- (type - notification type) with the/a/-- title (header - text
 		-- error notification:
 			now method is "error";
 	execute JavaScript command "toastr.[method]('[escaped msg]',[if header is not empty]'[escaped header]',[end if]{timeOut: [sec]*1000, escapeHtml: true})";
-	add msg to the displayed notifications.
+	add "[if header is not empty][header] - [end if][msg]" to the displayed notifications.
 
 To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text):
 	display a type with title header reading msg for default notification duration seconds.
