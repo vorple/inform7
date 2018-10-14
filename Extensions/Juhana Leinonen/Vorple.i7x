@@ -304,10 +304,10 @@ To display text (content - text) in the/-- element called (classes - text):
 
 Section 4 - Output focus
 	
-To set output focus to the/an/-- element called (target - text):
+To set the/-- output focus to the/an/-- element called (target - text):
 	execute JavaScript command "vorple.layout.focus('.[target]')".
 
-To set output focus to the/-- main window:
+To set the/-- output focus to the/-- main window:
 	execute JavaScript command "vorple.layout.focus('#window0')".
 
 

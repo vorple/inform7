@@ -10,6 +10,7 @@ Release 3.1
 
 - Unit tests are rewritten to use Webdriver.io and Selenium so that the I7 story
   file only runs the I7 code and the JavaScript test cases check the results
+- Added the Status Line extension
 
 
 Vorple
@@ -33,6 +34,7 @@ Vorple
   performance. The new routine is about 97% faster than the previous one. (#15)
 - Fixed a bug where evaluating JavaScript inside text substitution that itself
   was being evaluated would throw an error (vorple #34)
+- "Set the output focus to ..." is now a synonym for "Set output focus to ..."
 
 
 Modal Windows
