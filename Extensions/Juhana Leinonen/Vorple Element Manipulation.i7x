@@ -44,16 +44,16 @@ To move all the/-- elements called/-- (classes - text) at the start of (target -
 	execute JavaScript command "$('.[classes]').prependTo('.[target]')".
 
 To move the/-- element called/-- (classes - text) before (target - text):
-	execute JavaScript command "$('.[classes]').last().before('.[target]')".
+	execute JavaScript command "$('.[classes]').last().insertBefore($('.[target]:last'))".
 
 To move all the/-- elements called/-- (classes - text) before (target - text):
-	execute JavaScript command "$('.[classes]').before('.[target]')".
+	execute JavaScript command "$('.[classes]').insertBefore($('.[target]:last'))".
 
 To move the/-- element called/-- (classes - text) after (target - text):
-	execute JavaScript command "$('.[classes]').last().after('.[target]')".
+	execute JavaScript command "$('.[classes]').last().insertAfter($('.[target]:last'))".
 
 To move all the/-- elements called/-- (classes - text) after (target - text):
-	execute JavaScript command "$('.[classes]').after('.[target]')".
+	execute JavaScript command "$('.[classes]').insertAfter($('.[target]:last'))".
 
 To add name (new name - text) to the/-- element called (classes - text):
 	execute JavaScript command "$('.[classes]').last().addClass('[new name]')".

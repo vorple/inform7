@@ -8,6 +8,7 @@ Include Vorple Modal Windows by Juhana Leinonen.
 Include Vorple Multimedia by Juhana Leinonen.
 Include Vorple Notifications by Juhana Leinonen.
 Include Vorple Screen Effects by Juhana Leinonen.
+Include Vorple Status Line by Juhana Leinonen.
 Include Vorple Tooltips by Juhana Leinonen.
 
 There is a room.
@@ -355,7 +356,19 @@ Carry out unit testing "queue when prompt available":
 
 Book 3 - Element Manipulation
 
-[TBA]
+Carry out unit testing "move elements":
+	place an inline element called "aftercontainer";
+	set output focus to the element called "aftercontainer";
+	place an inline element called "after2" reading "a2";
+	place an inline element called "after1" reading "a1";
+	move the element called "after2" after "after1";
+	set output focus to the main window;
+	place an inline element called "beforecontainer";
+	set output focus to the element called "beforecontainer";
+	place an inline element called "before2" reading "b2";
+	place an inline element called "before1" reading "b1";
+	move the element called "before1" before "before2";
+	set output focus to the main window.
 
 
 Book 4 - Hyperlinks

@@ -24,9 +24,8 @@ describe( "Tooltips", () => {
     describe( "Tooltip on demand", () => {
         it( "appears after a delay", () => {
             sendCommand( "unittest tooltip on demand" );
-            waitForPrompt();
             expect( browser.isVisible( "#powerTip" ) ).to.be.false;
-            browser.pause( 500 );
+            browser.pause( 100 );
             expect( browser.isVisible( "#powerTip" ) ).to.be.false;
             browser.pause( 1000 );
             expect( browser.isVisible( "#powerTip" ) ).to.be.true;
