@@ -449,7 +449,7 @@ Include (-
 		IdentifyGlkObject(2);
 
 		! RUN THE VORPLE INTERFACE CONSTRUCTION RULEBOOK
-		(+ construct Vorple interface rule +)();
+		FollowRulebook(RULEBOOK_TY_to_RULE_TY((+ Vorple interface construction rules +)));
 ];
 -) after "Starting Up" in "Glulx.i6t".
 

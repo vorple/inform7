@@ -13,6 +13,8 @@ Include Vorple Tooltips by Juhana Leinonen.
 
 There is a room.
 
+When play begins:
+	construct the Vorple status line with 3 columns.
 
 Volume 1 - Extension tests
 
@@ -65,7 +67,9 @@ Carry out unit testing "string escaping with line break changes":
 	place an element called "string-escaping-linebreaks-change";
 	execute JavaScript command "$('.string-escaping-linebreaks-change').text('[escaped unclean text using asterisks as line breaks]')".
 
+[This test doubles as performance testing]
 Carry out unit testing "JS evaluation":
+	execute JavaScript command "console.time()";
   let return value be "";
 	execute JavaScript command "return 'one two three'";
 	now return value is the value returned by the JavaScript command;
@@ -146,6 +150,7 @@ Carry out unit testing "JS evaluation":
 	now return value is the value returned by the JavaScript command;
 	expect the return value to be "null" which confirms "Null value";
 	expect the type of the value returned by the JavaScript command to be "nothing" which confirms "Null type";
+	execute JavaScript command "console.timeEnd()";
 
 Carry out unit testing "circular references":
   [The following creates an object with a circular reference. Stringifying it will throw an error, which shouldn't crash the game or throw an error in the interpreter. Instead, null should be returned.]
@@ -327,7 +332,7 @@ Chapter 2 - Command history
 Carry out unit testing "command history":
 	add the command "test" to the command history;
 	execute JavaScript command "return haven.prompt.history.get().pop()";
-	expect the text returned by the JavaScript command to be "test" which confirms "Adding history";
+	expect text returned by the JavaScript command to be "test" which confirms "Adding history";
 	add the command "test 2" to the command history;
 	remove the last command from the command history;
 	execute JavaScript command "return haven.prompt.history.get().pop()";
