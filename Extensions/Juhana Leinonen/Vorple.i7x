@@ -56,12 +56,12 @@ Section 2 – Return values
 The file of JavaScript Return Value is called "VpJSRtrn".
 The file of JavaScript Return Value Type is called "VpJSType".
 
-To decide which text is the/-- value returned by the JavaScript code/command:
+To decide which text is the value returned by the JavaScript code/command:
 	if Vorple is not supported:
 		decide on "";
 	decide on substituted form of "[text of the file of JavaScript Return Value]".
 
-To decide which text is the/-- type of the/-- value returned by the JavaScript code/command:
+To decide which text is the type of the/-- value returned by the JavaScript code/command:
 	if Vorple is not supported:
 		decide on "";
 	let T be the substituted form of "[text of the file of JavaScript Return Value Type]";
@@ -366,14 +366,8 @@ Section 2 - Interface construction rules
 
 Vorple interface construction rules is a rulebook.
 
-This is the construct Vorple interface rule:
-	if Vorple is supported:
-		execute JavaScript command "return window._vorpleSetupRulebookHasRun||false";
-		if the JavaScript command returned true:
-			follow the Vorple interface construction rules.
-
-The construct Vorple interface rule is listed before the when play begins stage rule in the startup rulebook.
-The construct Vorple interface rule is listed last in the turn sequence rulebook.
+Before reading a command (this is the update Vorple interface before new turn starts rule):
+	follow the Vorple interface construction rules.
 
 Include (-
 Replace GGRecoverObjects;

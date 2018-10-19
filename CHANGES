@@ -37,6 +37,19 @@ Vorple
 - "Set the output focus to ..." is now a synonym for "Set output focus to ..."
 
 
+Command Prompt Control
+----------------------
+
+- Fixed adding and removing from command history, which manipulated the start of
+  the command history instead of the latest commands (#7)
+
+
+Element Manipulation
+--------------------
+
+- Fixed broken "insert element after" and "insert element before" phrases (#10)
+
+
 Modal Windows
 -------------
 
@@ -83,6 +96,7 @@ Tooltips
 - Added a configurable default duration for how long tooltips stay on screen
 - Phrases with the word "seconds" now have synonyms with "second" so phrases
   like "...after 1 seconds" can be written as "...after 1 second"
+
 
 
 Release 3.0 preview (2017-04-29)

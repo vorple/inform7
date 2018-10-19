@@ -66,7 +66,7 @@ To remove the/-- Vorple status line:
 To clear the/-- Vorple status line:
 	execute JavaScript command "$('.status-line-container').children().empty()".
 
-Before reading a command (this is the refresh Vorple status line rule):
+A Vorple interface construction rule (this is the refresh Vorple status line rule):
 	refresh the Vorple status line.
 
 Vorple Status Line ends here.
