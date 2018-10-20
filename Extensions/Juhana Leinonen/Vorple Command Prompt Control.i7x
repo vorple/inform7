@@ -2,10 +2,9 @@ Version 3/170429 of Vorple Command Prompt Control (for Glulx only) by Juhana Lei
 
 "Manually triggering parser commands, changing the contents of the command prompt and manipulating the command history."
 
-Use authorial modesty.
-
 Include version 3 of Vorple by Juhana Leinonen.
 
+Use authorial modesty.
 
 Chapter 1 - Queueing parser commands
 

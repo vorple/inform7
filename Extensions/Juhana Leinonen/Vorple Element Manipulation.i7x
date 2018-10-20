@@ -2,10 +2,9 @@ Version 3/170429 of Vorple Element Manipulation (for Glulx only) by Juhana Leino
 
 "Adding, removing, hiding, moving and other basic manipulation of HTML document elements."
 
-Use authorial modesty.
-
 Include version 3 of Vorple by Juhana Leinonen.
 
+Use authorial modesty.
 
 To clear the/-- element called/-- (classes - text):
 	execute JavaScript command "$('.[classes]').last().empty()".

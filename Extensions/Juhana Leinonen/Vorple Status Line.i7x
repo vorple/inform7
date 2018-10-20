@@ -66,7 +66,7 @@ To remove the/-- Vorple status line:
 To clear the/-- Vorple status line:
 	execute JavaScript command "$('.status-line-container').children().empty()".
 
-A Vorple interface construction rule (this is the refresh Vorple status line rule):
+A Vorple interface update rule (this is the refresh Vorple status line rule):
 	refresh the Vorple status line.
 
 Vorple Status Line ends here.
@@ -84,7 +84,7 @@ The Vorple status line can have either 1, 2 or 3 columns. The status line is cre
 	*: When play begins:
 		construct the Vorple status line with 2 columns.
 
-The contents of the status line are determined by variables called left hand Vorple status line, middle Vorple status line, right hand Vorple status line and mobile Vorple status line. The default contents of left and right hand columns are the same as the contents of the Glulx status line, and the middle column is empty.
+The contents of the status line are determined by variables called left hand Vorple status line, middle Vorple status line, right hand Vorple status line and mobile Vorple status line. The default contents of left and right hand columns are the same as the contents of the Glulx status line, and the middle column is empty (except in the 1-column status line, where the middle column has the contents of the Glulx left hand status line).
 
 The following example creates a 3-column status line with different content in each column.
 
@@ -133,6 +133,18 @@ When there content is longer it's often better to place the columns on top of ea
 	*: The mobile Vorple status line is "[left hand Vorple status line][line break][middle Vorple status line][line break][right hand Vorple status line]".
 
 We can test the mobile status line by resizing the browser window. The mobile status line toggles automatically when the screen width crosses the 568 pixel limit.
+
+
+Chapter: Using together with the standard status line
+
+The Vorple left hand and right hand status lines are initially defined to have the same content as the standard Glulx status line (which you see in non-Vorple interpreters). The extension initializes the status line contents with this code:
+
+	The left hand Vorple status line is usually " [left hand status line]".
+	The right hand Vorple status line is usually "[right hand status line] ".
+
+If left as is, changing the "left hand status line" and "right hand status line" variables will change both the Vorple status line and the Glulx status line. Changing the Vorple status line variables to something else will break this connection.
+
+The Glulx right hand status line has a character limit of 14 characters. Vorple doesn't have this limitation, but if the same content is used for both status lines, the right hand should be limited to 14 characters.
 
 
 Chapter: Manually refreshing the status line
