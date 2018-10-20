@@ -362,12 +362,12 @@ This is the Vorple interface setup stage rule:
 The Vorple interface setup stage rule is listed before the when play begins stage rule in the startup rulebook.
 
 
-Section 2 - Interface construction rules
+Section 2 - Interface update rules
 
-Vorple interface construction rules is a rulebook.
+Vorple interface update rules is a rulebook.
 
 Before reading a command (this is the update Vorple interface before new turn starts rule):
-	follow the Vorple interface construction rules.
+	follow the Vorple interface update rules.
 
 Include (-
 Replace GGRecoverObjects;
@@ -448,8 +448,8 @@ Include (-
 		! Tell the game to tie up any loose ends.
 		IdentifyGlkObject(2);
 
-		! RUN THE VORPLE INTERFACE CONSTRUCTION RULEBOOK
-		FollowRulebook(RULEBOOK_TY_to_RULE_TY((+ Vorple interface construction rules +)));
+		! RUN THE VORPLE INTERFACE UPDATE RULEBOOK
+		FollowRulebook(RULEBOOK_TY_to_RULE_TY((+ Vorple interface update rules +)));
 ];
 -) after "Starting Up" in "Glulx.i6t".
 
@@ -703,7 +703,6 @@ Note: Since version 3.1, the command must explicitly return a value with the "re
 	say the text returned by the JavaScript command;
 
 The above code will print "foo", because the second line doesn't explicitly return anything. In versions 3.0 and before the same code would have printed "bar".
-
 
 See the documentation at https://vorple-if.com for more details about JavaScript evaluation.
 

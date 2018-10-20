@@ -27,9 +27,9 @@ Vorple
   returned by the JavaScript command" instead of the previous "type of (text)".
 - Unicode characters evaluated as JavaScript are escaped properly when using the
   "escaped" transformation (vorple #22)
-- Added the Vorple interface construction rulebook as a mechanism for
-  state-based user interface updating, specifically for keeping the UI in sync
-  after undo and restore
+- Added the Vorple interface update rulebook as a mechanism for state-based user
+  interface updating, specifically for keeping the UI in sync after undo and
+  restore
 - JavaScript string escaping has been rewritten in Inform 6 to improve
   performance. The new routine is about 97% faster than the previous one. (#15)
 - Fixed a bug where evaluating JavaScript inside text substitution that itself

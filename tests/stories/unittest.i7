@@ -35,12 +35,12 @@ Vorple interface setup rule:
 
 UI state is a list of truth states that varies. UI state is { true, false, false }.
 
-Vorple interface construction rule:
+Vorple interface setup rule:
 	repeat with N running from 1 to the number of entries in the UI state:
 		if entry N in the UI state is true:
-			set a shared flag "ui construction [N]";
+			set a shared flag "ui setup [N]";
 		otherwise:
-			unset a shared flag "ui construction [N]".
+			unset a shared flag "ui setup [N]".
 
 Every turn:
 	now entry 2 in UI state is true.
