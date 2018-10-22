@@ -744,9 +744,9 @@ Escaping also turns Unicode characters (basically any characters that aren't let
 Non-escaped Unicode characters show up in the output as question marks or empty squares.
 
 
-Chapter: User interface setup
+Chapter: User interface setup and updates
 
-Vorple provides a separate rulebook called "Vorple interface setup" for setting up the user interface on the browser side. It runs during startup before the "when play begins" rules. The rulebook is meant for rules that build or initialize the user interface that has to be ready before the story does anything else. 
+Vorple provides a separate rulebook called Vorple interface setup rules for setting up the user interface on the browser side. It runs during startup before the when play begins rules. The rulebook is meant for rules that build or initialize the user interface that has to be ready before the story does anything else.
 
 The following example sets up a click handler that adds a custom CSS class to the command prompt. Depending on the CSS rule it might flash the prompt to draw attention to it.
 
@@ -756,6 +756,13 @@ The following example sets up a click handler that adds a custom CSS class to th
 When building any user interface elements we need to remember that through save/restore the player can continue the story potentially from any point or rewind actions with undo or restart, unless the story has disabled those commands. We can't rely on JavaScript code that has been run during previous commands because the player might have skipped them by restoring a later save, and we can't assume that turns happen only once because the player might undo and replay a turn. Therefore it's best to initialize the user interface at story start instead of along the way as the story progresses.
 
 There's a mechanism in place that prevents the interface setup rules from running more than once during one session, even if the player restarts the story. In other words the interface setup rules run only when the web page loads. This guarantees that we can't add duplicate event handlers by mistake or otherwise run things twice that should only be run once.
+
+For keeping the web interface up to date there's a rulebook called Vorple interface update rules that's run at the end of every turn and after undoing a turn, restoring a save and restarting the game.
+
+	Vorple interface update rule:
+		execute JavaScript command "document.title = '[escaped printed name of the player][']s adventures'".
+
+Refer to the documentation at vorple-if.com for more information.
 
 
 Chapter: Blocking the user interface

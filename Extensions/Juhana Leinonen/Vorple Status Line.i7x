@@ -187,7 +187,7 @@ Because the extension doesn't directly have features to insert images into the s
 
 The image files used in this example can be downloaded from vorple-if.com.
 
-	*: "The Petting Zoo"
+	*: "Petting Zoo"
 
 	Include Vorple Status Line by Juhana Leinonen.
 	Include Vorple Multimedia by Juhana Leinonen.
