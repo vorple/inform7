@@ -457,7 +457,7 @@ Imagine a game show where you are presented with three doors. Behind one of them
 
 We'll display the game's result using a custom-made CSS style file. It also styles the room header and uses a font from Google Fonts (http://www.google.com/fonts/).
 
-The CSS file can be downloaded from http://vorple-if.com/doc/inform7/examples .
+The CSS file can be downloaded from https://vorple-if.com/resources.zip
 
 	*: "Monty Hall"
 	

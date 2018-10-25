@@ -13,7 +13,7 @@ Vorple
 []
 
 [INTERPRETERURL]
-http://vorple-if.com
+https://vorple-if.com
 []
 
 ! Note that we don't set [INTERPRETER]: cBlorb has already set that to the
@@ -47,14 +47,14 @@ g
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="roboto/roboto.css">
-    <link rel="stylesheet" type="text/css" href="jquery.powertip.css">
-    <link rel="stylesheet" type="text/css" href="toastr.css">
-    <link rel="stylesheet" type="text/css" href="vex.css">
-    <link rel="stylesheet" type="text/css" href="vex-theme-plain.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/roboto.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/jquery.powertip.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/toastr.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/vex.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/vex-theme-plain.css">
 
-    <link rel="stylesheet" type="text/css" href="haven.css">
-    <link rel="stylesheet" type="text/css" href="vorple.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/haven.css">
+    <link rel="stylesheet" type="text/css" href="interpreter/vorple.css">
 []
 
 ! [INTERPRETERBODY] provides the part of the page where the window
@@ -76,7 +76,6 @@ g
     </div>
   </main>
 
-  <script src="interpreter/haven.min.js"></script>
   <script src="interpreter/vorple.min.js"></script>
 
   <script>
@@ -122,16 +121,14 @@ g
     vorple.debug.off();
     vorple.init();
   </script>
-
-  <script src="interpreter/git.js" defer></script>
 []
 
 ! The following footnote is added to the small print about how to play IF
 ! on the game's main page:
 
 [INBROWSERPLAY]
-Or you can play without downloading anything by following the 'Play In-Browser'
-link, using the [INTERPRETER] interpreter. You'll need to have Javascript enabled
+Play without downloading anything by following the 'Play In-Browser' link,
+using the [INTERPRETER] interpreter. You'll need to have Javascript enabled
 on your web browser.
 []
 
@@ -154,28 +151,60 @@ processBase64Zcode('
 ! Non-comment lines are the names of files which are copied across when the
 ! release is made. Anything not listed here won't be copied.
 
+engine.bin
+engine.js
+engine.js.mem
+haven.css
+index.html
+jquery.powertip.css
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff2
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff
+roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff2
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff
+roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff2
+roboto.css
+toastr.css
+vex-theme-plain.css
+vex.css
+vorple.css
 vorple.min.js
-haven.min.js
-vorple.min.css
-git.js
-git.js.mem
-Roboto-Bold.eot
-Roboto-Bold.ttf
-Roboto-Bold.woff
-Roboto-Bold.woff2
-Roboto-Light.eot
-Roboto-Light.ttf
-Roboto-Light.woff
-Roboto-Light.woff2
-Roboto-Medium.eot
-Roboto-Medium.ttf
-Roboto-Medium.woff
-Roboto-Medium.woff2
-Roboto-Regular.eot
-Roboto-Regular.ttf
-Roboto-Regular.woff
-Roboto-Regular.woff2
-Roboto-Thin.eot
-Roboto-Thin.ttf
-Roboto-Thin.woff
-Roboto-Thin.woff2
+vorple.min.js.map

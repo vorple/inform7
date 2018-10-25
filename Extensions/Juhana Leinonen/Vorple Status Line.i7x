@@ -185,7 +185,7 @@ This example shows how to insert images to the status line. The status line refl
 
 Because the extension doesn't directly have features to insert images into the status line, we'll write a custom status line construction rule for it. The rule first removes old content from the status line, then puts the image in the left column and the location to the right column.
 
-The image files used in this example can be downloaded from vorple-if.com.
+The image files used in this example can be downloaded from https://vorple-if.com/resources.zip
 
 	*: "Petting Zoo"
 

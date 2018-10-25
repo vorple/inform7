@@ -282,7 +282,7 @@ Example: * Serinette - Basic example of playing music and sound effects.
 
 The serinette (a type of music box) plays music when it opens and a sound effect when it's wound. We'll also show its picture when it's examined.
 
-The example media files can be downloaded from http://vorple-if.com/doc/inform7/examples .
+The example media files can be downloaded from https://vorple-if.com/resources.zip
 
 	*: "Serinette"
 	
@@ -359,7 +359,7 @@ With small modifications the code could be used with individual rooms or scenes.
 
 The first part is identical with the Port Royal 3 example in the Writing with Inform manual. Vorple-specific code starts from chapter 2 at the end.
 
-The audio files used here can be downloaded from http://vorple-if.com/doc/inform7/examples .
+The audio files used here can be downloaded from https://vorple-if.com/resources.zip
 
 	*: "1691"
 		
