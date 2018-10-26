@@ -82,12 +82,21 @@ Multimedia
 - Minor fixes to the Serinette example (#3)
 - The fallback description for images will now correctly print a line break
   after so that it's in its own paragraph
+- Added a note to documentation about Chrome requiring user interaction before
+  it can play audio (vorple #28)
 
 
 Notifications
 -------------
 
 - Fallback in non-Vorple interpreters now includes the notification title (#8)
+
+
+Screen Effects
+--------------
+
+- Fixed a bug that caused extra line breaks when a styled text ended in
+  punctuation (#12)
 
 
 Tooltips

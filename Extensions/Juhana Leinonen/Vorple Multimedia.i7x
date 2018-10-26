@@ -239,6 +239,21 @@ The currently playing music file can be retrieved with 'the currently playing mu
 	if the currently playing music file is "elvis.mp3": ...
 
 
+Section: Playing sounds in Chrome and mobile devices
+
+Due to restrictions set by the Google Chrome browser and most mobile browsers, the browser will not play audio unless the user has interacted with the page in some way, be it clicking or tapping on something or typing on the keyboard. Chrome does this to prevent ads and autoplaying videos from annoying the user, and mobile devices to preserve device battery. It's possible that other desktop browsers will adapt the same model in the future.
+
+This becomes an issue if we wish to start playing music immediately when the story starts. A workaround is to start playing the music twice: first when play begins, which works for desktop browsers other than Chrome, and then at the start of the second turn after the player has typed their first command, which works for Chrome and mobile devices. The music will not restart even if it's instructed twice to start playing, unless it has already finished. The same holds for playlists.
+
+So to start playing music at the start of the play:
+
+	When play begins:
+		play music file "intro.mp3".
+
+	After reading a command when the turn count is 1:
+		play music file "intro.mp3".
+
+
 Chapter: Playlists
 
 Playlists are collections of music that automatically play one after another. Playlists can be started with the following phrase:
