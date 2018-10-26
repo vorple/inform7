@@ -35,12 +35,12 @@ Vorple interface setup rule:
 
 UI state is a list of truth states that varies. UI state is { true, false, false }.
 
-Vorple interface setup rule:
+Vorple interface update rule:
 	repeat with N running from 1 to the number of entries in the UI state:
 		if entry N in the UI state is true:
-			set a shared flag "ui setup [N]";
+			set a shared flag "ui update [N]";
 		otherwise:
-			unset a shared flag "ui setup [N]".
+			unset a shared flag "ui update [N]".
 
 Every turn:
 	now entry 2 in UI state is true.
@@ -476,7 +476,11 @@ Carry out unit testing "default notification":
 
 Book 8 - Screen Effects
 
-[TBA]
+Carry out unit testing "style line breaks":
+	place an element called "style-lb-test";
+	set output focus to the element called "style-lb-test";
+	say "[strong font style]foo.[end style] bar";
+	set output focus to the main window.
 
 
 Book 9 - Tooltips

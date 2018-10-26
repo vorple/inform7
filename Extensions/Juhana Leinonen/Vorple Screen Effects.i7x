@@ -143,10 +143,10 @@ x-large font,
 xx-large font
 are Vorple styles.
 
-To say (style - Vorple style) style:
+To say (style - Vorple style) style -- running on:
 	execute JavaScript command "vorple.layout.openTag('span', '[style]'.split(' ').join('-').toLowerCase())".
 	
-To say end style:
+To say end style -- running on:
 	close HTML tag.
 
 

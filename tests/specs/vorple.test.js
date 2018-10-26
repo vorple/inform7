@@ -15,7 +15,8 @@ describe( "Core library", () => {
     describe( "UI state", () => {
         // This test must be the first one!
         it( "runs the construction rulebook on turn 1", () => {
-            expect( flagValue( "ui construction 1" ) ).to.be.true;
+            waitForPrompt();
+            expect( flagValue( "ui update 1" ) ).to.be.true;
         });
 
         it( "interface setup rulebook executes successfully", () => {
@@ -23,19 +24,19 @@ describe( "Core library", () => {
         });
 
         it( "runs the construction rulebook every turn", () => {
-            expect( flagValue( "ui construction 2" ) ).to.be.false;
+            expect( flagValue( "ui update 2" ) ).to.be.false;
             sendCommand( "z" );
             waitForPrompt();
-            expect( flagValue( "ui construction 2" ) ).to.be.true;
+            expect( flagValue( "ui update 2" ) ).to.be.true;
         });
 
         it( "runs the rulebook after undo", () => {
             sendCommand( "unittest state 3 on" );
             waitForPrompt();
-            expect( flagValue( "ui construction 3" ) ).to.be.true;
+            expect( flagValue( "ui update 3" ) ).to.be.true;
             sendCommand( "undo" );
             waitForPrompt();
-            expect( flagValue( "ui construction 3" ) ).to.be.false;
+            expect( flagValue( "ui update 3" ) ).to.be.false;
         });
     });
 
