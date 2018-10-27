@@ -108,4 +108,32 @@ describe( "Core library", () => {
             runI7Test( "element manipulation" );
         });
     });
+
+    describe( "Prompt", () => {
+        it( "doesn't print twice when waiting for user consent", () => {
+            sendCommand( "unittest prompt in confirmation" );
+            waitForPrompt();
+
+            expect( ".yes-no-test" ).not.to.have.text( />/ );
+
+            // send text that isn't yes or no and check that there's no extra >
+            sendCommand( "foo" );
+            waitForPrompt();
+
+            expect( ".yes-no-test" ).not.to.have.text( /Please answer yes or no\.\s*>/ );
+
+            // cleanup: must answer something to the question
+            sendCommand( "yes" );
+        });
+
+        it( "doesn't print twice when asking the final question", () => {
+            sendCommand( "unittest prompt at game over" );
+            waitForPrompt();
+
+            expect( "#output" ).not.to.have.text( />\s*>$/ );
+
+            // cleanup: undo to get out of the final question
+            sendCommand( "undo" );
+        });
+    });
 });

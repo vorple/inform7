@@ -294,6 +294,19 @@ Carry out unit testing "unicode":
 	execute JavaScript command "$('.unicode-test').text('[escaped Unicode string]')".
 
 
+Chapter 6 - Prompt
+
+Carry out unit testing "prompt in confirmation":
+	place an element called "yes-no-test";
+	set output focus to the element called "yes-no-test";
+	if the player consents:
+		do nothing;
+	set output focus to the main window.
+
+Carry out unit testing "prompt at game over":
+	end the story.
+
+
 Book 2 - Command Prompt Control
 
 Chapter 1 - Command queue

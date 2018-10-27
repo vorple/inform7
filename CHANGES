@@ -35,6 +35,11 @@ Vorple
 - Fixed a bug where evaluating JavaScript inside text substitution that itself
   was being evaluated would throw an error (vorple #34)
 - "Set the output focus to ..." is now a synonym for "Set output focus to ..."
+- Vorple support status is now exposed on Inform 6 level as a variable called
+  vorple_support, matching the Vorple I6 library
+- Fixed a bug where the default prompt was printed in addition to the Vorple
+  prompt when the story ended and when printing "Please answer yes or no" in
+  an "if the player consents" question (vorple #20)
 
 
 Command Prompt Control

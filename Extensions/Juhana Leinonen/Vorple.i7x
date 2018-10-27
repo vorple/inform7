@@ -15,7 +15,13 @@ Chapter 2 - Interpreter handshake
 
 The file of Vorple Handshake is called "VpHndshk".
 
-Vorple support is truth state that varies. Vorple support is false.
+Vorple support is truth state that varies.
+
+Vorple support variable translates into I6 as "vorple_support".
+
+Include (-
+Global vorple_support = false;
+-) before "Definitions.i6t".
 
 This is the detect interpreter's Vorple support rule:
 	if the file of Vorple Handshake exists:
@@ -477,7 +483,37 @@ Last after asking which do you mean (this is the change Vorple prompt when askin
 First rule for printing a parser error when the latest parser error is the I beg your pardon error (this is the change Vorple prompt when input is empty rule):
 	follow the convert default prompt to Vorple prompt rule;
 	make no decision.
-	
+
+This is the print the final prompt with Vorple rule:
+	if Vorple is supported:
+		do nothing; [Vorple will print its own prompt]
+	otherwise:
+		follow the print the final prompt rule.
+
+The print the final prompt with Vorple rule is listed instead of the print the final prompt rule in the before handling the final question rulebook.
+
+Include (-
+Replace YesOrNo;
+-) before "Parser.i6t".
+
+Include (-
+[ YesOrNo i j;
+    for (::) {
+        if (location ~= nothing && parent(player) ~= nothing) DrawStatusLine();
+        KeyboardPrimitive(buffer2, parse2);
+        j = parse2-->0;
+        if (j) { ! at least one word entered
+            i = parse2-->1;
+            if (i == YES1__WD or YES2__WD or YES3__WD) rtrue;
+            if (i == NO1__WD or NO2__WD or NO3__WD) rfalse;
+        }
+        YES_OR_NO_QUESTION_INTERNAL_RM('A');
+
+        ! VORPLE PRINTS ITS OWN PROMPT
+        if (vorple_support == false) print "> ";
+    }
+];
+-) after "Parser.i6t".
 
 Include (-
 Replace PrintPrompt;
