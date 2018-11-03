@@ -11,12 +11,9 @@
     "test:safari": "./tests/stories/compile.sh && BROWSER=safari wdio wdio.conf.js",
     "test:all": "./tests/stories/compile.sh && npm run test:chrome && npm run test:firefox && npm run test:safari"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vorple/inform7.git"
-  },
+  "repository": "github:vorple/inform7",
   "author": "Juhana Leinonen",
-  "license": "(MIT OR CC-BY-4.0)",
+  "license": "CC-BY-4.0",
   "bugs": {
     "url": "https://github.com/vorple/inform7/issues"
   },
