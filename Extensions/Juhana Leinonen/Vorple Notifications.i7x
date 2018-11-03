@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Notifications (for Glulx only) by Juhana Leinonen begins here.
+Version 3/181103 of Vorple Notifications (for Glulx only) by Juhana Leinonen begins here.
 
 "Notifications that display a short message on the screen and disappear after a few seconds."
 

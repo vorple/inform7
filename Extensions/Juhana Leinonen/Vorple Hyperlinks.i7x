@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Hyperlinks (for Glulx only) by Juhana Leinonen begins here.
+Version 3/181103 of Vorple Hyperlinks (for Glulx only) by Juhana Leinonen begins here.
 
 "Hyperlinks that either open a web site, execute a parser command or evaluate JavaScript code."
 

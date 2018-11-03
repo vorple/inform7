@@ -1,4 +1,4 @@
-Version 3/170429 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen begins here.
+Version 3/181103 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen begins here.
 
 "Manually triggering parser commands, changing the contents of the command prompt and manipulating the command history."
 
@@ -143,7 +143,7 @@ In most cases the JavaScript code itself will unhide the prompt when it's ready.
 As the name suggests, the "unhide" phrase only undoes what the "hide the prompt" phrase does. If the prompt is hidden for some other reason (e.g. the story is waiting for a keypress) it will not force the prompt to appear.
 
 
-Example: * - Let Me Show You - A walkthrough command that automatically runs commands
+Example: * Let Me Show You - A walkthrough command that automatically runs commands
 
 Many stories include a WALKTHROUGH command that either shows the list of commands that get you to the end or tells you where to find it. Here we're making a walkthrough command that actually enters the commands on the player's behalf.
 
@@ -202,7 +202,7 @@ Many stories include a WALKTHROUGH command that either shows the list of command
 	Test me with "walkthrough".
 
 
-Example: ** - Clarification Helper - Prefilling the command line with a partial command
+Example: ** Clarification Helper - Prefilling the command line with a partial command
 
 This example shows brings the player's command back to the command prompt after the story has shown the "What do you want to..." clarification request. If the player types just "take", the story asks "What do you want to take?". The word "take" is added to the next prompt and the player can continue typing with the name of the thing that they wanted to take.
 

@@ -1,4 +1,4 @@
-Version 3/180828 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/181103 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
