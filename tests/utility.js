@@ -8,16 +8,16 @@ const runVorpleCommand = ( module, method, ...params ) => {
         }
 
         return window.vorple[ method ]( ...params );
-    }, module, method, ...params ).value;
+    }, module, method, ...params );
 };
 
-const getFailedI7TestName = () => browser.execute( () => window.failedI7Test ).value;
-const i7TestPassed = () => browser.execute( () => window.checkI7TestStatus() ).value;
+const getFailedI7TestName = () => browser.execute( () => window.failedI7Test );
+const i7TestPassed = () => browser.execute( () => window.checkI7TestStatus() );
 
 /**
  * Retrieves the value of a flag set by the test story.
  */
-module.exports.flagValue = flagName => browser.execute( flagName => !!window.testFlags[ flagName ], flagName ).value;
+module.exports.flagValue = flagName => browser.execute( flagName => !!window.testFlags[ flagName ], flagName );
 
 
 /**
@@ -29,7 +29,7 @@ module.exports.getFailedI7TestName = getFailedI7TestName;
 /**
  * Returns the vorple object. Note that methods are returned as empty objects.
  */
-module.exports.getVorple = () => browser.execute( () => window.vorple ).value;
+module.exports.getVorple = () => browser.execute( () => window.vorple );
 
 
 /**
@@ -43,7 +43,7 @@ module.exports.i7TestPassed = i7TestPassed;
  */
 module.exports.runI7Test = testName => {
     runVorpleCommand( "prompt", "queueCommand", "unittest " + testName );
-    browser.waitForVisible( "#lineinput-field", 15000 );
+    this.waitForPrompt();
 
     const result = i7TestPassed();
 
@@ -65,7 +65,7 @@ module.exports.sendCommand = command => runVorpleCommand( "prompt", "queueComman
  * Waits for the prompt to appear, which means that the turn has finished
  * and we can evaluate the results
  */
-module.exports.waitForPrompt = () => browser.waitForVisible( "#lineinput-field" );
+module.exports.waitForPrompt = () => $( "#lineinput-field" ).waitForDisplayed( 15000 );
 
 
 /**

@@ -28,11 +28,11 @@ describe( "Command Prompt Control", () => {
             sendCommand( "unittest command line manipulation" );
             waitForPrompt();
             // browser.pause( 50000)
-            expect( browser.getValue( "#lineinput-field" ) ).to.equal( "test" );
+            expect( $( "#lineinput-field" ).getValue() ).to.equal( "test" );
         });
 
         it( "puts the cursor to the end of the input", () => {
-            const cursorPosition = browser.execute( () => document.getElementById( "lineinput-field" ).selectionStart ).value;
+            const cursorPosition = browser.execute( () => document.getElementById( "lineinput-field" ).selectionStart );
 
             expect( cursorPosition ).to.equal( 4 );
         });

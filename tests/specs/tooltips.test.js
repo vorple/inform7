@@ -11,30 +11,30 @@ describe( "Tooltips", () => {
             sendCommand( "unittest text with tooltip on hover" );
             waitForPrompt();
             browser.execute( () => { $( "span.tooltip-test" ).trigger( "mouseover" ); } );
-            browser.waitForVisible( "#powerTip" );
+            $( "#powerTip" ).waitForDisplayed();
         });
 
         it( "disappears on mouseout", () => {
             browser.execute( () => { $( "span.tooltip-test" ).trigger( "mouseout" ); } );
             browser.pause( 500 );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.false;
+            expect( "#powerTip" ).to.not.be.displayed;
         });
     });
 
     describe( "Tooltip on demand", () => {
         it( "appears after a delay", () => {
             sendCommand( "unittest tooltip on demand" );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.false;
+            expect( "#powerTip" ).to.not.be.displayed;
             browser.pause( 100 );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.false;
+            expect( "#powerTip" ).to.not.be.displayed;
             browser.pause( 1000 );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.true;
+            expect( "#powerTip" ).to.be.displayed;
         });
 
         it( "disappears after a delay", () => {
-            expect( browser.isVisible( "#powerTip" ) ).to.be.true;
+            expect( "#powerTip" ).to.be.displayed;
             browser.pause( 2000 );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.false;
+            expect( "#powerTip" ).to.not.be.displayed;
         });
     });
 
@@ -42,16 +42,16 @@ describe( "Tooltips", () => {
         it( "appears", () => {
             sendCommand( "unittest tooltip on prompt" );
             waitForPrompt();
-            expect( browser.isVisible( "#powerTip" ) ).to.be.true;
+            expect( "#powerTip" ).to.be.displayed;
         });
     });
 
     describe( "Hiding tooltips", () => {
         it( "hides the tooltip", () => {
-            expect( browser.isVisible( "#powerTip" ) ).to.be.true;
+            expect( "#powerTip" ).to.be.displayed;
             sendCommand( "unittest hiding tooltips" );
             browser.pause( 1000 );
-            expect( browser.isVisible( "#powerTip" ) ).to.be.false;
+            expect( "#powerTip" ).to.not.be.displayed;
         });
     });
 });

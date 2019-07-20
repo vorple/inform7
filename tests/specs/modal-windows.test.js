@@ -11,7 +11,7 @@ const {
 const closeModals = () => {
     browser.execute( () => window.vex.closeAll() );
     vorple( "layout", "unblock" );
-    browser.click( "body" );
+    $( "body" ).click();
     browser.pause( 2000 );  // wait for the fade out animation to finish
 };
 
@@ -19,7 +19,7 @@ describe( "Modal Windows", () => {
     describe( "Opening", () => {
         it( "succeeds", () => {
             sendCommand( "unittest show modal" );
-            browser.waitForExist( ".vex-dialog-message" );
+            $( ".vex-dialog-message" ).waitForExist();
             expect( ".vex-dialog-message" ).to.have.text( "Test" );
             closeModals();
         } );
@@ -28,7 +28,7 @@ describe( "Modal Windows", () => {
     describe( "Empty modals", () => {
         it( "are created and have the correct content", () => {
             sendCommand( "unittest create empty modal" );
-            browser.waitForExist( ".vex-dialog-message" );
+            $( ".vex-dialog-message" ).waitForExist();
             expect( ".vex-dialog-message" ).to.have.text( "Test2" );
             closeModals();
         });

@@ -14,12 +14,12 @@ describe( "Hyperlinks", () => {
     describe( "URL hyperlinks", () => {
         it( "are created", () => {
             sendCommand( "unittest URL hyperlinks" );
-            browser.waitForExist( ".url-hyperlinks" );
+            $( ".url-hyperlinks" ).waitForExist();
             expect( ".url-hyperlinks a" ).to.have.count( 6 );
         });
 
         it( "have the correct URL", () => {
-            const countURLs = browser.execute( () => $(".url-hyperlinks a[href='http://vorple-if.com']").length ).value;
+            const countURLs = browser.execute( () => $(".url-hyperlinks a[href='http://vorple-if.com']").length );
 
             expect( countURLs ).to.equal( 5 );
         });
@@ -33,7 +33,7 @@ describe( "Hyperlinks", () => {
         it( "have the target set", () => {
             // there are 6 links, one of them has "opening in the same window"
             // option so the rest should have target="_blank"
-            const targetBlanks = browser.execute( () => $( ".url-hyperlinks a[target='_blank']" ).length ).value;
+            const targetBlanks = browser.execute( () => $( ".url-hyperlinks a[target='_blank']" ).length );
 
             expect( targetBlanks ).to.equal( 5 );
         });
@@ -48,7 +48,7 @@ describe( "Hyperlinks", () => {
     describe( "Command hyperlinks", () => {
         it( "are created", () => {
             sendCommand( "unittest command hyperlinks" );
-            browser.waitForExist( ".command-hyperlinks" );
+            $( ".command-hyperlinks" ).waitForExist();
             expect( ".command-hyperlinks a" ).to.have.count( 5 );
         });
 
@@ -59,19 +59,19 @@ describe( "Hyperlinks", () => {
         });
 
         it( "have the correct target", () => {
-            browser.click( ".command-hyperlinks a.commandlink1" );
+            $( ".command-hyperlinks a.commandlink1" ).click();
             waitForPrompt();
             expect( flagValue( "command link 1" ) ).to.be.true;
 
             // link 2 tested in the next rule
 
-            browser.click( ".command-hyperlinks a.commandlink3" );
+            $( ".command-hyperlinks a.commandlink3" ).click();
             waitForPrompt();
             expect( flagValue( "command link 3" ) ).to.be.true;
         });
 
         it( "silent commands don't print the command", () => {
-            browser.click( ".command-hyperlinks a.commandlink2" );
+            $( ".command-hyperlinks a.commandlink2" ).click();
             waitForPrompt();
             expect( flagValue( "command link 2" ) ).to.be.true;
 
@@ -89,7 +89,7 @@ describe( "Hyperlinks", () => {
     describe( "JavaScript hyperlinks", () => {
         it( "are created", () => {
             sendCommand( "unittest JS hyperlinks" );
-            browser.waitForExist( ".js-hyperlinks" );
+            $( ".js-hyperlinks" ).waitForExist();
             expect( ".js-hyperlinks a" ).to.have.count( 2 );
         });
 
@@ -98,7 +98,7 @@ describe( "Hyperlinks", () => {
         });
 
         it( "evaluate the JavaScript assigned to them", () => {
-            browser.click( ".js-hyperlinks a.jslink1" );
+            $( ".js-hyperlinks a.jslink1" ).click();
             waitForPrompt();
             expect( flagValue( "js link 1" ) ).to.be.true;
         });
@@ -110,12 +110,12 @@ describe( "Hyperlinks", () => {
 
     describe( "Disabling links", () => {
         it( "one at a time", () => {
-            const originalLinks = browser.execute( () => $( "a" ).length ).value;
+            const originalLinks = browser.execute( () => $( "a" ).length );
 
             sendCommand( "unittest disabling one link" );
             waitForPrompt();
 
-            const linksAfterDisabling = browser.execute( () => $( "a" ).length ).value;
+            const linksAfterDisabling = browser.execute( () => $( "a" ).length );
 
             expect( linksAfterDisabling ).to.equal( originalLinks - 1 );
         });
@@ -124,7 +124,7 @@ describe( "Hyperlinks", () => {
             sendCommand( "unittest disabling link in containers" );
             waitForPrompt();
 
-            const linksAfterDisabling = browser.execute( () => $( ".hyperlink-unittest a" ).length ).value;
+            const linksAfterDisabling = browser.execute( () => $( ".hyperlink-unittest a" ).length );
 
             expect( linksAfterDisabling ).to.equal( 0 );
         });
@@ -133,7 +133,7 @@ describe( "Hyperlinks", () => {
             sendCommand( "unittest disabling all links" );
             waitForPrompt();
 
-            const linksAfterDisabling = browser.execute( () => $( "a" ).length ).value;
+            const linksAfterDisabling = browser.execute( () => $( "a" ).length );
 
             expect( linksAfterDisabling ).to.equal( 0 );
         });

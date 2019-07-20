@@ -1,5 +1,12 @@
 exports.config = {
-
+    //
+    // ====================
+    // Runner Configuration
+    // ====================
+    //
+    // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
+    // on a remote machine).
+    runner: 'local',
     //
     // ==================
     // Specify Test Files
@@ -113,9 +120,7 @@ exports.config = {
     // commands. Instead, they hook themselves up into the test process.
     // port: "9515",
     // path: "/",
-    // services: [
-    // "chromedriver"
-    // ],
+    services: [ 'selenium-standalone' ],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -128,8 +133,7 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: http://webdriver.io/guide/reporters/dot.html
-    reporters: ['spec'],
-
+    reporters: [ 'dot' ],
     //
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
@@ -172,7 +176,7 @@ exports.config = {
         browser.url( "/?story=stories/unittest.ulx" );
 
         // wait for the game to have loaded (prompt exists)
-        browser.waitForExist( "#lineinput", 10000 );
+        $( "#lineinput" ).waitForExist( 10000 );
 
         browser.execute( () => {
             window.checkI7TestStatus = function() {
@@ -292,7 +296,7 @@ exports.config = {
 };
 
 if( exports.config.capabilities[0].browserName === "chrome" ) {
-    exports.config.port = "9515";
+    exports.config.port = 9515;
     exports.config.path = "/";
     exports.config.services = [ "chromedriver" ];
 }

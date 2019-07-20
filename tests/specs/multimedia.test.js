@@ -9,15 +9,15 @@ describe( "Multimedia", () => {
     describe( "Image", () => {
         it( "is created", () => {
             sendCommand( "unittest image" );
-            browser.waitForExist( "div.vorple-image.logo img" );
+            $( "div.vorple-image.logo img" ).waitForExist();
         });
 
         it( "has the correct URL", () => {
-            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).src ).value ).to.include( "/media/vorple.png" );
+            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).src ) ).to.include( "/media/vorple.png" );
         });
 
         it( "has the correct alt text", () => {
-            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).alt ).value ).to.equal( "Vorple's logo" );
+            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).alt ) ).to.equal( "Vorple's logo" );
         });
 
         it( "is centered", () => {

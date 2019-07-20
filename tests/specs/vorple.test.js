@@ -87,7 +87,7 @@ describe( "Core library", () => {
 
         it( "prints Unicode properly", () => {
             sendCommand( "unittest unicode" );
-            browser.waitForExist( ".unicode-test", 5000 );
+            $( ".unicode-test", 5000 ).waitForExist();
 
             expect( ".unicode-test" ).to.have.text( "ÜNÏCÖDÉ⁈" );
         });
@@ -97,8 +97,8 @@ describe( "Core library", () => {
         it( "creates new elements and switches focus", () => {
             sendCommand( "unittest create containers" );
             // if the containers never appear, these will throw an error
-            browser.waitForExist( ".testdiv", 5000 );
-            browser.waitForExist( ".testspan", 5000 );
+            $( ".testdiv", 5000 ).waitForExist();
+            $( ".testspan", 5000 ).waitForExist();
 
             expect( ".testdiv" ).to.have.text( "123" );
             expect( ".testspan" ).to.have.text( "2" );
