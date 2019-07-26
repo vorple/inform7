@@ -4,9 +4,20 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
-
-Release 3.1
+Release 3.2
 ===========
+
+Modal Windows
+-------------
+
+- Tweaked the behavior when requested to pause the game to be more consistent
+- Expanded the documentation with further explanation of the "without pausing" 
+  option and the "show a modal window" shorthand, and removed the instruction
+  to pause the game manually which is actually not necessary
+
+
+Release 3.1 (2018-11-03)
+========================
 
 - Unit tests are rewritten to use Webdriver.io and Selenium so that the I7 story
   file only runs the I7 code and the JavaScript test cases check the results

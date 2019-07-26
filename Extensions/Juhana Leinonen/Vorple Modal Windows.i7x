@@ -10,10 +10,12 @@ Chapter 1 - Modal windows
 
 To show a/-- modal window reading (content - text), without pausing:
 	let modal message be escaped content using "\n" as line breaks;
-	execute JavaScript code "vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:vorple.layout.unblock});vorple.layout.block()";
 	if Vorple is not supported:
 		say "[content][paragraph break]";
-	if not without pausing:
+	if without pausing:
+		execute JavaScript code "vorple.layout.block();vorple.prompt.hide();vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:function(){vorple.layout.unblock();vorple.prompt.unhide()}})";
+	otherwise:
+		execute JavaScript code "vorple.layout.block();vorple.prompt.hide();vex.closeAll();vex.dialog.open({message:'[modal message]',buttons:[bracket]vex.dialog.buttons.YES[close bracket],callback:function(){vorple.layout.unblock();vorple.prompt.unhide();vorple.prompt.queueKeypress(' ')}})";
 		wait for any key.
 
 To show a/-- modal window:
@@ -33,17 +35,10 @@ Include (-
 		while ( 1 )
 		{
 			key = VM_KeyChar();
-			#Ifdef TARGET_ZCODE;
-			if ( key == 63 or 129 or 130 or 132 )
-			{
-				continue;
-			}
-			#Ifnot; ! TARGET_GLULX
 			if ( key == -4 or -5 or -10 or -11 or -12 or -13 )
 			{
 				continue;
 			}
-			#Endif; ! TARGET_
 			rfalse;
 		}
 	];
@@ -65,10 +60,17 @@ A modal window with plain text content can be created with:
 	
 The modal pops up with the text and an OK button and waits for the player to either click on the button, press enter, space or esc, or click somewhere outside the modal window.
 
+By default the game will pause to wait for the user to dismiss the modal window. This behavior can be switched off with a "without pausing" option:
+
+	show a modal window reading "Merry Christmas!", without pausing;
+	say "And a happy new year!";
+
+In the above example the modal doesn't pause the game, so the player can see the text "And a happy new year" printed immediately in the game's normal text flow below the modal window. Without the "without pausing" option the text would appear only after dismissing the modal.
+
 
 Chapter: Modals with styled content
 
-The "show a modal window reading ..." lets us show only plain text, but if we want more complex content, we can open the modal as empty and then redirect all output to it. Anything between phrases "set output focus to the modal window" and "set output focus to the main window" is printed inside the modal.
+The "show a modal window reading ..." lets us show only plain text, but if we want more complex content, we can open the modal without any content and then redirect all following output to it. Anything between phrases "set output focus to the modal window" and "set output focus to the main window" is printed inside the modal.
 
 	show a modal window;
 	set output focus to the modal window;
@@ -98,6 +100,8 @@ This basic example pops up the modal when the play begins and displays the story
 
 
 Example: ** Version Popup - Show the version information in a modal window
+
+We have two rules here that cause the normal banner to show in a modal instead of in the story text. The first check rule shows a modal window and sets the output focus to it. From then on everything that the game prints (the banner, in this case) will be printed inside the modal. The second report rule runs after the banner has been printed, resuming output back to the normal flow of the game text.
 	
 	*: "Version Popup"
 	
