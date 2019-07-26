@@ -17,7 +17,7 @@ exports.config = {
     // directory is where your package.json resides, so `wdio` will be called from there.
     //
     specs: [
-        './tests/specs/**/*.js'
+        './tests/specs/**/*.test.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -175,9 +175,6 @@ exports.config = {
         // start the unit test game
         browser.url( "/?story=stories/unittest.ulx" );
 
-        // wait for the game to have loaded (prompt exists)
-        $( "#lineinput" ).waitForExist( 10000 );
-
         browser.execute( () => {
             window.checkI7TestStatus = function() {
                 return window.i7TestPassed && !window.i7TestFailed;
@@ -205,6 +202,9 @@ exports.config = {
 
             window.resetTest();
         });
+
+        // wait for the game to have loaded (prompt exists)
+        $( "#lineinput" ).waitForExist( 10000 );
     },
     /**
      * Runs before a WebdriverIO command gets executed.
