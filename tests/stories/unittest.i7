@@ -16,6 +16,10 @@ There is a room.
 When play begins:
 	construct the Vorple status line with 3 columns.
 
+[make manual testing easier by inserting dummy testing functions usually provided by the testing framework]
+When play begins:
+	execute JavaScript command "if(!window.passI7Test) window.passI7Test = function() {}; if(!window.failI7Test) window.failI7Test = function() {};"
+
 Volume 1 - Extension tests
 
 Book 1 - Vorple
@@ -151,6 +155,11 @@ Carry out unit testing "JS evaluation":
 	expect the return value to be "null" which confirms "Null value";
 	expect the type of the value returned by the JavaScript command to be "nothing" which confirms "Null type";
 	execute JavaScript command "console.timeEnd()";
+
+[Shortcut for manual testing]
+Performance testing is an action out of world.
+Understand "perf" as performance testing.
+Carry out performance testing: try unit testing "js evaluation".
 
 Carry out unit testing "circular references":
   [The following creates an object with a circular reference. Stringifying it will throw an error, which shouldn't crash the game or throw an error in the interpreter. Instead, null should be returned.]
@@ -460,8 +469,7 @@ Carry out unit testing "create empty modal":
 	show a modal window;
 	set output focus to the modal window;
 	say "Test2";
-	set output focus to the main window;
-	wait for any key.
+	set output focus to the main window.
 
 
 Book 6 - Multimedia
