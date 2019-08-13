@@ -16,6 +16,16 @@ Modal Windows
   to pause the game manually which is actually not necessary
 
 
+Multimedia
+----------
+
+- Most browsers have adapted Chrome's policy of not allowing autoplaying audio,
+  so the documentation has been updated to reflect the current status. Desktop
+  Safari has gone overboard with the restrictions, which is also noted in the
+  documentation.
+
+
+
 Release 3.1 (2018-11-03)
 ========================
 
