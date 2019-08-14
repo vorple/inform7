@@ -29,7 +29,7 @@ Chapter 1 - Handshake
 Carry out unit testing "handshake":
 	whether or not Vorple is supported confirms "Vorple support";
 	execute JavaScript command "return vorple.version";
-	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?" confirms "Version number ([text returned by the JavaScript command])";
+	whether or not text returned by the JavaScript command exactly matches the regular expression "\d\.\d{1,2}(\.\d{1,2})?(\-<a-z>*)?" confirms "Version number ([text returned by the JavaScript command])";
 
 
 Chapter 2 - User Interface
