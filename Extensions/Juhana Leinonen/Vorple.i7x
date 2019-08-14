@@ -13,7 +13,7 @@ To throw Vorple run-time error (desc – text):
 
 Chapter 2 - Interpreter handshake
 
-The file of Vorple Handshake is called "VpHndshk".
+The file of Vorple Handshake (owned by project "VORPLE") is called "VpHndshk".
 
 Vorple support is truth state that varies.
 
@@ -48,7 +48,7 @@ Chapter 3 – JavaScript code execution
 
 Section 1 – Executing code
 
-The file of JavaScript Evaluation Input is called "VpJSEval".
+The file of JavaScript Evaluation Input (owned by project "VORPLE") is called "VpJSEval".
 
 To execute JavaScript code/command (JavaScript code - text):
 	if Vorple is supported:
@@ -59,8 +59,8 @@ To execute JavaScript code/command (JavaScript code - text):
 
 Section 2 – Return values
 
-The file of JavaScript Return Value is called "VpJSRtrn".
-The file of JavaScript Return Value Type is called "VpJSType".
+The file of JavaScript Return Value (owned by project "VORPLE") is called "VpJSRtrn".
+The file of JavaScript Return Value Type (owned by project "VORPLE") is called "VpJSType".
 
 To decide which text is the value returned by the JavaScript code/command:
 	if Vorple is not supported:
