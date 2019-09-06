@@ -61,22 +61,8 @@ g
 ! or gadget actually appears.
 
 [INTERPRETERBODY]
-  <main id="haven">
-    <div id="output">
-      <div id="window0" aria-live="polite" aria-atomic="false" aria-relevant="additions"></div>
-    </div>
-
-    <form id="lineinput">
-      <label id="lineinput-prefix" for="lineinput-field">#</label><input name="lineinput" id="lineinput-field" type="text" autocapitalize="none">
-    </form>
-
-    <div id="loader">
-      <h2 id="loader-message">Loading scripts</h2>
-      <div id="spinner">V</div>
-    </div>
-  </main>
-
   <script src="interpreter/vorple.min.js"></script>
+  <script src="interpreter/[ENCODEDSTORYFILE]"></script>
 
   <script>
     if( location.protocol === "file:" ) {
@@ -102,20 +88,13 @@ g
     }
 
     $( function() {
-      $( '#haven' ).prependTo( 'body' );
       $( '.container, .interpretercredit' ).remove();
     });
-
-    Module.locateFile = function( name ) {
-      return "interpreter/" + name;
-    };
 
     vorple.options = {
       autosave: false,
       engineColors: false,
-
-      // URL to the game file
-      story: "[STORYFILE]"
+      story: ""
     };
 
     vorple.debug.off();
@@ -138,11 +117,11 @@ on your web browser.
 ! call with a string argument:
 
 [BASESIXTYFOURTOP]
-processBase64Zcode('
+vorple.haven.setBase64StoryFile('
 []
 
 [BASESIXTYFOURTAIL]
-')
+');
 []
 
 ! Outside of the placeholder parts of the manifest, lines beginning '!', or
@@ -151,60 +130,3 @@ processBase64Zcode('
 ! Non-comment lines are the names of files which are copied across when the
 ! release is made. Anything not listed here won't be copied.
 
-engine.bin
-engine.js
-engine.js.mem
-haven.css
-index.html
-jquery.powertip.css
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff2
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff
-roboto-mono-v5-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-100italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-300italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-500italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-700italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-900italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-italic.woff2
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff
-roboto-v18-greek_latin-ext_latin_vietnamese_cyrillic_cyrillic-ext_greek-ext-regular.woff2
-roboto.css
-toastr.css
-vex-theme-plain.css
-vex.css
-vorple.css
-vorple.min.js
-vorple.min.js.map
