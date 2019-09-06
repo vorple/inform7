@@ -976,13 +976,11 @@ Note that the pause between issuing the lookup command and the encyclopedia text
 	
 	Carry out looking up when Vorple is supported:
 		place a block level element called "dictionary-entry";		
-		execute JavaScript command "return wikipedia_query('[escaped topic understood]')";
-		say run paragraph on;
-		block the user interface. [the Wikipedia script will unblock the UI]
+		execute JavaScript command "wikipedia_query('[escaped topic understood]')";
 		
 	Report looking up when Vorple is not supported:
 		say "You find the correct volume and learn about [topic understood].".
 	 	
-	Test me with "look up ducks / look up granite / look up interactive fiction".
+	Test me with "look up ducks / look up mars / look up interactive fiction".
 	
 	

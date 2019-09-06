@@ -7,6 +7,18 @@ number xx in the main Vorple repository.
 Release 3.2
 ===========
 
+- Inform 7's default template elements are now hidden from the start, so they
+  don't flash briefly at page load before being removed completely
+
+
+Vorple
+------
+
+- Modified the Wikipedia script in The Sum of Human Knowledge example to make
+  use of Wikipedia's new extracts feature, which returns a clean summary of the
+  article (#14)
+
+
 Modal Windows
 -------------
 
