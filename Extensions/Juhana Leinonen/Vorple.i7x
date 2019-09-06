@@ -13,7 +13,7 @@ To throw Vorple run-time error (desc – text):
 
 Chapter 2 - Interpreter handshake
 
-The file of Vorple Handshake (owned by project "VORPLE") is called "VpHndshk".
+The file of Vorple Handshake is called "VpHndshk".
 
 Vorple support is truth state that varies.
 
