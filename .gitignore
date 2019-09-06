@@ -1,5 +1,6 @@
 .env
 tests/unittest.ulx
+dist
 
 # directory created by the unit tests
 errorShots

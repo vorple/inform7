@@ -59,6 +59,7 @@ describe( "Hyperlinks", () => {
         });
 
         it( "have the correct target", () => {
+            waitForPrompt();
             $( ".command-hyperlinks a.commandlink1" ).click();
             waitForPrompt();
             expect( flagValue( "command link 1" ) ).to.be.true;

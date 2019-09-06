@@ -1,9 +1,9 @@
 {
   "name": "vorple-inform7-extensions",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Inform 7 extensions for Vorple",
   "scripts": {
-    "build": "mkdir -p ../build/inform7; cp -r Templates Extensions ../build/inform7/; (cd ../build; cp vorple/vorple.min.js haven/haven.min.js git/git.js* vorple/vorple.min.css vendor/*.* vendor/roboto/Roboto-* inform7/Templates/Vorple)",
+    "build": "./build.sh",
     "build:test": "./tests/stories/compile.sh",
     "test": "./tests/stories/compile.sh && wdio wdio.conf.js",
     "test:chrome": "./tests/stories/compile.sh && BROWSER=chrome wdio wdio.conf.js",

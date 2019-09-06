@@ -42,7 +42,7 @@ describe( "Core library", () => {
 
     describe( "Version", () => {
         it( "is printed in the banner", () => {
-            expect( "#output" ).to.have.text( new RegExp( "Vorple version " + VERSION.replace( ".", "\\." ) ) );
+            expect( "#output" ).to.have.text( new RegExp( "Vorple version " + VERSION.split( "." ).join( "\\." ).split( "-" ).join( "\\-" ) ) );
         });
     });
 
