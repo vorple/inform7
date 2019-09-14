@@ -4,8 +4,8 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
-Release 3.2
-===========
+Release 3.2 (2019-09-14)
+========================
 
 - Inform 7's default template elements are now hidden from the start, so they
   don't flash briefly at page load before being removed completely
