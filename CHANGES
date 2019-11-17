@@ -4,6 +4,16 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
+Release 3.2.x
+=============
+
+Multimedia
+==========
+
+- Multimedia file URLs use vorple.file.getResource() instead of fixed URLs so 
+  that the extension works with Borogove
+
+
 Release 3.2 (2019-09-14)
 ========================
 
