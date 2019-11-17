@@ -1,4 +1,4 @@
-Version 3/190914 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/191117 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -13,7 +13,7 @@ To throw Vorple run-time error (desc – text):
 
 Chapter 2 - Interpreter handshake
 
-The file of Vorple Handshake is called "VpHndshk".
+The file of Vorple Handshake (owned by project "VORPLE") is called "VpHndshk".
 
 Vorple support is truth state that varies.
 
