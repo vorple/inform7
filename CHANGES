@@ -5,6 +5,16 @@ The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
 
+Release 3.2.2 (2019-11-19)
+==========================
+
+Multimedia
+----------
+
+- Multimedia file URLs use vorple.file.getResource() instead of fixed URLs so 
+  that the extension works with Borogove
+
+
 Release 3.2.1 (2019-11-17)
 ==========================
 
@@ -13,7 +23,6 @@ Vorple
 
 - Fixed an issue where handshake with the interpreter sometimes failed, causing
   runtime errors (#43)
-
 
 
 Release 3.2 (2019-09-14)

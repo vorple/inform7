@@ -1,4 +1,4 @@
-Version 3/190914 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
+Version 3/191119 of Vorple Multimedia (for Glulx only) by Juhana Leinonen begins here.
 
 "Displaying images and playing sounds and music."
 
@@ -13,7 +13,7 @@ To place an/the/-- image (file - text) called (classes - text) with the/-- descr
 	if Vorple is supported:
 		let id be unique identifier;
 		place a block level element called "[id] vorple-image [classes]";
-		execute JavaScript command "$('<img>', {src: '[escaped file]', alt: '[escaped desc]'}).appendTo('.[id]')";
+		execute JavaScript command "$('<img>', {src: vorple.file.resourceUrl('[escaped file]'), alt: '[escaped desc]'}).appendTo('.[id]')";
 	otherwise:
 		say desc;
 		say line break.
@@ -37,7 +37,7 @@ To place an/the/-- image (file - text) with the/-- description (desc - text), ce
 	place the image file called alignment class with description desc.
 
 To preload an/the/-- image (file - text):
-	execute JavaScript command "new Image().src='[escaped file]';".
+	execute JavaScript command "new Image().src=vorple.file.resourceUrl('[escaped file]');".
 	
 To preload the/-- images (image-list - list of text):
 	repeat with X running through image-list:
