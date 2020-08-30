@@ -1,8 +1,4 @@
-const chai = require( "chai" );
-const chaiWebdriver = require( "chai-webdriverio" ).default;
-chai.use( chaiWebdriver( browser ) );
-const { expect } = chai;
-
+const expectElement = expect;
 const { sendCommand, waitForPrompt } = require( "../utility" );
 
 describe( "Element manipulation", () => {
@@ -10,8 +6,8 @@ describe( "Element manipulation", () => {
         it( "moves elements before and after others", () => {
             sendCommand( "unittest move elements" );
             waitForPrompt();
-            expect( ".aftercontainer" ).to.have.text( "a1a2" );
-            expect( ".beforecontainer" ).to.have.text( "b1b2" );
+            expectElement( $( ".aftercontainer" ) ).toHaveText( "a1a2" );
+            expectElement( $( ".beforecontainer" ) ).toHaveText( "b1b2" );
         });
     });
 });

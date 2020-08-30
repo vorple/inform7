@@ -1,7 +1,4 @@
-const chai = require( "chai" );
-const chaiWebdriver = require( "chai-webdriverio" ).default;
-chai.use( chaiWebdriver( browser ) );
-const { expect } = chai;
+const expectElement = expect;
 
 const {
     sendCommand,
@@ -20,7 +17,7 @@ describe( "Modal Windows", () => {
         it( "succeeds", () => {
             sendCommand( "unittest show modal" );
             $( ".vex-dialog-message" ).waitForExist();
-            expect( ".vex-dialog-message" ).to.have.text( "Test" );
+            expectElement( $( ".vex-dialog-message" ) ).toHaveText( "Test" );
             closeModals();
         } );
     });
@@ -29,7 +26,7 @@ describe( "Modal Windows", () => {
         it( "are created and have the correct content", () => {
             sendCommand( "unittest create empty modal" );
             $( ".vex-dialog-message" ).waitForExist();
-            expect( ".vex-dialog-message" ).to.have.text( "Test2" );
+            expectElement( $( ".vex-dialog-message" ) ).toHaveText( "Test2" );
             closeModals();
         });
     });

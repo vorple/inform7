@@ -1,7 +1,5 @@
-const chai = require( "chai" );
-const chaiWebdriver = require( "chai-webdriverio" ).default;
-chai.use( chaiWebdriver( browser ) );
-const { expect } = chai;
+const expectElement = expect;
+const assert = require( "chai" ).expect;
 
 const {
     runI7Test,
@@ -28,13 +26,13 @@ describe( "Command Prompt Control", () => {
             sendCommand( "unittest command line manipulation" );
             waitForPrompt();
             // browser.pause( 50000)
-            expect( $( "#lineinput-field" ).getValue() ).to.equal( "test" );
+            expectElement( $( "#lineinput-field" ) ).toHaveValue( "test" );
         });
 
         it( "puts the cursor to the end of the input", () => {
             const cursorPosition = browser.execute( () => document.getElementById( "lineinput-field" ).selectionStart );
 
-            expect( cursorPosition ).to.equal( 4 );
+            assert( cursorPosition ).to.equal( 4 );
         });
     });
 });

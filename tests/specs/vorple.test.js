@@ -1,8 +1,5 @@
-const chai = require( "chai" );
-const chaiWebdriver = require( "chai-webdriverio" ).default;
-chai.use( chaiWebdriver( browser ) );
-const { expect } = chai;
-
+const expectElement = expect;
+const assert = require( "chai" ).expect;
 const VERSION = require( "../../package.json" ).version;
 const {
     flagValue,
@@ -16,33 +13,33 @@ describe( "Core library", () => {
         // This test must be the first one!
         it( "runs the construction rulebook on turn 1", () => {
             waitForPrompt();
-            expect( flagValue( "ui update 1" ) ).to.be.true;
+            assert( flagValue( "ui update 1" ) ).to.be.true;
         });
 
         it( "interface setup rulebook executes successfully", () => {
-            expect( flagValue( "ui setup" ) ).to.be.true;
+            assert( flagValue( "ui setup" ) ).to.be.true;
         });
 
         it( "runs the construction rulebook every turn", () => {
-            expect( flagValue( "ui update 2" ) ).to.be.false;
+            assert( flagValue( "ui update 2" ) ).to.be.false;
             sendCommand( "z" );
             waitForPrompt();
-            expect( flagValue( "ui update 2" ) ).to.be.true;
+            assert( flagValue( "ui update 2" ) ).to.be.true;
         });
 
         it( "runs the rulebook after undo", () => {
             sendCommand( "unittest state 3 on" );
             waitForPrompt();
-            expect( flagValue( "ui update 3" ) ).to.be.true;
+            assert( flagValue( "ui update 3" ) ).to.be.true;
             sendCommand( "undo" );
             waitForPrompt();
-            expect( flagValue( "ui update 3" ) ).to.be.false;
+            assert( flagValue( "ui update 3" ) ).to.be.false;
         });
     });
 
     describe( "Version", () => {
         it( "is printed in the banner", () => {
-            expect( "#output" ).to.have.text( new RegExp( "Vorple version " + VERSION.split( "." ).join( "\\." ).split( "-" ).join( "\\-" ) ) );
+            expectElement( $( "#output" ) ).toHaveTextContaining( "Vorple version " + VERSION );
         });
     });
 
@@ -70,26 +67,24 @@ describe( "Core library", () => {
         it( "works for strings without line breaks", () => {
             sendCommand( "unittest string escaping" );
             waitForPrompt();
-            expect( ".string-escaping" ).to.have.text( `\\ Testy "Tester" O'Testface /` );
+            expectElement( $( ".string-escaping" ) ).toHaveText( `\\ Testy "Tester" O'Testface /` );
         });
 
         it( "removes line breaks by default", () => {
             sendCommand( "unittest string escaping with line breaks" );
             waitForPrompt();
-            expect( ".string-escaping-no-linebreaks" ).to.have.text( `\\ Testy "Tester" O'Testface /` );
+            expectElement( $( ".string-escaping-no-linebreaks" ) ).toHaveText( `\\ Testy "Tester" O'Testface /` );
         });
 
         it( "replaces line breaks", () => {
             sendCommand( "unittest string escaping with line break changes" );
             waitForPrompt();
-            expect( ".string-escaping-linebreaks-change" ).to.have.text( `\\ ** Testy ** "Tester" ** O'Testface ** /` );
+            expectElement( $( ".string-escaping-linebreaks-change" ) ).toHaveText( `\\ ** Testy ** "Tester" ** O'Testface ** /` );
         });
 
         it( "prints Unicode properly", () => {
             sendCommand( "unittest unicode" );
-            $( ".unicode-test", 5000 ).waitForExist();
-
-            expect( ".unicode-test" ).to.have.text( "ÜNÏCÖDÉ⁈" );
+            expectElement( $( ".unicode-test" ) ).toHaveText( "ÜNÏCÖDÉ⁈" );
         });
     });
 
@@ -100,8 +95,8 @@ describe( "Core library", () => {
             $( ".testdiv", 5000 ).waitForExist();
             $( ".testspan", 5000 ).waitForExist();
 
-            expect( ".testdiv" ).to.have.text( "123" );
-            expect( ".testspan" ).to.have.text( "2" );
+            expectElement( $( ".testdiv" ) ).toHaveText( "123" );
+            expectElement( $( ".testspan" ) ).toHaveText( "2" );
         });
 
         it( "manipulates DOM correctly", () => {
@@ -114,13 +109,13 @@ describe( "Core library", () => {
             sendCommand( "unittest prompt in confirmation" );
             waitForPrompt();
 
-            expect( ".yes-no-test" ).not.to.have.text( />/ );
+            assert( $( ".yes-no-test" ).getText() ).not.to.contain( />/ );
 
             // send text that isn't yes or no and check that there's no extra >
             sendCommand( "foo" );
             waitForPrompt();
 
-            expect( ".yes-no-test" ).not.to.have.text( /Please answer yes or no\.\s*>/ );
+            assert( $( ".yes-no-test" ).getText() ).not.to.contain( /Please answer yes or no\.\s*>/ );
 
             // cleanup: must answer something to the question
             sendCommand( "yes" );
@@ -130,7 +125,7 @@ describe( "Core library", () => {
             sendCommand( "unittest prompt at game over" );
             waitForPrompt();
 
-            expect( "#output" ).not.to.have.text( />\s*>$/ );
+            assert( $( "#output" ).getText() ).not.to.contain( />\s*>$/ );
 
             // cleanup: undo to get out of the final question
             sendCommand( "undo" );

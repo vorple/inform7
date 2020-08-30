@@ -1,40 +1,46 @@
-const chai = require( "chai" );
-const chaiWebdriver = require( "chai-webdriverio" ).default;
-chai.use( chaiWebdriver( browser ) );
-const { expect } = chai;
-
+const expectElement = expect;
+const assert = require( "chai" ).expect;
 const { sendCommand, waitForPrompt } = require( "../utility" );
 
 describe( "Tooltips", () => {
+    function expectTooltipToBeVisible() {
+        expectElement( $( "#powerTip" ) ).toBeVisible();
+    }
+
+    function expectTooltipToBeHidden() {
+        // should be .not.toBeVisible() but there's currently a bug in the test library we have to work around
+        assert( $( "#powerTip" ).isDisplayed() ).to.be.false;
+    }
+
     describe( "Tooltip on hover", () => {
         it( "appears on hover", () => {
             sendCommand( "unittest text with tooltip on hover" );
             waitForPrompt();
             browser.execute( () => { $( "span.tooltip-test" ).trigger( "mouseover" ); } );
-            $( "#powerTip" ).waitForDisplayed();
+            expectTooltipToBeVisible();
         });
 
         it( "disappears on mouseout", () => {
             browser.execute( () => { $( "span.tooltip-test" ).trigger( "mouseout" ); } );
             browser.pause( 500 );
-            expect( "#powerTip" ).to.not.be.displayed;
+            expectTooltipToBeHidden();
         });
     });
 
     describe( "Tooltip on demand", () => {
         it( "appears after a delay", () => {
             sendCommand( "unittest tooltip on demand" );
-            expect( "#powerTip" ).to.not.be.displayed;
+            expectTooltipToBeHidden();
             browser.pause( 100 );
-            expect( "#powerTip" ).to.not.be.displayed;
+            expectTooltipToBeHidden();
             browser.pause( 1000 );
-            expect( "#powerTip" ).to.be.displayed;
+            expectTooltipToBeVisible();
         });
 
         it( "disappears after a delay", () => {
-            expect( "#powerTip" ).to.be.displayed;
+            expectTooltipToBeVisible();
             browser.pause( 2000 );
-            expect( "#powerTip" ).to.not.be.displayed;
+            expectTooltipToBeHidden();
         });
     });
 
@@ -42,16 +48,16 @@ describe( "Tooltips", () => {
         it( "appears", () => {
             sendCommand( "unittest tooltip on prompt" );
             waitForPrompt();
-            expect( "#powerTip" ).to.be.displayed;
+            expectTooltipToBeVisible();
         });
     });
 
     describe( "Hiding tooltips", () => {
         it( "hides the tooltip", () => {
-            expect( "#powerTip" ).to.be.displayed;
+            expectTooltipToBeVisible();
             sendCommand( "unittest hiding tooltips" );
             browser.pause( 1000 );
-            expect( "#powerTip" ).to.not.be.displayed;
+            expectTooltipToBeHidden();
         });
     });
 });
