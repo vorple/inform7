@@ -43,6 +43,7 @@ describe( "Hyperlinks", () => {
 
     describe( "Command hyperlinks", () => {
         it( "are created", () => {
+            sendCommand( "generate content" );  // make sure the page has to scroll
             sendCommand( "unittest command hyperlinks" );
             $( ".command-hyperlinks" ).waitForExist();
             expectElement( $$( ".command-hyperlinks a" ) ).toBeElementsArrayOfSize( 5 );
@@ -80,6 +81,16 @@ describe( "Hyperlinks", () => {
             expectElement( $( ".command-hyperlinks a.commandlink1" ) ).toHaveText( "link1" );
             expectElement( $( ".command-hyperlinks a.commandlink2" ) ).toHaveText( "silent" );
             expectElement( $( ".command-hyperlinks a.commandlink3" ) ).toHaveText( "unittest command link 3" );
+        });
+
+        it( "scroll the content to the bottom of the page", () => {
+            browser.execute( () => window.scrollTo( 0, document.body.scrollHeight ) );
+
+            // must try a few times to be sure that a Firefox bug doesn't appear
+            for( let i = 0; i < 3; ++i ) {
+                $( ".command-hyperlinks a.commandlink2" ).click();
+                assert( browser.execute( () => window.scrollY ) ).not.to.equal( 0 );
+            }
         });
     });
 
