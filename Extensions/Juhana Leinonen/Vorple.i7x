@@ -787,7 +787,7 @@ Vorple provides a separate rulebook called Vorple interface setup rules for sett
 The following example sets up a click handler that adds a custom CSS class to the command prompt. Depending on the CSS rule it might flash the prompt to draw attention to it.
 
 	Vorple interface setup rule:
-		execute JavaScript command "$(document).on('click', function() { $('#lineinput').addClass('highlight') }".
+		execute JavaScript command "$(document).on('click', function() { $('#lineinput').addClass('highlight') })".
 
 When building any user interface elements we need to remember that through save/restore the player can continue the story potentially from any point or rewind actions with undo or restart, unless the story has disabled those commands. We can't rely on JavaScript code that has been run during previous commands because the player might have skipped them by restoring a later save, and we can't assume that turns happen only once because the player might undo and replay a turn. Therefore it's best to initialize the user interface at story start instead of along the way as the story progresses.
 
