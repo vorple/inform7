@@ -46,6 +46,10 @@ Vorple interface update rule:
 		otherwise:
 			unset a shared flag "ui update [N]".
 
+A Vorple interface update rule:
+	if turn count is less than 2:
+		say "Start of game"; [tests that printing something before the game starts doesn't crash the interpreter]
+
 Every turn:
 	now entry 2 in UI state is true.
 
