@@ -51,7 +51,7 @@ exports.config = {
         // 5 instances get started at a time.
         //
         // Safari can only run one instance at a time.
-        maxInstances: process.env.BROWSER === "safari" ? 1 : 5,
+        maxInstances: process.env.BROWSER === "safari" ? 1 : 10,
         //
         browserName: process.env.BROWSER || "firefox"
     }],
