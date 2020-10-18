@@ -1,5 +1,3 @@
-const expectElement = expect;
-
 const {
     sendCommand,
     vorple

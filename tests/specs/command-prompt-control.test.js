@@ -1,6 +1,3 @@
-const expectElement = expect;
-const assert = require( "chai" ).expect;
-
 const {
     runI7Test,
     sendCommand,
@@ -32,7 +29,7 @@ describe( "Command Prompt Control", () => {
         it( "puts the cursor to the end of the input", () => {
             const cursorPosition = browser.execute( () => document.getElementById( "lineinput-field" ).selectionStart );
 
-            assert( cursorPosition ).to.equal( 4 );
+            expect( cursorPosition ).to.equal( 4 );
         });
     });
 });

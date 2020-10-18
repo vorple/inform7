@@ -1,5 +1,3 @@
-const expectElement = expect;
-const assert = require( "chai" ).expect;
 const VERSION = require( "../../package.json" ).version;
 const {
     flagValue,
@@ -13,27 +11,27 @@ describe( "Core library", () => {
         // This test must be the first one!
         it( "runs the construction rulebook on turn 1", () => {
             waitForPrompt();
-            assert( flagValue( "ui update 1" ) ).to.be.true;
+            expect( flagValue( "ui update 1" ) ).to.be.true;
         });
 
         it( "interface setup rulebook executes successfully", () => {
-            assert( flagValue( "ui setup" ) ).to.be.true;
+            expect( flagValue( "ui setup" ) ).to.be.true;
         });
 
         it( "runs the construction rulebook every turn", () => {
-            assert( flagValue( "ui update 2" ) ).to.be.false;
+            expect( flagValue( "ui update 2" ) ).to.be.false;
             sendCommand( "z" );
             waitForPrompt();
-            assert( flagValue( "ui update 2" ) ).to.be.true;
+            expect( flagValue( "ui update 2" ) ).to.be.true;
         });
 
         it( "runs the rulebook after undo", () => {
             sendCommand( "unittest state 3 on" );
             waitForPrompt();
-            assert( flagValue( "ui update 3" ) ).to.be.true;
+            expect( flagValue( "ui update 3" ) ).to.be.true;
             sendCommand( "undo" );
             waitForPrompt();
-            assert( flagValue( "ui update 3" ) ).to.be.false;
+            expect( flagValue( "ui update 3" ) ).to.be.false;
         });
     });
 
@@ -109,13 +107,13 @@ describe( "Core library", () => {
             sendCommand( "unittest prompt in confirmation" );
             waitForPrompt();
 
-            assert( $( ".yes-no-test" ).getText() ).not.to.contain( />/ );
+            expect( $( ".yes-no-test" ).getText() ).not.to.contain( />/ );
 
             // send text that isn't yes or no and check that there's no extra >
             sendCommand( "foo" );
             waitForPrompt();
 
-            assert( $( ".yes-no-test" ).getText() ).not.to.contain( /Please answer yes or no\.\s*>/ );
+            expect( $( ".yes-no-test" ).getText() ).not.to.contain( /Please answer yes or no\.\s*>/ );
 
             // cleanup: must answer something to the question
             sendCommand( "yes" );
@@ -125,7 +123,7 @@ describe( "Core library", () => {
             sendCommand( "unittest prompt at game over" );
             waitForPrompt();
 
-            assert( $( "#output" ).getText() ).not.to.contain( />\s*>$/ );
+            expect( $( "#output" ).getText() ).not.to.contain( />\s*>$/ );
 
             // cleanup: undo to get out of the final question
             sendCommand( "undo" );

@@ -1,4 +1,3 @@
-const expectElement = expect;
 const {
     sendCommand,
     waitForPrompt

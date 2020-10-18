@@ -1,6 +1,3 @@
-const expectElement = expect;
-const assert = require( "chai" ).expect;
-
 const {
     flagValue,
     sendCommand,
@@ -19,7 +16,7 @@ describe( "Hyperlinks", () => {
         it( "have the correct URL", () => {
             const countURLs = browser.execute( () => $(".url-hyperlinks a[href='http://vorple-if.com']").length );
 
-            assert( countURLs ).to.equal( 5 );
+            expect( countURLs ).to.equal( 5 );
         });
 
         it( "have the correct classes", () => {
@@ -59,19 +56,19 @@ describe( "Hyperlinks", () => {
             waitForPrompt();
             $( ".command-hyperlinks a.commandlink1" ).click();
             waitForPrompt();
-            assert( flagValue( "command link 1" ) ).to.be.true;
+            expect( flagValue( "command link 1" ) ).to.be.true;
 
             // link 2 tested in the next rule
 
             $( ".command-hyperlinks a.commandlink3" ).click();
             waitForPrompt();
-            assert( flagValue( "command link 3" ) ).to.be.true;
+            expect( flagValue( "command link 3" ) ).to.be.true;
         });
 
         it( "silent commands don't print the command", () => {
             $( ".command-hyperlinks a.commandlink2" ).click();
             waitForPrompt();
-            assert( flagValue( "command link 2" ) ).to.be.true;
+            expect( flagValue( "command link 2" ) ).to.be.true;
 
             // the previously printed prompt value should be the command before this one
             expectElement( $( '.lineinput.last .prompt-input' ) ).toHaveText( "unittest command link 3");
@@ -89,7 +86,7 @@ describe( "Hyperlinks", () => {
             // must try a few times to be sure that a Firefox bug doesn't appear
             for( let i = 0; i < 3; ++i ) {
                 $( ".command-hyperlinks a.commandlink2" ).click();
-                assert( browser.execute( () => window.scrollY ) ).not.to.equal( 0 );
+                expect( browser.execute( () => window.scrollY ) ).not.to.equal( 0 );
             }
         });
     });
@@ -108,7 +105,7 @@ describe( "Hyperlinks", () => {
         it( "evaluate the JavaScript assigned to them", () => {
             $( ".js-hyperlinks a.jslink1" ).click();
             waitForPrompt();
-            assert( flagValue( "js link 1" ) ).to.be.true;
+            expect( flagValue( "js link 1" ) ).to.be.true;
         });
 
         it( "have the correct content", () => {
@@ -125,7 +122,7 @@ describe( "Hyperlinks", () => {
 
             const linksAfterDisabling = browser.execute( () => $( "a" ).length );
 
-            assert( linksAfterDisabling ).to.equal( originalLinks - 1 );
+            expect( linksAfterDisabling ).to.equal( originalLinks - 1 );
         });
 
         it( "in a container", () => {

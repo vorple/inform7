@@ -1,5 +1,3 @@
-const expectElement = expect;
-const assert = require( "chai" ).expect;
 const { sendCommand } = require( "../utility" );
 
 describe( "Multimedia", () => {
@@ -10,11 +8,11 @@ describe( "Multimedia", () => {
         });
 
         it( "has the correct URL", () => {
-            assert( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).src ) ).to.include( "/media/vorple.png" );
+            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).src ) ).to.include( "/media/vorple.png" );
         });
 
         it( "has the correct alt text", () => {
-            assert( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).alt ) ).to.equal( "Vorple's logo" );
+            expect( browser.execute( () => document.querySelector( "div.vorple-image.logo img" ).alt ) ).to.equal( "Vorple's logo" );
         });
 
         it( "is centered", () => {
