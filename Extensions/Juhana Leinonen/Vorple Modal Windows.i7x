@@ -99,7 +99,7 @@ This basic example pops up the modal when the play begins and displays the story
 		show a modal window reading "Welcome to [story title]! Use LOOK to look around, EXAMINE what you see, and TAKE what you can!".
 
 
-Example: ** Version Popup - Show the version information in a modal window
+Example: ** Version Popup - Showing the version information in a modal window
 
 We have two rules here that cause the normal banner to show in a modal instead of in the story text. The first check rule shows a modal window and sets the output focus to it. From then on everything that the game prints (the banner, in this case) will be printed inside the modal. The second report rule runs after the banner has been printed, resuming output back to the normal flow of the game text.
 	

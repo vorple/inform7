@@ -154,7 +154,7 @@ An optional duration can be provided:
 Only one tooltip can be open at a time. Tooltips are automatically closed when a new tooltip is shown.
 		
 
-Example: * Medical Dictionary - Technical terms that have their definitions shown in a tooltip.
+Example: * Medical Dictionary - Technical terms that have their definitions shown in a tooltip
 
 
 	*: "Medical Dictionary"
@@ -213,7 +213,7 @@ We'll show a tooltip on the prompt to direct the player to use the keyboard, hin
 	Test me with "x wardrobe / open wardrobe".
 
  
-Example: ** Ibid. (2) - Footnotes that can be read by placing the mouse cursor over them.
+Example: ** Ibid. (2) - Footnotes that can be read by placing the mouse cursor over them
 
 We're modifying example 300 (Ibid.) from Writing with Inform to show the footnotes when the mouse cursor is on top of the footnote reference numbers.
 
@@ -269,7 +269,3 @@ We're modifying example 300 (Ibid.) from Writing with Inform to show the footnot
 		say "([assignment entry]): [note entry]."
 	
 	Test me with "footnote 1 / examine pie / footnote 2 / footnote 3".
-
-
-	
-	

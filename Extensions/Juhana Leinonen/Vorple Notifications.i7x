@@ -108,7 +108,7 @@ The default fallback can also be turned off completely:
 	*: The print notifications fallback rule is not listed in any rulebook.
 
 
-Example: * How To I - Showing small tips to new players who might not be familiar with the standard IF conventions.
+Example: * How To I - Showing small tips to new players who might not be familiar with the standard IF conventions
 
 	*: "How To I"
 	
@@ -137,7 +137,7 @@ Example: * How To I - Showing small tips to new players who might not be familia
 	Test me with "take test tube / examine test tube / x trolley".
 
 
-Example: ** Score Notifications - A visual notification when the player is awarded points.
+Example: ** Score Notifications - A visual notification when the player is awarded points
 
 We'll create a rule that will show the score change as a Vorple notification, or use the original score notification rule if the game is being played in a non-Vorple interpreter.
 	

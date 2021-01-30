@@ -421,7 +421,7 @@ Lists come in two different variations: ordered and unordered. Items in an order
 	display an unordered list { "One", "Two", "Three" };
 
 
-Example: * Letters from a Madman - Example of all different styles available in the extension.
+Example: * Letters from a Madman - Example of all different styles available in the extension
 
 The letter in this example story has all the styles defined in the extension, plus a couple of combinations and colors.
 
@@ -451,11 +451,11 @@ The letter in this example story has all the styles defined in the extension, pl
 	Test me with "open mailbox / read letter".
 
 
-Example: *** Monty Hall - A game show where the result is displayed with fancy font effects.
+Example: *** Monty Hall - A game show where the result is displayed with fancy font effects
 
 Imagine a game show where you are presented with three doors. Behind one of them is a brand new car, and behind the rest are goats. You get to choose one of the doors. Then the game host opens one of the other doors revealing a goat, and you are given a chance to either switch to the one remaining door or open the one you picked originally. The Monty Hall paradox is a counterintuitive statistical fact that switching the door gives a much higher chance at finding a car behind it.
 
-We'll display the game's result using a custom-made CSS style file. It also styles the room header and uses a font from Google Fonts (http://www.google.com/fonts/).
+We'll display the game's result using a custom-made CSS style file. It also styles the room header and uses a font from Google Fonts (https://fonts.google.com).
 
 The CSS file can be downloaded from https://vorple-if.com/resources.zip
 

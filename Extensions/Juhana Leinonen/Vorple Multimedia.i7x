@@ -223,7 +223,7 @@ Once playing the sounds can be stopped with the following phrases:
 	stop music;
 	stop all audio;
 
-(Naturally stopping just the sound effects won't affect music, and vice versa.) Stopping music or all audio also clears the playlist (see the next chapter.)
+(Naturally stopping just the sound effects won't affect music, and vice versa.) Stopping music or all audio also clears the playlist (see the Playlists chapter.)
 
 Whether audio is currently playing can be tested with these phrases:
 	
@@ -292,7 +292,7 @@ Do this instead:
 	play the music file called "new.mp3";
 
 
-Example: * Serinette - Basic example of playing music and sound effects.
+Example: * Serinette - Basic example of playing music and sound effects
 
 The serinette (a type of music box) plays music when it opens and a sound effect when it's wound. We'll also show its picture when it's examined.
 
@@ -363,7 +363,7 @@ The example media files can be downloaded from https://vorple-if.com/resources.z
 
 
 
-Example: ** Port Royal Reggae - Applying background music to different regions.
+Example: ** Port Royal Reggae - Applying background music to different regions
 
 We'll spice up the Port Royal example from Writing with Inform with some background music.
 

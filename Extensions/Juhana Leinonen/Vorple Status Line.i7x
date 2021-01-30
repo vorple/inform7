@@ -165,7 +165,7 @@ Chapter: Styling the status line
 
 By default the status line is as wide as the column that displays the story text. The status line can be made to span the entire screen width with the "full-width status line" option:
 
-	Use full-width status line.
+	*: Use full-width status line.
 
 CSS can be used to style the status line in virtually any fashion. For example, the following CSS rule changes the line below the status line from double lines to a single line and makes the background light blue:
 

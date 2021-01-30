@@ -150,7 +150,7 @@ The "called" part is optional.
 The click event object is available in the execution scope as a variable called "e". The object is the jQuery's event object in response to the click.
 
 
-Example: * Click to Learn More - Hyperlinks to external web pages, email links and action links, with a fallback if Vorple is not available.
+Example: * Click to Learn More - Hyperlinks to external web pages, email links and action links, with a fallback if Vorple is not available
 
 Email links ("mailto:") open an external mail program with the address pre-filled.
 
@@ -184,7 +184,7 @@ Email links ("mailto:") open an external mail program with the address pre-fille
 	Test me with "about".
 		
 		
-Example: ** Click to Retry - Clickable options when play ends.
+Example: ** Click to Retry - Clickable options when play ends
 
 If the story makes use of hyperlinks, we will probably want the options presented when the play ends be clickable as well. This example replaces the rule in the Standard Rules with one that prints the options as hyperlinks.
 

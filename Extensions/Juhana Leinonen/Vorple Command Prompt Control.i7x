@@ -62,13 +62,13 @@ The phrase
 
 	queue a parser command "test me";
 	
-adds a command to a queue that executes it as player input as soon as the prompt becomes available. For example, the following code runs the commands "about" and "inventory" when the play begins, just as if the player would have typed the commands:
+adds a command to a queue that executes it as player input as soon as the prompt becomes available. For example, the following code runs the commands ABOUT and INVENTORY when the play begins, just as if the player would have typed the commands:
 
 	When play begins:
 		queue a parser command "about";
 		queue a parser command "inventory".
 		
-Specifying "without showing the command" hides the command from view, but not the result of the command. The following example runs the command "inventory" whenever the player examines the player character:
+Specifying "without showing the command" hides the command from view, but not the result of the command. The following example runs the command INVENTORY whenever the player examines the player character:
 	
 	After examining the player:
 		queue a parser command "inventory", without showing the command.
