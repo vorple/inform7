@@ -1,4 +1,4 @@
-Version 3/200903 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/210212 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -172,77 +172,73 @@ To decide if the JavaScript code/command returned (x - truth state):
 
 Section 3 - Escaping text for JavaScript
 
-[The text escape routines are in I6 because the pure I7 version was several magnitudes slower.]
-Include (-
-[ VorpleEscapeLineBreaks txt lb   ctxt i j ch len bnd pk cp;
-	ctxt = BlkValueCreate(TEXT_TY);
-	if (txt==0) return 0;
-	cp = txt-->0; pk = TEXT_TY_Temporarily_Transmute(txt);
-	TEXT_TY_Transmute(ctxt);
-	len = TEXT_TY_CharacterLength(txt);
-	if (BlkValueSetLBCapacity(ctxt, (len+1)*5)) {
-		bnd = 1;
-		for (i=0, j=0:i<len:i++, j++) {
-			ch = BlkValueRead(txt, i);
-			if (ch==34 or 39 or 92) {	! " or ' or \
-				BlkValueWrite(ctxt, j, 92);
-				BlkValueWrite(ctxt, j+1, ch);
-				j++;
-			} else if (ch==10) {
-				j=j+VorpleAppendToText(ctxt, j, lb)-1;
-			} else if (ch < 128) {
-				BlkValueWrite(ctxt, j, ch);
-			} else {
-				VorpleUnicodeEscapeCode(ctxt, j, ch);
-				j=j+5;
-			}
-		}
-		BlkValueWrite(ctxt, j, 0);
-	}
-	TEXT_TY_Untransmute(txt, pk, cp);
-	return ctxt;
-];
-
-[ VorpleAppendToText ctxt j lb		k cp pk len;
-	len = TEXT_TY_CharacterLength(lb);
-	if (len==0) {
-		return 0;
-	}
-	cp = lb-->0; pk = TEXT_TY_Temporarily_Transmute(lb);
-	for (k=0:k<len:k++) {
-		BlkValueWrite(ctxt, j+k, BlkValueRead(lb, k));
-	}
-	TEXT_TY_Untransmute(lb, pk, cp);
-	return len;
-];
-
-[ VorpleUnicodeEscapeCode ctxt j x		y;
-	y = (x & $7f00) / $100;
-	if (x<0) y = y + $80;
-	x = x & $ff;
-
-	BlkValueWrite(ctxt, j, 92);
-	BlkValueWrite(ctxt, j+1, 'u');
-	BlkValueWrite(ctxt, j+2, VorpleConvertToHexdigit(y/$10));
-	BlkValueWrite(ctxt, j+3, VorpleConvertToHexdigit(y));
-	BlkValueWrite(ctxt, j+4, VorpleConvertToHexdigit(x/$10));
-	BlkValueWrite(ctxt, j+5, VorpleConvertToHexdigit(x));
-];
-
-[ VorpleConvertToHexdigit x;
-	x = x % $10;
-	switch (x) {
-		0 to 9: return '0' + x;
-		10 to 15: return 'a' + x - 10;
-	}
-];
--).
+To decide which text is escaped (string - text) using (lb - text) as line breaks:
+	if string is "":
+		decide on string;
+	let result be string;
+	let len be the number of characters in string;
+	repeat with x running from 1 to len:
+		let N be len - x + 1;
+		let val be the character value of character number N in string;
+		if val > 128:
+			replace character number N in result with "\u[the four-digit hexadecimal value of val]";
+		otherwise:
+			if val is:
+				-- 10: replace character number N in result with lb;
+				-- 34: replace character number N in result with "\'";
+				-- 39: replace character number N in result with "\[']";
+				-- 92: replace character number N in result with "\\";
+	decide on result.
 
 To decide which text is escaped (string - text):
 	decide on escaped string using "" as line breaks.
 
-To decide which text is escaped (string - text) using (lb - text) as line breaks:
-	(- (VorpleEscapeLineBreaks({string}, {lb})) -).
+To decide which text is the four-digit hexadecimal value of (decimal - number):
+	decide on "[single-digit hexadecimal value of decimal in digit 1][single-digit hexadecimal value of decimal in digit 2][single-digit hexadecimal value of decimal in digit 3][single-digit hexadecimal value of decimal in digit 4]".
+
+To decide which text is the single-digit hexadecimal value of (decimal - number) in digit (N - number):
+	let hex value be the hexadecimal of decimal in digit N;
+	if hex value is less than 10:
+		decide on "[hex value]";
+	otherwise:
+		if hex value is:
+			-- 10: decide on "a";
+			-- 11: decide on "b";
+			-- 12: decide on "c";
+			-- 13: decide on "d";
+			-- 14: decide on "e";
+			-- 15: decide on "f";
+	decide on "0".
+
+Include (-
+[ VorpleHexValueOfDigit decimal digit		high;
+	high = (decimal & $7f00) / $100;
+	if (decimal < 0) high = high + $80;
+
+	switch (digit) {
+		1: return high / $10;
+		2: return high % $10;
+		3: return (decimal & $ff) / $10;
+		4: return decimal % $10;
+	}
+	
+	return 0;
+];
+
+! Returns the character value of the first character of an I7 string
+[ VorpleGetCharValue ch		cp pk val;
+	cp = ch-->0; pk = TEXT_TY_Temporarily_Transmute(ch);
+	val = BlkValueRead(ch, 0);
+	TEXT_TY_Untransmute(ch, pk, cp);
+	return val;
+];
+-).
+
+To decide which number is the hexadecimal of (decimal - number) in digit (digit - number):
+	(- (VorpleHexValueOfDigit({decimal}, {digit})) -).
+
+To decide which number is the character value of (string - text):
+	(- (VorpleGetCharValue({string})) -).
 
 
 Chapter 4 – HTML tags
@@ -372,95 +368,7 @@ Section 2 - Interface update rules
 
 Vorple interface update rules is a rulebook.
 
-Before reading a command (this is the update Vorple interface before new turn starts rule):
-	follow the Vorple interface update rules.
-
-Include (-
-Replace GGRecoverObjects;
--) before "Glulx.i6t".
-
-Include (-
-! The below is copied verbatim from the template, except for the last lines that run the Vorple rulebook
-[ GGRecoverObjects id;
-	! If GGRecoverObjects() has been called, all these stored IDs are
-	! invalid, so we start by clearing them all out.
-	! (In fact, after a restoreundo, some of them may still be good.
-	! For simplicity, though, we assume the general case.)
-	gg_mainwin = 0;
-	gg_statuswin = 0;
-	gg_quotewin = 0;
-	gg_scriptfref = 0;
-	gg_scriptstr = 0;
-	gg_savestr = 0;
-	statuswin_cursize = 0;
-	gg_foregroundchan = 0;
-	gg_backgroundchan = 0;
-	#Ifdef DEBUG;
-	gg_commandstr = 0;
-	gg_command_reading = false;
-	#Endif; ! DEBUG
-	! Also tell the game to clear its object references.
-	IdentifyGlkObject(0);
-
-	id = glk_stream_iterate(0, gg_arguments);
-	while (id) {
-			switch (gg_arguments-->0) {
-					GG_SAVESTR_ROCK: gg_savestr = id;
-					GG_SCRIPTSTR_ROCK: gg_scriptstr = id;
-					#Ifdef DEBUG;
-					GG_COMMANDWSTR_ROCK: gg_commandstr = id;
-																gg_command_reading = false;
-					GG_COMMANDRSTR_ROCK: gg_commandstr = id;
-																gg_command_reading = true;
-					#Endif; ! DEBUG
-					default: IdentifyGlkObject(1, 1, id, gg_arguments-->0);
-			}
-			id = glk_stream_iterate(id, gg_arguments);
-	}
-
-	id = glk_window_iterate(0, gg_arguments);
-	while (id) {
-			switch (gg_arguments-->0) {
-					GG_MAINWIN_ROCK: gg_mainwin = id;
-					GG_STATUSWIN_ROCK: gg_statuswin = id;
-					GG_QUOTEWIN_ROCK: gg_quotewin = id;
-					default: IdentifyGlkObject(1, 0, id, gg_arguments-->0);
-			}
-			id = glk_window_iterate(id, gg_arguments);
-	}
-
-	id = glk_fileref_iterate(0, gg_arguments);
-	while (id) {
-			switch (gg_arguments-->0) {
-					GG_SCRIPTFREF_ROCK: gg_scriptfref = id;
-					default: IdentifyGlkObject(1, 2, id, gg_arguments-->0);
-			}
-			id = glk_fileref_iterate(id, gg_arguments);
-	}
-
-	if (glk_gestalt(gestalt_Sound, 0)) {
-		id = glk_schannel_iterate(0, gg_arguments);
-		while (id) {
-			switch (gg_arguments-->0) {
-				GG_FOREGROUNDCHAN_ROCK: gg_foregroundchan = id;
-				GG_BACKGROUNDCHAN_ROCK: gg_backgroundchan = id;
-				default: IdentifyGlkObject(1, 3, id, gg_arguments-->0);
-			}
-			id = glk_schannel_iterate(id, gg_arguments);
-		}
-		if (gg_foregroundchan ~= 0) { glk_schannel_stop(gg_foregroundchan); }
-		if (gg_backgroundchan ~= 0) { glk_schannel_stop(gg_backgroundchan); }
-	}
-
-	! Tell the game to tie up any loose ends.
-	IdentifyGlkObject(2);
-
-	! RUN THE VORPLE INTERFACE UPDATE RULEBOOK
-	if(vorple_support) {
-		FollowRulebook(RULEBOOK_TY_to_RULE_TY((+ Vorple interface update rules +)));
-	}
-];
--) after "Starting Up" in "Glulx.i6t".
+[The trigger for the rulebook is in the Prompt chapter in the replaced PrintPrompt routine]
 
 
 Chapter 6 - Prompt
@@ -524,11 +432,12 @@ Replace PrintPrompt;
 
 Include (-
 [ PrintPrompt i;
+	FollowRulebook(RULEBOOK_TY_to_RULE_TY((+ Vorple interface update rules +)));	! ADDED
 	RunTimeProblemShow();
 	ClearRTP();
 	style roman;
 	EnsureBreakBeforePrompt();
-	if( ~~(+ Vorple support +) )	TEXT_TY_Say( (Global_Vars-->1) );
+	if( ~~(+ Vorple support +) )	TEXT_TY_Say( (Global_Vars-->1) );				! ADDED
 	ClearBoxedText();
 	ClearParagraphing(14);
 ];
@@ -820,7 +729,7 @@ The example "The Sum of Human Knowledge" shows one use case where we might want 
 Even though typing is disabled while the user interface is blocked, the command prompt is still visible by default (if the story is waiting for line input). In the extension Vorple Command Prompt Control there are phrases to hide the command prompt which can be used together with or instead of blocking the user interface.
 
 		
-Example: ** Convenience Store - Displaying the inventory styled as a HTML list.
+Example: ** Convenience Store - Displaying the inventory styled as a HTML list
 
 We'll display the inventory listing using HTML unordered lists ("ul"). It might not be immediately obvious why one would want to do this, but if the items are displayed in a proper HTML structure it's possible to use CSS to style them further.
 		
@@ -851,7 +760,7 @@ We'll display the inventory listing using HTML unordered lists ("ul"). It might 
 	Test me with "take all / i / put all in paper bag / i".
 
 
-Example: ** Scrambled Eggs - Hints that are initially shown obscured and revealed on request.
+Example: ** Scrambled Eggs - Hints that are initially shown obscured and revealed on request
 
 The hint system works by wrapping scrambled hints in named elements. Their contents can then be later replaced with unscrambled text.
 
@@ -924,7 +833,7 @@ The hint system works by wrapping scrambled hints in named elements. Their conte
 	Test me with "hints / reveal 1 / reveal 2 / reveal 3".
 
 
-Example: *** The Grandfather Clock - Setting the story time to match the real-world time.
+Example: *** The Grandfather Clock - Setting the story time to match the real-world time
 
 In the "synchronize clocks" phrase the system time is retrieved by JavaScript and the story's internal "time of day" variable is changed to match the system time. 
 
@@ -960,9 +869,9 @@ In the "synchronize clocks" phrase the system time is retrieved by JavaScript an
 		say the time of day.
 		
 
-Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service.
+Example: **** The Sum of Human Knowledge - Retrieving and displaying data from a third party service
 
-Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from http://vorple-if.com/doc/resources.zip . Put the file in the project's Resources folder to include it with the release.
+Here we set up an encyclopedia that can be used to query articles from Wikipedia. The actual querying code is a bit longer so it's placed in an external encyclopedia.js file, which can be downloaded from https://vorple-if.com/resources.zip . Put the file in the project's Resources folder to include it with the release.
 
 Note that the pause between issuing the lookup command and the encyclopedia text appearing on the screen is caused by the time it takes to send a request to and receive a response from Wikipedia.
 

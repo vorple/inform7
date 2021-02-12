@@ -4,6 +4,14 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
+Release 3.2.4
+==========================
+
+Vorple
+------
+
+- Fixed an issue that caused a memory leak in interface update rules
+
 
 Release 3.2.3 (2020-09-03)
 ==========================
