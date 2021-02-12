@@ -61,6 +61,13 @@ g
 ! or gadget actually appears.
 
 [INTERPRETERBODY]
+  <main id="vorple">
+    <div id="loader">
+      <h2 id="loader-message">Loading scripts</h2>
+      <div id="spinner">V</div>
+    </div>
+  </main>
+
   <script src="interpreter/vorple.min.js"></script>
   <script src="interpreter/[ENCODEDSTORYFILE]"></script>
 

@@ -11,6 +11,9 @@ Vorple
 ------
 
 - Fixed an issue that caused a memory leak in interface update rules
+- Fixed the initial the loading screen not showing when releasing with the
+  Inform 7 interpreter template
+
 
 
 Release 3.2.3 (2020-09-03)
@@ -23,6 +26,7 @@ Vorple
   the start of the game if they used say phrases
 
 
+
 Release 3.2.2 (2019-11-19)
 ==========================
 
@@ -33,6 +37,7 @@ Multimedia
   that the extension works with Borogove
 
 
+
 Release 3.2.1 (2019-11-17)
 ==========================
 
@@ -41,6 +46,7 @@ Vorple
 
 - Fixed an issue where handshake with the interpreter sometimes failed, causing
   runtime errors (#43)
+
 
 
 Release 3.2 (2019-09-14)
