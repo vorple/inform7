@@ -507,6 +507,21 @@ Carry out unit testing "style line breaks":
 	say "[strong font style]foo.[end style] bar";
 	set output focus to the main window.
 
+Carry out unit testing "clearing the screen":
+	say "Before clearing the screen.";
+	clear the screen;
+	say "After clearing the screen."
+
+Carry out unit testing "clearing the main screen":
+	say "Before clearing the main screen.";
+	clear only the main screen;
+	say "After clearing the main screen."
+
+Carry out unit testing "waiting for space":
+    say "Before waiting for space.";
+    wait for the SPACE key;
+    say "After waiting for space."
+
 
 Book 9 - Tooltips
 

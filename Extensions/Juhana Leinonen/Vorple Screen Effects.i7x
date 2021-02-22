@@ -249,6 +249,30 @@ To display an/-- unordered list (source - list of text):
 	display an unordered list source called "".
 
 
+Section 9 - Clearing the screen (in place of Section - Clearing the screen  in Basic Screen Effects by Emily Short)
+
+To clear the/-- screen:
+	if Vorple is supported:
+		execute JavaScript code "$('#window0 *:not(.turn.current), .turn.current').empty()";
+	otherwise:
+		clear the VM screen.
+
+To clear the/-- VM screen:
+	(- VM_ClearScreen(0); -).
+
+To clear only the/-- main screen:
+	if Vorple is supported:
+		clear the screen;
+	otherwise:
+		clear the main VM screen.
+
+To clear the/-- main VM screen:
+	(- VM_ClearScreen(2); -).
+
+To clear only the/-- status line:
+	(- VM_ClearScreen(1); -).
+
+
 Vorple Screen Effects ends here.
 
 

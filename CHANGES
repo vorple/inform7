@@ -4,6 +4,18 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
+
+Release 3.2.5 (2021-02-22)
+==========================
+
+Screen Effects
+--------------
+
+- Added the missing phrases for clearing the screen
+- An update to the JavaScript library fixes the phrases that pause the game
+
+
+
 Release 3.2.4 (2021-02-14)
 ==========================
 
