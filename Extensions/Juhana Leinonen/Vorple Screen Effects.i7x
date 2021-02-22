@@ -1,4 +1,4 @@
-Version 3/181103 of Vorple Screen Effects by Juhana Leinonen begins here.
+Version 3/210222 of Vorple Screen Effects by Juhana Leinonen begins here.
 
 "Vorple equivalent of Basic Screen Effects by Emily Short. Waiting for a keypress, clearing the screen, aligning, styling and coloring text."
 
