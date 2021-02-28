@@ -290,7 +290,7 @@ To place a/-- block level/-- element reading (content - text):
 	place block level element called "" reading content.
 	
 To place an/-- element called (classes - text) at the top level:
-	execute JavaScript command "vorple.layout.focus('main#haven')";
+	execute JavaScript command "vorple.layout.focus('main#vorple')";
 	place block level element called classes.
 	
 

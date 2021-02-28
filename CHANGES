@@ -13,6 +13,12 @@ Status Line
 - Fixed full-width status line not being inserted to the correct place
 
 
+Vorple
+------
+
+- Fixed the "place an element called ... at the top level" phrase doing nothing
+
+
 
 Release 3.2.5 (2021-02-22)
 ==========================
