@@ -1,4 +1,4 @@
-Version 3/200228 of Vorple Status Line (for Glulx only) by Juhana Leinonen begins here.
+Version 3/210228 of Vorple Status Line (for Glulx only) by Juhana Leinonen begins here.
 
 "The Vorple version of the standard status line."
 
