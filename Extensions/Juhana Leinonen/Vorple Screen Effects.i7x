@@ -149,6 +149,13 @@ To say (style - Vorple style) style -- running on:
 To say end style -- running on:
 	close HTML tag.
 
+To apply the/-- (incoming - Vorple style) style to the/-- page:
+	remove the incoming style from the page;  [this forces the class to be added as last to the class list so it will take precedence]
+	execute JavaScript command "$('#vorple').addClass('[incoming]'.split(' ').join('-').toLowerCase())".
+
+To remove the/-- (outgoing - Vorple style) style from the/-- page:
+	execute JavaScript command "$('#vorple').removeClass('[outgoing]'.split(' ').join('-').toLowerCase())".
+
 
 Section 6 - Colors
 
@@ -185,38 +192,6 @@ light cyan background,
 light red background,
 light magenta background
 are Vorple styles.
-
-[
- -- not ready yet --
-
-To apply (style - Vorple style) style to the/-- entire/whole/-- page:
-	execute JavaScript command "$('#vorpleContainer')[bracket]0[close bracket].className=$('#vorpleContainer')[bracket]0[close bracket].className.replace(/\b[bracket]a-z[close bracket]+\-foreground/,'');$('#vorpleContainer').addClass('[color]-foreground')".
-
-To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
-	do nothing.
-
-
-To set the/-- text color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the text color of the element called classes to red r green g blue b with 100 percent opacity.
-
-To set the/-- text color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
-	set the text color of the element called "[classes]:last" to red r green g blue b with alpha percent opacity.
-	
-To set the/-- text color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the text color of all the elements called classes to red r green g blue b with 100 percent opacity.
-
-To set the/-- background color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
-	do nothing.
-	
-To set the/-- background color/colour of an/the/-- element called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the background color of the element called classes to red r green g blue b with 100 percent opacity.
-
-To set the/-- background color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number) with (alpha - number) percent/-- opacity:
-	set the background color of the element called "[classes]:last" to red r green g blue b with alpha percent opacity.
-	
-To set the/-- background color/colour of all the/-- elements called (classes - text) to red (r - number) green (g - number) and/-- blue (b - number):
-	set the background color of all the elements called classes to red r green g blue b with 100 percent opacity.
-]
 
 
 Section 7 - Headers
@@ -405,10 +380,24 @@ This basic set of colors can be used like font styles described in the previous 
 
 	say "A [green letters style]frog[end style] jumps into the [white letters style][blue background style]pond[end style][end style].";
 
-The entire page's colors can be changed with these phrases:
+
+Chapter: Page styles
+
+The entire page's styles can be changed with these phrases:
 	
-	apply (Vorple style) style to the entire page;
-	remove (Vorple style) from the entire page;
+	apply (Vorple style) style to the page;
+	remove (Vorple style) style from the page;
+
+The style will be applied as the default style to all output but it can be overridden with font and color styles as shown in the previous chapters.
+
+In contrast to how styles usually work in Inform, changing the page style applies also to all previous content already on the page, not just to all future content. There's no need to clear the screen to e.g. apply the background color to the entire screen as you'd do with the normal Basic Screen Effects extension.
+
+When adding styles to the page, old styles are never automatically removed but new styles may override previous ones. If we do:
+
+	apply green background style to the page;
+	apply blue background style to the page;
+
+The page will now have both the green background style and the blue background style applied, but as the blue background was added later it overrides the green background. If we remove the blue background style then the background will turn green as it's no longer overridden by the blue style.
 
 
 Chapter: Centering and aligning text

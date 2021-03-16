@@ -1,10 +1,27 @@
 const { sendCommand } = require( "../utility" );
 
 describe( "Screen effects", () => {
-    describe( "styles", () => {
+    describe( "Styles", () => {
         it( "don't add extra line breaks", () => {
             sendCommand( "unittest style line breaks" );
             expectElement( $( ".style-lb-test" ) ).toHaveText( "foo. bar" );
+        });
+
+        it( "are added to the entire page", () => {
+            sendCommand( "unittest adding page styles");
+            expectElement( $( "#vorple" ) ).toHaveElementClass( "cyan-background" );
+            expectElement( $( "#vorple" ) ).toHaveElementClass( "fantasy-font" );
+        });
+
+        it( "are removed from the page", () => {
+            sendCommand( "unittest removing page styles");
+            expectElement( $( "#vorple" ) ).not.toHaveElementClass( "fantasy-font" );
+            expectElement( $( "#vorple" ) ).toHaveElementClass( "cyan-background" );
+        });
+
+        it( "cascade correctly", () => {
+            sendCommand( "unittest cascading page styles");
+            expectElement( $( "#vorple" ) ).toHaveAttribute( "class", "red-background cyan-background" );
         });
     });
 

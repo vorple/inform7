@@ -522,6 +522,17 @@ Carry out unit testing "waiting for space":
     wait for the SPACE key;
     say "After waiting for space."
 
+Carry out unit testing "adding page styles":
+	apply cyan background style to the page;
+	apply fantasy font style to the page.
+
+Carry out unit testing "removing page styles":
+	remove the fantasy font style from the page.
+
+Carry out unit testing "cascading page styles":
+	apply red background style to the page;
+	apply cyan background style to the page.
+
 
 Book 9 - Tooltips
 
