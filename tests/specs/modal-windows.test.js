@@ -10,7 +10,7 @@ const closeModals = () => {
     browser.pause( 2000 );  // wait for the fade out animation to finish
 };
 
-describe( "Modal Windows", () => {
+describe( "Modal Windows:", () => {
     describe( "Opening", () => {
         it( "succeeds", () => {
             sendCommand( "unittest show modal" );

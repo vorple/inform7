@@ -1,6 +1,6 @@
 const { sendCommand, waitForPrompt } = require( "../utility" );
 
-describe( "Element manipulation", () => {
+describe( "Element manipulation:", () => {
     describe( "Moving elements", () => {
         it( "moves elements before and after others", () => {
             sendCommand( "unittest move elements" );

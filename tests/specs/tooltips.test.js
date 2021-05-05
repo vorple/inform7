@@ -1,6 +1,6 @@
 const { sendCommand, waitForPrompt } = require( "../utility" );
 
-describe( "Tooltips", () => {
+describe( "Tooltips:", () => {
     function expectTooltipToBeVisible() {
         expectElement( $( "#powerTip" ) ).toBeVisible();
     }

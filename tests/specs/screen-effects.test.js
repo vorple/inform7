@@ -1,6 +1,6 @@
 const { sendCommand } = require( "../utility" );
 
-describe( "Screen effects", () => {
+describe( "Screen effects:", () => {
     describe( "Styles", () => {
         it( "don't add extra line breaks", () => {
             sendCommand( "unittest style line breaks" );

@@ -5,7 +5,7 @@ const {
 } = require( "../utility" );
 
 
-describe( "Hyperlinks", () => {
+describe( "Hyperlinks:", () => {
     describe( "URL hyperlinks", () => {
         it( "are created", () => {
             sendCommand( "unittest URL hyperlinks" );

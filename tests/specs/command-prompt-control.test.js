@@ -5,7 +5,7 @@ const {
 } = require( "../utility" );
 
 
-describe( "Command Prompt Control", () => {
+describe( "Command Prompt Control:", () => {
     describe( "Command queue", () => {
         it( "is executed in correct order", () => {
             runI7Test( "command queue" );

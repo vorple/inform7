@@ -6,7 +6,7 @@ const {
     waitForPrompt
 } = require( "../utility" );
 
-describe( "Core library", () => {
+describe( "Core library:", () => {
     describe( "UI state", () => {
         // This test must be the first one!
         it( "runs the construction rulebook on turn 1", () => {

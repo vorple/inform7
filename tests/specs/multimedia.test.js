@@ -1,6 +1,6 @@
 const { sendCommand } = require( "../utility" );
 
-describe( "Multimedia", () => {
+describe( "Multimedia:", () => {
     describe( "Image", () => {
         it( "is created", () => {
             sendCommand( "unittest image" );
