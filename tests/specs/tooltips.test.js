@@ -2,12 +2,11 @@ const { sendCommand, waitForPrompt } = require( "../utility" );
 
 describe( "Tooltips:", () => {
     function expectTooltipToBeVisible() {
-        expectElement( $( "#powerTip" ) ).toBeVisible();
+        expectElement( $( "#powerTip" ) ).toBeDisplayed();
     }
 
     function expectTooltipToBeHidden() {
-        // should be .not.toBeVisible() but there's currently a bug in the test library we have to work around
-        expect( $( "#powerTip" ).isDisplayed() ).to.be.false;
+        expectElement( $( "#powerTip" ) ).not.toBeDisplayed();
     }
 
     describe( "Tooltip on hover", () => {

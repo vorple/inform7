@@ -468,12 +468,22 @@ Book 5 - Modal Windows
 Carry out unit testing "show modal":
 	show a modal window reading "Test".
 
-
 Carry out unit testing "create empty modal":
 	show a modal window;
 	set output focus to the modal window;
 	say "Test2";
 	set output focus to the main window.
+
+Carry out unit testing "prevent keypress input in modal":
+	open HTML tag "div" called "output-while-modal";
+	say "1";
+	show a modal window;
+	wait for any key;
+	say "2";
+	close HTML tag.
+
+Carry out unit testing "modal cleanup":
+	remove the element called "output-while-modal".
 
 
 Book 6 - Multimedia
