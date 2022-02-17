@@ -1,4 +1,4 @@
-Version 3/210228 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 3/220217 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -7,7 +7,7 @@ Use authorial modesty.
 
 Chapter 1 - Run-time errors
 
-To throw Vorple run-time error (desc – text):
+To throw Vorple run-time error (desc - text):
 	say "  *** Vorple run-time error: [desc] ***  ".
 	
 
@@ -44,9 +44,9 @@ To decide whether Vorple/JavaScript is unsupported/unavailable:
 	decide on whether or not Vorple is not supported.
 
 
-Chapter 3 – JavaScript code execution
+Chapter 3 - JavaScript code execution
 
-Section 1 – Executing code
+Section 1 - Executing code
 
 The file of JavaScript Evaluation Input (owned by project "VORPLE") is called "VpJSEval".
 
@@ -57,7 +57,7 @@ To execute JavaScript code/command (JavaScript code - text):
 		mark the file of JavaScript Evaluation Input as ready to read.
 
 
-Section 2 – Return values
+Section 2 - Return values
 
 The file of JavaScript Return Value (owned by project "VORPLE") is called "VpJSRtrn".
 The file of JavaScript Return Value Type (owned by project "VORPLE") is called "VpJSType".
@@ -241,7 +241,7 @@ To decide which number is the character value of (string - text):
 	(- (VorpleGetCharValue({string})) -).
 
 
-Chapter 4 – HTML tags
+Chapter 4 - HTML tags
 
 Section 1 - Opening and closing
 

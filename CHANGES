@@ -4,13 +4,16 @@ See also the changelog of the main JavaScript library
 The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
-Release 3.?
+
+
+Release 3.2.6 (2022-02-17)
 ==========================
 
 Screen Effects
 --------------
 
 - Added phrases to change the entire page's (default) styles
+- Added the missing (for Glulx only) directive
 
 
 Status Line
