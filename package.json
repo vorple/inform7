@@ -1,6 +1,6 @@
 {
   "name": "vorple-inform7-extensions",
-  "version": "3.2.5",
+  "version": "3.2.7",
   "description": "Inform 7 extensions for Vorple",
   "scripts": {
     "build": "./build.sh",
