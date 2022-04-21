@@ -547,13 +547,14 @@ Carry out unit testing "cascading page styles":
 Book 9 - Tooltips
 
 Carry out unit testing "text with tooltip on hover":
-  place text "tooltip test" called "tooltip-test" with a tooltip reading "tooltip contents".
+	place text "tooltip test" called "tooltip-test" with a tooltip reading "tooltip contents".
 
 Carry out unit testing "tooltip on demand":
-  display a tooltip "tooltip on demand test" on the element called "tooltip-test" after 1 second for 2 seconds.
+	place an inline element called "tooltip-on-demand" reading "tooltip test";
+	display a tooltip "tooltip on demand test" on the element called "tooltip-on-demand" after 1 second for 2 seconds.
 
 Carry out unit testing "tooltip on prompt":
-  display a tooltip "tooltip on prompt test" on the prompt indefinitely.
+	display a tooltip "tooltip on prompt test" on the prompt indefinitely.
 
 Carry out unit testing "hiding tooltips":
 	hide the tooltip.
