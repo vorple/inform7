@@ -5,6 +5,23 @@ The numbers after the items refer to GitHub issues. (vorple #xx) refers to issue
 number xx in the main Vorple repository.
 
 
+Release 4.0.0 (2022-05-)
+==========================
+
+Compatibility with the new Inform version 10.1.0.
+
+The 4.x branch is no longer compatible with Inform 6M62.
+
+
+Notifications
+-------------
+
+- Changed the default notification duration to a real number, which allows for
+  fractions of seconds instead of just whole seconds, to be in line with the
+  phrases that display notifications that have always accepted durations as
+  real numbers
+
+
 Release 3.2.8 (2022-04-25)
 ==========================
 

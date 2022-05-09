@@ -1,4 +1,4 @@
-Version 3/220217 of Vorple (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.0 of Vorple (for Glulx only) by Juhana Leinonen begins here.
 
 "Core functionality of Vorple, including JavaScript evaluation and adding HTML elements."
 
@@ -13,7 +13,7 @@ To throw Vorple run-time error (desc - text):
 
 Chapter 2 - Interpreter handshake
 
-The file of Vorple Handshake (owned by project "VORPLE") is called "VpHndshk".
+The file of Vorple Handshake (owned by another project) is called "VpHndshk".
 
 Vorple support is truth state that varies.
 
@@ -48,7 +48,7 @@ Chapter 3 - JavaScript code execution
 
 Section 1 - Executing code
 
-The file of JavaScript Evaluation Input (owned by project "VORPLE") is called "VpJSEval".
+The file of JavaScript Evaluation Input (owned by another project) is called "VpJSEval".
 
 To execute JavaScript code/command (JavaScript code - text):
 	if Vorple is supported:
@@ -59,8 +59,8 @@ To execute JavaScript code/command (JavaScript code - text):
 
 Section 2 - Return values
 
-The file of JavaScript Return Value (owned by project "VORPLE") is called "VpJSRtrn".
-The file of JavaScript Return Value Type (owned by project "VORPLE") is called "VpJSType".
+The file of JavaScript Return Value (owned by another project) is called "VpJSRtrn".
+The file of JavaScript Return Value Type (owned by another project) is called "VpJSType".
 
 To decide which text is the value returned by the JavaScript code/command:
 	if Vorple is not supported:
@@ -404,31 +404,30 @@ This is the print the final prompt with Vorple rule:
 The print the final prompt with Vorple rule is listed instead of the print the final prompt rule in the before handling the final question rulebook.
 
 Include (-
-Replace YesOrNo;
--) before "Parser.i6t".
-
-Include (-
 [ YesOrNo i j;
-    for (::) {
-        if (location ~= nothing && parent(player) ~= nothing) DrawStatusLine();
-        KeyboardPrimitive(buffer2, parse2);
-        j = parse2-->0;
-        if (j) { ! at least one word entered
-            i = parse2-->1;
-            if (i == YES1__WD or YES2__WD or YES3__WD) rtrue;
-            if (i == NO1__WD or NO2__WD or NO3__WD) rfalse;
-        }
-        YES_OR_NO_QUESTION_INTERNAL_RM('A');
+	for (:1:) {
+		if ((((location ~= 0)) && ((parent(player) ~= 0)))) {
+			DrawStatusLine();
+		}
+		KeyboardPrimitive(buffer2, parse2);
+		(j = (parse2-->(0)));
+		if (j) {
+			(i = (parse2-->(1)));
+			if ((i == YES1__WD or YES2__WD or YES3__WD)) {
+				rtrue;
+			}
+			if ((i == NO1__WD or NO2__WD or NO3__WD)) {
+				rfalse;
+			}
+		}
+		YES_OR_NO_QUESTION_INTERNAL_RM(65);
 
-        ! VORPLE PRINTS ITS OWN PROMPT
-        if (vorple_support == false) print "> ";
-    }
+		! VORPLE PRINTS ITS OWN PROMPT
+		if (vorple_support == false)	! ADDED
+			print "> ";
+	}
 ];
--) after "Parser.i6t".
-
-Include (-
-Replace PrintPrompt;
--) before "Printing.i6t".
+-) replacing "YesOrNo".
 
 Include (-
 [ PrintPrompt i;
@@ -437,11 +436,12 @@ Include (-
 	ClearRTP();
 	style roman;
 	EnsureBreakBeforePrompt();
-	if( ~~(+ Vorple support +) )	TEXT_TY_Say( (Global_Vars-->1) );				! ADDED
+	if( ~~(+ Vorple support +) )													! ADDED
+		TEXT_TY_Say(CommandPromptText());
 	ClearBoxedText();
 	ClearParagraphing(14);
 ];
--) after "Printing.i6t".
+-) replacing "PrintPrompt".
 
 
 Chapter 7 - Unique identifiers
