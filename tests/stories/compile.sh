@@ -11,27 +11,18 @@ set +o allexport
 # exit if any of the following commands return an error
 set -e
 
-# remove temporary and Inform-generated directories when the script ends, even if compilation failed
-function cleanup {
-  rm -rf tmp/
-  rm -rf ../Documentation/
-  rm -rf ../Telemetry/
-}
-trap cleanup EXIT
+# run the I7 compiler
+$I7_DIR/Tangled/inform7 \
+  -internal $I7_DIR/Internal \
+  -external ../../ \
+  -source ./unittest.ni \
+  -o ./unittest.i6 \
+  -format=Inform6/32d \
+  -no-census-update -no-index -no-problems
 
-# create a temporary directory and the directory structure I7 compiler requires
-mkdir -p tmp/unittest.inform/Source
-mkdir -p tmp/unittest.materials
-
-# link the development extensions to the unit test project
-cp -r ../../Extensions tmp/unittest.materials/
-
-# copy unit tests source to where I7 compiler expects to find it
-cp unittest.i7 tmp/unittest.inform/Source/story.ni
-
-# run the I7 compiler to create the intermediary I6 source
-$I7_EXEC_DIR/ni -internal $I7_INTERNALS -external ../ -project tmp/unittest.inform -format=ulx
-
-# run the I6 compiler to create the story file
-$I7_EXEC_DIR/inform6 -kE2SDwG +include_path=$I7_INCLUDE_PATH tmp/unittest.inform/Build/auto.inf unittest.ulx
-
+# run the I6 compiler
+$I6_DIR/Tangled/inform6 \
+  -kE2SDwG \
+  \$OMIT_UNUSED_ROUTINES=1 \
+  ./unittest.i6 \
+  ./unittest.ulx

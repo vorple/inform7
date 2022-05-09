@@ -1,5 +1,5 @@
 .env
-tests/unittest.ulx
+tests/stories/unittest.i6
 dist
 
 # directory created by the unit tests
