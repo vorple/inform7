@@ -1,8 +1,8 @@
-Version 3/181103 of Vorple Element Manipulation (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.0 of Vorple Element Manipulation (for Glulx only) by Juhana Leinonen begins here.
 
 "Adding, removing, hiding, moving and other basic manipulation of HTML document elements."
 
-Include version 3 of Vorple by Juhana Leinonen.
+Include version 4.0 of Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 

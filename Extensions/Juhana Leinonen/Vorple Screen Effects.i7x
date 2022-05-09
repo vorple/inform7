@@ -1,9 +1,9 @@
-Version 3/220217 of Vorple Screen Effects (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.0 of Vorple Screen Effects (for Glulx only) by Juhana Leinonen begins here.
 
 "Vorple equivalent of Basic Screen Effects by Emily Short. Waiting for a keypress, clearing the screen, aligning, styling and coloring text."
 
-Include version 3 of Vorple by Juhana Leinonen.
-Include version 7 of Basic Screen Effects by Emily Short.
+Include version 4.0 of Vorple by Juhana Leinonen.
+Include version 8 of Basic Screen Effects by Emily Short.
 
 Use authorial modesty.
 
@@ -84,23 +84,8 @@ To right align (quote - text):
 	place a block level element called "right-align" reading quote.
 
 
-Section 3 - Displaying boxed quotations (in place of Section SR5/1/7 - Saying - Fonts and visual effects in Standard Rules by Graham Nelson)
+Section 3 - Displaying boxed quotations (in place of Section 2 - Boxed quotations in Standard Rules by Graham Nelson)
 
-To say bold type -- running on
-	(documented at phs_bold):
-	(- style bold; -).
-To say italic type -- running on
-	(documented at phs_italic):
-	(- style underline; -).
-To say roman type -- running on
-	(documented at phs_roman):
-	(- style roman; -).
-To say fixed letter spacing -- running on
-	(documented at phs_fixedspacing):
-	(- font off; -).
-To say variable letter spacing -- running on
-	(documented at phs_varspacing):
-	(- font on; -).
 To display the boxed quotation (Q - text) in Glulx
 	(documented at ph_boxed):
 	(- DisplayBoxedQuotation({-box-quotation-text:Q}); -).
@@ -224,7 +209,7 @@ To display an/-- unordered list (source - list of text):
 	display an unordered list source called "".
 
 
-Section 9 - Clearing the screen (in place of Section - Clearing the screen  in Basic Screen Effects by Emily Short)
+Section 9 - Clearing the screen (in place of Section - Clearing the screen in Basic Screen Effects by Emily Short)
 
 To clear the/-- screen:
 	if Vorple is supported:

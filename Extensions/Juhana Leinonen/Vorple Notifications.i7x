@@ -1,8 +1,8 @@
-Version 3/181103 of Vorple Notifications (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.0 of Vorple Notifications (for Glulx only) by Juhana Leinonen begins here.
 
 "Notifications that display a short message on the screen and disappear after a few seconds."
 
-Include version 3 of Vorple by Juhana Leinonen.
+Include version 4.0 of Vorple by Juhana Leinonen.
 
 Use authorial modesty.
 
@@ -11,7 +11,7 @@ Chapter 1 - Displaying notifications
 
 Notification type is a kind of value. Notification types are info notification, success notification, warning notification and error notification.
 
-Default notification duration is a number that varies. Default notification duration is usually 7.
+Default notification duration is a real number that varies. Default notification duration is usually 7.
 
 To display a/an/-- (type - notification type) with the/a/-- title (header - text) reading (msg - text) for (sec - real number) second/seconds:
 	let method be text;

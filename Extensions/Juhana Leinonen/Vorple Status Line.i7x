@@ -1,11 +1,11 @@
-Version 3/220217 of Vorple Status Line (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.0 of Vorple Status Line (for Glulx only) by Juhana Leinonen begins here.
 
 "The Vorple version of the standard status line."
 
 Use authorial modesty.
 
-Include version 3 of Vorple Screen Effects by Juhana Leinonen.
-Include version 3 of Vorple Element Manipulation by Juhana Leinonen.
+Include version 4.0 of Vorple Screen Effects by Juhana Leinonen.
+Include version 4.0 of Vorple Element Manipulation by Juhana Leinonen.
 
 Use full-width status line translates as (- Constant VORPLE_STATUS_LINE_FULL_WIDTH; -).
 
