@@ -19,14 +19,14 @@
   },
   "homepage": "https://github.com/vorple/inform7",
   "devDependencies": {
-    "@wdio/cli": "7.19.7",
-    "@wdio/dot-reporter": "7.19.7",
-    "@wdio/local-runner": "7.19.7",
-    "@wdio/mocha-framework": "7.19.7",
-    "@wdio/selenium-standalone-service": "7.19.5",
-    "@wdio/sync": "7.19.7",
+    "@wdio/cli": "7.20.5",
+    "@wdio/dot-reporter": "7.20.3",
+    "@wdio/local-runner": "7.20.5",
+    "@wdio/mocha-framework": "7.20.3",
+    "@wdio/selenium-standalone-service": "7.20.3",
+    "@wdio/sync": "7.20.5",
     "chai": "4.3.6",
-    "chromedriver": "101.0.0",
+    "chromedriver": "103.0.0",
     "wdio-chromedriver-service": "7.3.2"
   }
 }

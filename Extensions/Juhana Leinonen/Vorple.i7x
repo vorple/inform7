@@ -498,11 +498,9 @@ Every Vorple story must include at least one Vorple extension and the custom web
 
 All standard Vorple extensions already have the "Include Vorple" line, so it's not necessary to add it to the story project if at least one of the other extensions are used.
 
-In contrast to previous versions that were only for Z-Machine, version 3 of Vorple is for Glulx only. The project's story file format must be set to Glulx in Inform's Settings pane.
+In contrast to previous versions that were only for Z-Machine, currently Vorple is for Glulx only from version 3 onward. The project's story file format must be set to Glulx in Inform's Settings pane. If you get en error message about an extension being for Z-Machine only, the project is trying to include an old extension.
 	
-At the time of release of the current, third version of Vorple, the latest Inform release 6M62 includes the older version 2 of Vorple which is not compatible with the new extensions. The latest Vorple interpreter template is in the same package as these extensions.
-
-Also note that old Vorple extensions are not compatible with the current version of Vorple. If you get en error message about an extension being for Z-Machine only, the project is trying to include an old extension.
+Inform 7 release 6M62 comes bundled with version 2 of Vorple. To use newer Vorple versions with Inform 7 release 6M62, the new extensions and interpreter templates must be installed instead of the built-in ones. The last Vorple version that works with Inform7 release 6M62 is 3.2.8. Starting from version 4 Vorple is compatible only with Inform 7 version 10.1.0 and higher.
 
 For more detailed instructions on how to get started see the documentation at the vorple-if.com website.
 
