@@ -1,4 +1,4 @@
-Version 4.0.0 of Vorple Screen Effects (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.1 of Vorple Screen Effects (for Glulx only) by Juhana Leinonen begins here.
 
 "Vorple equivalent of Basic Screen Effects by Emily Short. Waiting for a keypress, clearing the screen, aligning, styling and coloring text."
 

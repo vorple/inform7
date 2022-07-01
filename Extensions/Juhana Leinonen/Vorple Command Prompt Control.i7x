@@ -1,4 +1,4 @@
-Version 4.0.0 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.1 of Vorple Command Prompt Control (for Glulx only) by Juhana Leinonen begins here.
 
 "Manually triggering parser commands, changing the contents of the command prompt and manipulating the command history."
 

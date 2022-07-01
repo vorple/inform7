@@ -1,4 +1,4 @@
-Version 4.0.0 of Vorple Tooltips (for Glulx only) by Juhana Leinonen begins here.
+Version 4.0.1 of Vorple Tooltips (for Glulx only) by Juhana Leinonen begins here.
 
 "Tooltips that can be activated on request or when the mouse cursor is moved over an element."
 
