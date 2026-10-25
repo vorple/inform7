@@ -30,7 +30,7 @@ This is the detect interpreter's Vorple support rule:
 		if "[text of the file of Vorple Handshake]" is "Callay!":
 			now Vorple support is true.
 
-The detect interpreter's Vorple support rule is listed before the when play begins stage rule in the startup rulebook.
+The detect interpreter's Vorple support rule is listed before the start in the correct scenes rule in the startup rulebook.
 
 To decide whether Vorple/JavaScript is supported/available:
 	if Vorple support is true, decide yes;
@@ -361,7 +361,7 @@ This is the Vorple interface setup stage rule:
 			follow the Vorple interface setup rules;
 			execute JavaScript command "window._vorpleSetupRulebookHasRun=true".
 
-The Vorple interface setup stage rule is listed before the when play begins stage rule in the startup rulebook.
+The Vorple interface setup stage rule is listed before the start in the correct scenes rule in the startup rulebook.
 
 
 Section 2 - Interface update rules
@@ -465,8 +465,10 @@ To unblock the user interface:
 
 Chapter 9 - Window title
 
-First when play begins (this is the set window title to story title rule):
+This is the set window title to story title rule:
 	execute JavaScript command "document.title='[escaped story title]'".
+
+The set window title to story title rule is listed before the start in the correct scenes rule in the startup rulebook.
 
 
 Chapter 10 - Credits
@@ -692,7 +694,7 @@ Non-escaped Unicode characters show up in the output as question marks or empty 
 
 Chapter: User interface setup and updates
 
-Vorple provides a separate rulebook called Vorple interface setup rules for setting up the user interface on the browser side. It runs during startup before the when play begins rules. The rulebook is meant for rules that build or initialize the user interface that has to be ready before the story does anything else.
+Vorple provides a separate rulebook called Vorple interface setup rules for setting up the user interface on the browser side. It runs during startup before play begins. The rulebook is meant for rules that build or initialize the user interface that has to be ready before the story does anything else.
 
 The following example sets up a click handler that adds a custom CSS class to the command prompt. Depending on the CSS rule it might flash the prompt to draw attention to it.
 
